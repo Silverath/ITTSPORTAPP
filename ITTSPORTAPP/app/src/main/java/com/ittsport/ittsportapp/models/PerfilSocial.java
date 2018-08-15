@@ -8,24 +8,15 @@ public class PerfilSocial {
     private String primerApellido;
     private String segundoApellido;
     private int cuentaUsuarioId;
-    private int id;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, int cuentaUsuarioId, int id){
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, int cuentaUsuarioId){
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
         this.cuentaUsuarioId = cuentaUsuarioId;
-        this.id = id;
     }
 
-    @NonNull
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @NonNull
     public String getNombre() {
