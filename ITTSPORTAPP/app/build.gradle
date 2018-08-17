@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.ittsport.ittsportapp"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -24,6 +24,8 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
     compile 'com.google.firebase:firebase-core:16.0.0'
+    compile 'com.google.firebase:firebase-firestore:15.0.0'
+    compile 'com.android.support:recyclerview-v7:27.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
