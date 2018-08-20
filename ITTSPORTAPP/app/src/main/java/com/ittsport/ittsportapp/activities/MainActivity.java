@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 grupo1.put("nombre", "putosamos");
                 grupo1.put("horario", "cuando me da la gana");
 
-                db.collection("grupos").document("grupo1")
+                /*db.collection("grupos").document("grupo1")
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 Log.w(TAG, "Error deleting document", e);
                             }
-                        });
+                        });*/
 
 
 
