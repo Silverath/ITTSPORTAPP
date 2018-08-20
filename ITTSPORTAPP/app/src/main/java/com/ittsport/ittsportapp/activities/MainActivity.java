@@ -50,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 grupo1.put("nombre", "putosamos");
                 grupo1.put("horario", "cuando me da la gana");
 
-<<<<<<< HEAD
                 // Add a new document with a generated ID
-=======
                 /*db.collection("grupos").document("grupo1")
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -69,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                         });*/
 
 // Add a new document with a generated ID
->>>>>>> Tonio
                 db.collection("grupos").document("grupo1")
                         .set(grupo1)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
