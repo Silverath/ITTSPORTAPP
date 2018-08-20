@@ -8,6 +8,6 @@
         android:id="@+id/button_populate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Populate" />
+        android:text="Populate grupos" />
 
 </LinearLayout>
