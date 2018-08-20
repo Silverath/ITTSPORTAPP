@@ -1,5 +1,7 @@
 package com.ittsport.ittsportapp.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -28,11 +30,14 @@ import static android.content.ContentValues.TAG;
 public class MainActivity extends AppCompatActivity {
 
     Button button;
+    Button buttonMessage;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        buttonMessage = (Button) findViewById(R.id.button_messages);
 
         button = (Button) findViewById(R.id.button_populate);
 
@@ -45,7 +50,26 @@ public class MainActivity extends AppCompatActivity {
                 grupo1.put("nombre", "putosamos");
                 grupo1.put("horario", "cuando me da la gana");
 
+<<<<<<< HEAD
                 // Add a new document with a generated ID
+=======
+                /*db.collection("grupos").document("grupo1")
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error deleting document", e);
+                            }
+                        });*/
+
+// Add a new document with a generated ID
+>>>>>>> Tonio
                 db.collection("grupos").document("grupo1")
                         .set(grupo1)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -60,6 +84,16 @@ public class MainActivity extends AppCompatActivity {
                                 Log.w(TAG, "Error adding document", e);
                             }
                         });
+            }
+        });
+
+        buttonMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = MainActivity.this;
+                Class destinationActivity = MessageActivity.class;
+                Intent startMessageActivityIntent = new Intent(context, destinationActivity);
+                startActivity(startMessageActivityIntent);
             }
         });
     }
