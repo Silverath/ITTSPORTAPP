@@ -8,11 +8,23 @@ public class Grupo {
     private String nombre;
     private String horario;
     private int entrenadorId;
+    private String id;
 
-    public Grupo(String nombre, String horario, int entrenadorId){
+    public Grupo(String nombre, String horario, String id){
         this.entrenadorId = entrenadorId;
         this.horario = horario;
+
         this.nombre = nombre;
+        this.id = id;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @NonNull
