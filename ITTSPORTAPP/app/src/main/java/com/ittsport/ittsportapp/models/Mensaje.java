@@ -15,11 +15,11 @@ public class Mensaje {
     private List<Integer> receiversIds;
 
     public Mensaje(String asunto, String cuerpo, Date fecha, int senderId){
-        receiversIds = new ArrayList<Integer>();
         this.asunto = asunto;
         this.cuerpo = cuerpo;
         this.fecha = fecha;
         this.senderId = senderId;
+        receiversIds = new ArrayList<Integer>();
     }
 
     @NonNull

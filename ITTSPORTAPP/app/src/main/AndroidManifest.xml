@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.ActivityGrupoMain" />
-        <activity android:name=".activities.MessageActivity"></activity>
+        <activity android:name=".activities.MessageActivityAdd" />
+        <activity android:name=".activities.MessageActivityShow"></activity>
     </application>
 
 </manifest>
