@@ -2,7 +2,6 @@ package com.ittsport.ittsportapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,15 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.ittsport.ittsportapp.utils.*;
 
 import com.ittsport.ittsportapp.R;
 
@@ -342,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = MainActivity.this;
-                Class destinationActivity = MessageActivity.class;
+                Class destinationActivity = MessageActivityAdd.class;
                 Intent startMessageActivityIntent = new Intent(context, destinationActivity);
                 startActivity(startMessageActivityIntent);
             }
