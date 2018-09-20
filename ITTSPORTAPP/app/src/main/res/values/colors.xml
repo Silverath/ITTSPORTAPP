@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="AzulLogo">#40C4FF</color>
+    <color name="AzulLogoDark">#0288D1</color>
+    <color name="Secondary">#00838F</color>
+    <color name="Background">#5C6BC0</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Gray">#B0BEC5</color>
+    <color name="Darker_Gray">#90A4AE</color>
 </resources>

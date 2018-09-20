@@ -15,10 +15,13 @@
             android:id="@+id/tv_grupo_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
+            android:layout_weight="32"
+            android:fontFamily="@font/open_sans_bold"
+            android:padding="16dp"
+
             android:textAlignment="center"
-            />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </LinearLayout>
