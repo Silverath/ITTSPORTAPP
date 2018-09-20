@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 // Crea un grupo nuevo con nombre y horario
                 Map<String, Object> grupo1 = new HashMap<>();
-                grupo1.put("nombre", "putosamos");
+                grupo1.put("nombre", "Iniciación");
                 grupo1.put("horario", "cuando me da la gana");
 
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                 Map<String, Object> grupo2 = new HashMap<>();
-                grupo2.put("nombre", "blae");
+                grupo2.put("nombre", "Avanzado");
                 grupo2.put("horario", "jeje");
 
 
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                 Map<String, Object> grupo3 = new HashMap<>();
-                grupo3.put("nombre", "putosamos");
+                grupo3.put("nombre", "Competición");
                 grupo3.put("horario", "cuando me da la gana");
 
 
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                 Map<String, Object> grupo4 = new HashMap<>();
-                grupo4.put("nombre", "putosamos");
+                grupo4.put("nombre", "Adultos");
                 grupo4.put("horario", "cuando me da la gana");
 
 
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                 Map<String, Object> grupo5 = new HashMap<>();
-                grupo5.put("nombre", "putosamos");
+                grupo5.put("nombre", "Calvos con coleta");
                 grupo5.put("horario", "cuando me da la gana");
 
 
