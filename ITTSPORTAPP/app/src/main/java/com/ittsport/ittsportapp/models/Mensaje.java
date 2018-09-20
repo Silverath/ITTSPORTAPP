@@ -11,15 +11,15 @@ public class Mensaje {
     private String asunto;
     private String cuerpo;
     private Date fecha;
-    private int senderId;
-    private List<Integer> receiversIds;
+    private String senderId;
+    private List<String> receiversIds;
 
-    public Mensaje(String asunto, String cuerpo, Date fecha, int senderId){
+    public Mensaje(String asunto, String cuerpo, Date fecha, String senderId){
         this.asunto = asunto;
         this.cuerpo = cuerpo;
         this.fecha = fecha;
         this.senderId = senderId;
-        receiversIds = new ArrayList<Integer>();
+        receiversIds = new ArrayList<String>();
     }
 
     @NonNull
@@ -50,20 +50,20 @@ public class Mensaje {
     }
 
     @NonNull
-    public int getSenderId() {
+    public String getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(int senderId) {
+    public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
 
     @NonNull
-    public List<Integer> getReceiversIds() {
+    public List<String> getReceiversIds() {
         return receiversIds;
     }
 
-    public void setReceiversIds(List<Integer> receiversIds) {
+    public void setReceiversIds(List<String> receiversIds) {
         this.receiversIds = receiversIds;
     }
 }

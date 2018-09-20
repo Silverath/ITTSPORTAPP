@@ -9,12 +9,23 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_asunto_mensaje"
         style="@style/TextAppearance.AppCompat.Title"
-        android:layout_gravity="center_vertical|end"
+        android:layout_gravity="center_vertical|start"
         android:fontFamily="monospace"
         android:textColor="#000"
         android:textSize="22sp"
         android:padding="16dp"
         android:text="Aqui va el asunto del mensaje"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_sender_id_mensaje"
+        android:layout_gravity="center_vertical|start"
+        android:fontFamily="monospace"
+        android:textColor="#000"
+        android:textSize="15sp"
+        android:paddingLeft="16dp"
+        android:text="Aqui hay penes, muchos penes"/>
     
     <View
         android:layout_width="match_parent"

@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
@@ -35,49 +36,39 @@ public class MessageActivityShow extends AppCompatActivity {
 
     private MessageAdapter mMessageAdapter;
 
-    private ProgressBar mLoadingIndicator;
+    ArrayList<Mensaje> mensajes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_show);
+        mensajes = new ArrayList<Mensaje>();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_message_asuntos);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
         mRecyclerView.setLayoutManager(linearLayoutManager);
-
         mRecyclerView.setHasFixedSize(true);
-
-        mMessageAdapter = new MessageAdapter();
-
-        mRecyclerView.setAdapter(mMessageAdapter);
-
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-
         loadData();
     }
 
     private void loadData(){
-        //mRecyclerView.setVisibility(View.VISIBLE);
-        final List<Mensaje> mensajes = new ArrayList<Mensaje>();
-        db.collection("mensajes")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(@NonNull QuerySnapshot task) {
-                        if(!task.isEmpty()){
-                            List<Mensaje> ci = task.toObjects(Mensaje.class);
-                            mensajes.addAll(ci);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
-                    }
-                });
-        mMessageAdapter.setMensajesData(mensajes);
+        db.collection("mensajes").orderBy("fecha", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for(DocumentSnapshot querySnapshot:task.getResult()){
+                    Mensaje mensaje = new Mensaje(querySnapshot.getString("asunto"), querySnapshot.getString("cuerpo"), querySnapshot.getDate("fecha"), querySnapshot.getString("senderId"));
+                    mensajes.add(mensaje);
+                }
+                mMessageAdapter = new MessageAdapter(MessageActivityShow.this, mensajes);
+                mRecyclerView.setAdapter(mMessageAdapter);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MessageActivityShow.this, "Could not show the entire list", Toast.LENGTH_LONG).show();
+                Log.w("Fallos:", e.getMessage());
+            }
+        });
     }
 }

@@ -62,8 +62,8 @@ public class MessageActivityAdd extends AppCompatActivity {
                 mensaje.put("asunto", mAsunto.getText().toString());
                 mensaje.put("cuerpo", mCuerpo.getText().toString());
                 mensaje.put("fecha", new Date());
-                mensaje.put("senderId", 69);
-                mensaje.put("receiversIds", Arrays.asList(1,2,3));
+                mensaje.put("senderId", "696969");
+                mensaje.put("receiversIds", Arrays.asList("1","2","3"));
 
                 final String nMensaje = "mensaje";
 

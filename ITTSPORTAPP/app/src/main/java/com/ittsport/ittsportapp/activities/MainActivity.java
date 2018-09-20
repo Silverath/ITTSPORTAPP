@@ -24,11 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
     Button button;
     Button buttonMessage;
+    Button buttonGrupos;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        buttonGrupos = (Button) findViewById(R.id.button_grupos);
 
         buttonMessage = (Button) findViewById(R.id.button_messages);
 
@@ -329,6 +332,16 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
+        });
+
+        buttonGrupos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = MainActivity.this;
+                Class destinationActivity = ListGrupoActivity.class;
+                Intent startMessageActivityIntent = new Intent(context, destinationActivity);
+                startActivity(startMessageActivityIntent);
+                }
         });
 
         buttonMessage.setOnClickListener(new View.OnClickListener() {
