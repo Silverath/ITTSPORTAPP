@@ -10,9 +10,9 @@
 
     <style name="Principal" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/AzulLogo</item>
-        <item name="colorPrimaryDark">@color/AzulLogoDark</item>
-        <item name="colorAccent">@color/Secondary</item>
+        <item name="colorPrimary">@color/azulLogo</item>
+        <item name="colorPrimaryDark">@color/azulLogoDark</item>
+        <item name="colorAccent">@color/secondary</item>
     </style>
 
 </resources>

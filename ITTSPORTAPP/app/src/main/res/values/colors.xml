@@ -3,12 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="AzulLogo">#40C4FF</color>
-    <color name="AzulLogoDark">#0288D1</color>
-    <color name="Secondary">#00838F</color>
-    <color name="Background">#AEEA00</color>
-    <color name="White">#FFFFFF</color>
-    <color name="Black">#000000</color>
-    <color name="Gray">#B0BEC5</color>
+    <color name="azulLogo">#40C4FF</color>
+    <color name="azulLogoDark">#0288D1</color>
+    <color name="secondary">#00838F</color>
+    <color name="background">#AEEA00</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#E0E0E0</color>
     <color name="Darker_Gray">#90A4AE</color>
 </resources>
