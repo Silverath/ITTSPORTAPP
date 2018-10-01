@@ -7,9 +7,9 @@ public class PerfilSocial {
     private String nombre;
     private String primerApellido;
     private String segundoApellido;
-    private int cuentaUsuarioId;
+    private String cuentaUsuarioId;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, int cuentaUsuarioId){
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId){
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;

@@ -22,4 +22,10 @@
         android:layout_height="wrap_content"
         android:text="Ir a grupos"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_activityLogin"
+        android:text="Ir a login"/>
+
 </LinearLayout>
