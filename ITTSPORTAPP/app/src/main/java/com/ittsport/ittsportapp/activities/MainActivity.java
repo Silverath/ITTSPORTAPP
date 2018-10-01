@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     Button buttonMessage;
     Button buttonGrupos;
+    Button buttonLogin;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         buttonMessage = (Button) findViewById(R.id.button_messages);
 
         button = (Button) findViewById(R.id.button_populate);
+
+        buttonLogin = (Button) findViewById(R.id.button_activityLogin);
 
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -343,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
                 Class destinationActivity = ListGrupoActivity.class;
                 Intent startMessageActivityIntent = new Intent(context, destinationActivity);
                 startActivity(startMessageActivityIntent);
-                }
+            }
         });
 
         buttonMessage.setOnClickListener(new View.OnClickListener() {
@@ -351,6 +355,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Context context = MainActivity.this;
                 Class destinationActivity = MessageActivityAdd.class;
+                Intent startMessageActivityIntent = new Intent(context, destinationActivity);
+                startActivity(startMessageActivityIntent);
+            }
+        });
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = MainActivity.this;
+                Class destinationActivity = LoginActivity.class;
                 Intent startMessageActivityIntent = new Intent(context, destinationActivity);
                 startActivity(startMessageActivityIntent);
             }

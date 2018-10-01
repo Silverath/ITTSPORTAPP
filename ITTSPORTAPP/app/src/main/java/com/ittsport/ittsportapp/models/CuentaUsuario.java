@@ -4,22 +4,29 @@ import android.support.annotation.NonNull;
 
 public class CuentaUsuario {
 
-    private String username;
+    private String email;
     private String password;
+    private Rol rol;
 
-    public CuentaUsuario(String username, String password){
-        this.username = username;
+    public CuentaUsuario(String email, String password, Rol rol){
+        this.email = email;
+        this.password = password;
+        this.rol = rol;
+    }
+
+    public CuentaUsuario(String email, String password){
+        this.email = email;
         this.password = password;
     }
 
     @NonNull
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @NonNull
@@ -30,4 +37,8 @@ public class CuentaUsuario {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Rol getRol() { return rol; }
+
+    public void setRol(Rol rol) { this.rol = rol; }
 }
