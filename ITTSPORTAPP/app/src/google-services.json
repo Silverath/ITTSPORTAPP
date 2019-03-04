@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "832210136634",
+    "firebase_url": "https://ittsport-app.firebaseio.com",
+    "project_id": "ittsport-app",
+    "storage_bucket": "ittsport-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832210136634:android:174c0a36a1781b39",
+        "android_client_info": {
+          "package_name": "com.ittsport.ittsportapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832210136634-0a3a64m23e15tr55p9qu198oba66pspi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtmzSi6HcaQYBk8G3r-lhqpAip1k8L_NE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
