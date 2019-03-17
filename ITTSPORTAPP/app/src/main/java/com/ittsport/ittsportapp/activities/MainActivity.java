@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = MainActivity.this;
-                Class destinationActivity = LoginActivity.class;
+                Class destinationActivity = RegisterActivity.class;
                 Intent startMessageActivityIntent = new Intent(context, destinationActivity);
                 startActivity(startMessageActivityIntent);
             }
