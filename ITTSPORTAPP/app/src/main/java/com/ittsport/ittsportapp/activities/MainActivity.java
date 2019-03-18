@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.ittsport.ittsportapp.R;
@@ -26,11 +27,13 @@ public class MainActivity extends AppCompatActivity {
     Button buttonMessage;
     Button buttonGrupos;
     Button buttonLogin;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
+        db  = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_main);
 
         buttonGrupos = (Button) findViewById(R.id.button_grupos);
@@ -335,6 +338,8 @@ public class MainActivity extends AppCompatActivity {
                         });
 
 
+
+
             }
         });
 
@@ -362,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = MainActivity.this;
-                Class destinationActivity = LoginActivity.class;
+                Class destinationActivity = RegisterActivity.class;
                 Intent startMessageActivityIntent = new Intent(context, destinationActivity);
                 startActivity(startMessageActivityIntent);
             }

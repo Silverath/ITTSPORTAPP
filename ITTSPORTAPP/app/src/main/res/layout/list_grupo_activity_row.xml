@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:orientation="vertical"
-    android:background="@color/White">
+    android:background="@color/white">
 
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="32"
             android:fontFamily="@font/headland_one"
-            android:textColor="@color/Black"
+            android:textColor="@color/black"
             android:padding="16dp"
             android:textAlignment="center"
             android:textSize="24sp"
