@@ -68,7 +68,6 @@
                                   <option name="values">
                                     <map>
                                       <entry key="outputName" value="ic_action_password" />
-                                      <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="ffffff" />
                                     </map>
                                   </option>
