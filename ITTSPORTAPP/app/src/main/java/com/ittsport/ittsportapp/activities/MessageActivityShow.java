@@ -2,6 +2,12 @@ package com.ittsport.ittsportapp.activities;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +27,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.fragments.ChatsFragment;
+import com.ittsport.ittsportapp.fragments.UsersFragment;
 import com.ittsport.ittsportapp.models.Mensaje;
 
 import java.util.ArrayList;
@@ -45,30 +53,50 @@ public class MessageActivityShow extends AppCompatActivity {
         setContentView(R.layout.activity_message_show);
         mensajes = new ArrayList<Mensaje>();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_message_asuntos);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setHasFixedSize(true);
-        loadData();
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
+        viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+
+        viewPager.setAdapter(viewPagerAdapter);
+
+        tabLayout.setupWithViewPager(viewPager);
+
     }
 
-    private void loadData(){
-        db.collection("mensajes").orderBy("fecha", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(DocumentSnapshot querySnapshot:task.getResult()){
-                    Mensaje mensaje = new Mensaje(querySnapshot.getString("asunto"), querySnapshot.getString("cuerpo"), querySnapshot.getDate("fecha"), querySnapshot.getString("senderId"));
-                    mensajes.add(mensaje);
-                }
-                mMessageAdapter = new MessageAdapter(MessageActivityShow.this, mensajes);
-                mRecyclerView.setAdapter(mMessageAdapter);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MessageActivityShow.this, "Could not show the entire list", Toast.LENGTH_LONG).show();
-                Log.w("Fallos:", e.getMessage());
-            }
-        });
+    class ViewPagerAdapter extends FragmentPagerAdapter{
+
+        private ArrayList<Fragment> fragments;
+        private ArrayList<String> titles;
+
+        ViewPagerAdapter (FragmentManager fragment){
+            super(fragment);
+            this.fragments = new ArrayList<>();
+            this.titles = new ArrayList<>();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        public void addFragment(Fragment fragment, String title){
+            fragments.add(fragment);
+            titles.add(title);
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles.get(position);
+        }
     }
 }
