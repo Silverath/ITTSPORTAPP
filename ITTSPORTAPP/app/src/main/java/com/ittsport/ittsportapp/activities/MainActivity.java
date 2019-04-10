@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.ittsport.ittsportapp.R;
@@ -27,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
     Button buttonMessage;
     Button buttonGrupos;
     Button buttonLogin;
+    TextView username_actual;
     FirebaseFirestore db;
+    FirebaseAuth firebaseAuth;
+    Button btn_cerrar_sesionaca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +45,38 @@ public class MainActivity extends AppCompatActivity {
 
         buttonGrupos = (Button) findViewById(R.id.button_grupos);
 
+        btn_cerrar_sesionaca = (Button) findViewById(R.id.btn_cerrar_sesionaca);
+
         buttonMessage = (Button) findViewById(R.id.button_messages);
 
         button = (Button) findViewById(R.id.button_populate);
 
         buttonLogin = (Button) findViewById(R.id.button_activityLogin);
+
+        username_actual = (TextView) findViewById(R.id.username_actual);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if(user != null){
+            username_actual.setText(user.getEmail());
+        }
+
+        btn_cerrar_sesionaca.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user == null){
+                    Toast.makeText(MainActivity.this, "no ai nadie xd", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    FirebaseAuth.getInstance().signOut();
+                    username_actual.setText("");
+                    Toast.makeText(MainActivity.this, "ta luego maricarmen", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -367,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = MainActivity.this;
-                Class destinationActivity = RegisterActivity.class;
+                Class destinationActivity = LoginActivity.class;
                 Intent startMessageActivityIntent = new Intent(context, destinationActivity);
                 startActivity(startMessageActivityIntent);
             }
