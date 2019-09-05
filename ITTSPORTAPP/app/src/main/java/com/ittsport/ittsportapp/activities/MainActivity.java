@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonMessage;
     Button buttonGrupos;
     Button buttonLogin;
+    Button buttonSocial;
     TextView username_actual;
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button_populate);
 
         buttonLogin = (Button) findViewById(R.id.button_activityLogin);
+
+        buttonSocial = (Button) findViewById(R.id.btn_perfiles);
 
         username_actual = (TextView) findViewById(R.id.username_actual);
 
@@ -402,6 +405,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Context context = MainActivity.this;
                 Class destinationActivity = LoginActivity.class;
+                Intent startMessageActivityIntent = new Intent(context, destinationActivity);
+                startActivity(startMessageActivityIntent);
+            }
+        });
+        buttonSocial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = MainActivity.this;
+                Class destinationActivity = ListSocialProfileActivity.class;
                 Intent startMessageActivityIntent = new Intent(context, destinationActivity);
                 startActivity(startMessageActivityIntent);
             }

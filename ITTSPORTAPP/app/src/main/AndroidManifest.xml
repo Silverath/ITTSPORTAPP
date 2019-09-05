@@ -23,8 +23,11 @@
         <activity android:name=".activities.ListGrupoActivity"></activity>
         <activity android:name=".activities.MessageActivityAdd" />
         <activity android:name=".activities.MessageActivityShow" />
-        <activity android:name=".activities.LoginActivity"></activity>
-        <activity android:name=".activities.RegisterActivity"></activity>
+        <activity android:name=".activities.ListSocialProfileActivity" />
+        <activity android:name=".activities.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+        <activity android:name=".activities.RegisterActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

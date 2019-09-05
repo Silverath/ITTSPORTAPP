@@ -41,12 +41,15 @@ public class ListGrupoActivity extends AppCompatActivity {
         db.collection("grupos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(DocumentSnapshot querySnapshot:task.getResult()){
-                    Grupo group = new Grupo(querySnapshot.getString("nombre"), querySnapshot.getString("horario"), querySnapshot.getId());
-                    grupos.add(group);
+                if(task.isSuccessful()){
+                    for(DocumentSnapshot querySnapshot:task.getResult()){
+                        Grupo group = new Grupo(querySnapshot.getString("nombre"), querySnapshot.getString("horario"), querySnapshot.getId());
+                        grupos.add(group);
+                    }
+                    listGrupoAdapter = new ListGrupoAdapter(ListGrupoActivity.this, grupos);
+                    mRecyclerview.setAdapter(listGrupoAdapter);
                 }
-                listGrupoAdapter = new ListGrupoAdapter(ListGrupoActivity.this, grupos);
-                mRecyclerview.setAdapter(listGrupoAdapter);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
