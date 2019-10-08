@@ -7,16 +7,12 @@ public class PerfilSocial {
     private String nombre;
     private String primerApellido;
     private String segundoApellido;
-    private String cuentaUsuarioId;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId){
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido){
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
-        this.cuentaUsuarioId = cuentaUsuarioId;
     }
-
-
 
     @NonNull
     public String getNombre() {

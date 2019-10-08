@@ -11,15 +11,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.models.PerfilSocial;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -412,6 +418,7 @@ public class MainActivity extends AppCompatActivity {
         buttonSocial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Context context = MainActivity.this;
                 Class destinationActivity = ListSocialProfileActivity.class;
                 Intent startMessageActivityIntent = new Intent(context, destinationActivity);

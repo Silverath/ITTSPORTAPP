@@ -1,6 +1,7 @@
 package com.ittsport.ittsportapp.utils;
 
 import android.annotation.SuppressLint;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,10 @@ import com.ittsport.ittsportapp.R;
 public class CardFragment extends Fragment {
 
     private CardView cardView;
+    private String email;
+    private String nombre;
+    private String primerApellido;
+    private String segundoApellido;
 
     public static Fragment getInstance(int position) {
         CardFragment f = new CardFragment();
@@ -41,9 +46,20 @@ public class CardFragment extends Fragment {
         TextView title = (TextView) view.findViewById(R.id.title);
 
 
-        title.setText("Pablo Vázquez Zambrano");
+
+        title.setText(nombre + " " + primerApellido + " " + segundoApellido);
 
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(getArguments() != null){
+            nombre = getArguments().getString("nombre");
+            primerApellido = getArguments().getString("primerApellido");
+            segundoApellido = getArguments().getString("segundoApellido");
+        }
     }
 
     public CardView getCardView() {
