@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.utils.CardFragmentPagerAdapter;
-import com.ittsport.ittsportapp.utils.ShadowTransformer;
 
 public class ListSocialProfileActivity extends AppCompatActivity {
 
@@ -15,14 +14,10 @@ public class ListSocialProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_social_profile);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.vpPager);
 
         CardFragmentPagerAdapter pagerAdapter = new CardFragmentPagerAdapter(getSupportFragmentManager(), dpToPixels(2, this));
-        ShadowTransformer fragmentCardShadowTransformer = new ShadowTransformer(viewPager, pagerAdapter);
-        fragmentCardShadowTransformer.enableScaling(true);
-
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setPageTransformer(false, fragmentCardShadowTransformer);
         viewPager.setOffscreenPageLimit(3);
     }
 

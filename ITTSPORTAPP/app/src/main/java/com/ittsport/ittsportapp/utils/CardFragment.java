@@ -19,7 +19,6 @@ import com.ittsport.ittsportapp.R;
 public class CardFragment extends Fragment {
 
     private CardView cardView;
-    private String email;
     private String nombre;
     private String primerApellido;
     private String segundoApellido;

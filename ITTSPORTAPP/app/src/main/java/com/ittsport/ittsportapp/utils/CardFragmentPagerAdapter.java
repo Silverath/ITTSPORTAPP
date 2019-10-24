@@ -53,6 +53,10 @@ public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implemen
 
     }
 
+    @Override
+    public float getPageWidth (int position) {
+        return 0.93f;
+    }
 
     @Override
     public float getBaseElevation() {

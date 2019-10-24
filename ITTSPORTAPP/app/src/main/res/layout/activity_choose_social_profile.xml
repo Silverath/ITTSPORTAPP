@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:fitsSystemWindows="true">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpPager"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_gravity="bottom"
@@ -20,7 +21,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.468"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp">
+    </androidx.viewpager.widget.ViewPager>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -32,6 +34,6 @@
         android:contentDescription="Crear perfil"
         android:src="@drawable/add_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/viewPager" />
+        app:layout_constraintEnd_toEndOf="@+id/vpPager" />
 
 </android.support.constraint.ConstraintLayout>
