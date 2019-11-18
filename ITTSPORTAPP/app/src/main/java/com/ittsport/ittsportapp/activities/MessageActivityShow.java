@@ -42,8 +42,6 @@ public class MessageActivityShow extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
 
-    private MessageAdapter mMessageAdapter;
-
     ArrayList<Mensaje> mensajes;
 
 
@@ -59,7 +57,7 @@ public class MessageActivityShow extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
-        viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+        viewPagerAdapter.addFragment(new UsersFragment(), "Usuarios");
 
         viewPager.setAdapter(viewPagerAdapter);
 

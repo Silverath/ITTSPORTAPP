@@ -391,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = MainActivity.this;
-                Class destinationActivity = MessageActivityAdd.class;
+                Class destinationActivity = MessageActivityShow.class;
                 Intent startMessageActivityIntent = new Intent(context, destinationActivity);
                 startActivity(startMessageActivityIntent);
             }
