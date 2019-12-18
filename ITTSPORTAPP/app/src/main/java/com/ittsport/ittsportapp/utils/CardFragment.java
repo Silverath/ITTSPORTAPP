@@ -23,17 +23,13 @@ public class CardFragment extends Fragment {
     private String primerApellido;
     private String segundoApellido;
 
-    public static Fragment getInstance(int position) {
-        CardFragment f = new CardFragment();
-        Bundle args = new Bundle();
-        args.putInt("position", position);
-        f.setArguments(args);
-
-        return f;
+    public CardFragment getInstance(String n, String primer, String segundo) {
+        this.nombre = n;
+        this.primerApellido = primer;
+        this.segundoApellido = segundo;
+        return this;
     }
 
-    @SuppressLint("DefaultLocale")
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {

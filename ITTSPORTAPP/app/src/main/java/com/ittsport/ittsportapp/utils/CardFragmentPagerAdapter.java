@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.ViewGroup;
@@ -21,13 +22,12 @@ import com.ittsport.ittsportapp.models.PerfilSocial;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implements CardAdapter {
+public class CardFragmentPagerAdapter extends FragmentPagerAdapter implements CardAdapter {
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
     private List<CardFragment> fragments;
     private float baseElevation;
-    List<PerfilSocial> perfiles;
 
     public CardFragmentPagerAdapter(FragmentManager fm, float baseElevation) {
         super(fm);
@@ -54,11 +54,6 @@ public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implemen
     }
 
     @Override
-    public float getPageWidth (int position) {
-        return 0.93f;
-    }
-
-    @Override
     public float getBaseElevation() {
         return baseElevation;
     }
@@ -75,7 +70,11 @@ public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implemen
 
     @Override
     public Fragment getItem(int position) {
-        return CardFragment.getInstance(position);
+        CardFragment result = null;
+        for(int i = 0; i<fragments.size(); i++){
+            result = fragments.get(i);
+        }
+        return result;
     }
 
     @Override
@@ -86,12 +85,7 @@ public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implemen
     }
 
     public void addCardFragment(PerfilSocial perfil) {
-        Bundle bundle = new Bundle();
-        bundle.putString("nombre", perfil.getNombre());
-        bundle.putString("primerApellido", perfil.getPrimerApellido());
-        bundle.putString("segundoApellido", perfil.getSegundoApellido());
-        CardFragment fragment = new CardFragment();
-        fragment.setArguments(bundle);
+        CardFragment fragment = new CardFragment().getInstance(perfil.getNombre(), perfil.getPrimerApellido(), perfil.getSegundoApellido());
         fragments.add(fragment);
     }
 
