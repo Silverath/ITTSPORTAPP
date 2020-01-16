@@ -46,6 +46,7 @@ public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdap
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ChatMessagingActivity.class);
                 intent.putExtra("profileSelected", usuario.getPerfilID());
+                intent.putExtra("nameSelected", usuario.getNombre());
                 mContext.startActivity(intent);
             }
         });

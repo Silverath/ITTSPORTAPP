@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e6e6e6"
     tools:context=".activities.ChatMessagingActivity">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -34,11 +31,45 @@
                 android:layout_toEndOf="@id/profile_image_user"
                 android:layout_toRightOf="@id/profile_image_user"
                 android:text="perfil"
-                android:textSize="18sp" />
+                android:textColor="#fff"
+                android:layout_marginHorizontal="20sp"
+                android:textSize="20sp" />
 
         </android.support.v7.widget.Toolbar>
 
-    </android.support.design.widget.AppBarLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chat_list_messages"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@id/write_message_layout"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/write_message_layout"
+        android:padding="5dp"
+        android:background="#fff"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/edit_message_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/send_message_button"
+            android:background="@android:color/transparent"
+            android:hint="Escribe un mensaje..."
+            android:layout_centerVertical="true"
+            />
+
+        <ImageButton
+            android:background="@drawable/ic_action_send"
+            android:id="@+id/send_message_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
 
 
 </RelativeLayout>
