@@ -18,8 +18,6 @@ public class PerfilSocial {
         this.perfilID = perfilID;
     }
 
-
-
     @NonNull
     public String getNombre() {
         return nombre;

@@ -9,11 +9,11 @@ public class CuentaUsuario {
     private Rol rol;
     String customToken;
 
-    public CuentaUsuario(String email, String password, Rol rol, String customToken){
+    public CuentaUsuario(String email, String password, Rol rol/*, String customToken*/){
         this.email = email;
         this.password = password;
         this.rol = rol;
-        this.customToken = customToken;
+        //this.customToken = customToken;
     }
 
     public CuentaUsuario(String email, String password){

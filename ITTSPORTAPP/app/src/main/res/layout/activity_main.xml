@@ -33,6 +33,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="cerrar sesionaca" />
+    <Button
+        android:id="@+id/btn_perfiles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="perfiles" />
 
     <TextView
         android:id="@+id/username_actual"
