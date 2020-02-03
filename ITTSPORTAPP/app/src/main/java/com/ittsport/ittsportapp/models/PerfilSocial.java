@@ -10,12 +10,11 @@ public class PerfilSocial {
     private String cuentaUsuarioId;
     private String perfilID;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId, String perfilID){
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId){
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
         this.cuentaUsuarioId = cuentaUsuarioId;
-        this.perfilID = perfilID;
     }
 
     @NonNull
