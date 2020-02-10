@@ -29,19 +29,19 @@ public class NewSocialProfileActivity extends AppCompatActivity {
     EditText segundoApellido;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
-    Button create;
+    Button createProfile;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuevo_perfil_social);
+        setContentView(R.layout.activity_create_social_profile);
         db  = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         nombre = (EditText) findViewById(R.id.et_perfil_social_nombre);
         primerApellido = (EditText) findViewById(R.id.et_perfil_social_primer_apellido);
         segundoApellido = (EditText) findViewById(R.id.et_perfil_social_segundo_apellido);
-        create = (Button) findViewById(R.id.btn_nuevo_social_profile);
+        createProfile = (Button) findViewById(R.id.btn_crear_perfil_social);
 
-        create.setOnClickListener(new View.OnClickListener() {
+        createProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(nombre.getText().toString().equals("") || primerApellido.getText().toString().equals("") || segundoApellido.getText().toString().equals("")){
@@ -55,7 +55,7 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                     nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
                     nuevoPerfil.put("segundoApellido", nuevo.getSegundoApellido());
                     nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
-                    db.collection("PerfilesSociales").document()
+                    db.collection("perfilesSociales").document()
                             .set(nuevoPerfil)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

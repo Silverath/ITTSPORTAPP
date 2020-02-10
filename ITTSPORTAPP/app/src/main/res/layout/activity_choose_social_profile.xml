@@ -8,19 +8,32 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vpPager"
-        android:layout_width="wrap_content"
-        android:layout_height="210dp"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
         android:layout_gravity="center"
         android:clipToPadding="false"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="24dp"
+        android:paddingBottom="30dp"
+        android:paddingEnd="60dp"
+        android:paddingStart="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
     </android.support.v4.view.ViewPager>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/vpPager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="4dp"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_nuevo_social_profile"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_nuevo_social_profile"
@@ -32,6 +45,6 @@
         android:contentDescription="Crear perfil"
         android:src="@drawable/add_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/vpPager" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

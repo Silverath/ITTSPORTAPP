@@ -93,7 +93,7 @@ public class ChatMessagingActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot i = task.getResult();
-                PerfilSocial perfil = new PerfilSocial((String) i.get("nombre"), (String) i.get("primerApellido"), (String) i.get("segundoApellido"), (String) i.get("usuarioId"), i.getId());
+                PerfilSocial perfil = new PerfilSocial((String) i.get("nombre"), (String) i.get("primerApellido"), (String) i.get("segundoApellido"), (String) i.get("usuarioId"));
                 perfilSocial.add(perfil);
             }
         });

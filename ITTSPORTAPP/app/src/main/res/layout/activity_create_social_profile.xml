@@ -20,6 +20,7 @@
             android:id="@+id/et_perfil_social_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:hint="Nombre"/>
     </LinearLayout>
 
@@ -39,6 +40,7 @@
             android:id="@+id/et_perfil_social_primer_apellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:hint="Primer apellido"/>
     </LinearLayout>
 
@@ -58,11 +60,12 @@
             android:id="@+id/et_perfil_social_segundo_apellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:hint="Segundo apellido"/>
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_registro"
+        android:id="@+id/btn_crear_perfil_social"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"

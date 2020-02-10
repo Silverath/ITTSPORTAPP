@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:padding="24dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,33 +20,33 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/image_adapter"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/no_profile_icon"
-            app:layout_constraintBottom_toTopOf="@id/tv_list_perfil_nombre"
+            app:layout_constraintBottom_toTopOf="@id/tv_list_perfil_nombre_adapter"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_list_perfil_nombre"
+            android:id="@+id/tv_list_perfil_nombre_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:layout_marginTop="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image" />
+            app:layout_constraintTop_toBottomOf="@id/image_adapter" />
 
         <TextView
-            android:id="@+id/tv_list_perfil_primerApellido"
+            android:id="@+id/tv_list_perfil_primerApellido_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_list_perfil_nombre" />
+            app:layout_constraintTop_toBottomOf="@id/tv_list_perfil_nombre_adapter" />
 
         <TextView
             android:id="@+id/tv_list_perfil_segundoApellido_adapter"
@@ -56,7 +55,7 @@
             android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_list_perfil_primerApellido" />
+            app:layout_constraintTop_toBottomOf="@id/tv_list_perfil_primerApellido_adapter" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -2,11 +2,18 @@ package com.ittsport.ittsportapp.models;
 
 import android.support.annotation.NonNull;
 
+import com.google.firebase.firestore.PropertyName;
+import com.google.gson.annotations.SerializedName;
+
 public class PerfilSocial {
 
+    @PropertyName("nombre")
     private String nombre;
+    @PropertyName("primerApellido")
     private String primerApellido;
+    @PropertyName("segundoApellido")
     private String segundoApellido;
+    @PropertyName("cuentaUsuarioId")
     private String cuentaUsuarioId;
     private String perfilID;
 
@@ -17,7 +24,12 @@ public class PerfilSocial {
         this.cuentaUsuarioId = cuentaUsuarioId;
     }
 
+    public PerfilSocial(){
+
+    }
+
     @NonNull
+    @PropertyName("nombre")
     public String getNombre() {
         return nombre;
     }
@@ -27,6 +39,7 @@ public class PerfilSocial {
     }
 
     @NonNull
+    @PropertyName("primerApellido")
     public String getPrimerApellido() {
         return primerApellido;
     }
@@ -36,6 +49,7 @@ public class PerfilSocial {
     }
 
     @NonNull
+    @PropertyName("segundoApellido")
     public String getSegundoApellido() {
         return segundoApellido;
     }
@@ -44,6 +58,7 @@ public class PerfilSocial {
         this.segundoApellido = segundoApellido;
     }
 
+    @PropertyName("cuentaUsuarioId")
     public String getCuentaUsuarioId() {
         return cuentaUsuarioId;
     }

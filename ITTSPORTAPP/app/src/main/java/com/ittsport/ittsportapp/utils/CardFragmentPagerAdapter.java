@@ -22,7 +22,7 @@ import com.ittsport.ittsportapp.models.PerfilSocial;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardFragmentPagerAdapter extends FragmentPagerAdapter implements CardAdapter {
+public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implements CardAdapter {
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
@@ -35,16 +35,13 @@ public class CardFragmentPagerAdapter extends FragmentPagerAdapter implements Ca
         this.firebaseAuth = FirebaseAuth.getInstance();
         fragments = new ArrayList<>();
         this.baseElevation = baseElevation;
-        if(firebaseAuth.getCurrentUser() != null){
-            db.collection("perfiles").whereEqualTo("email", firebaseAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        if (firebaseAuth.getCurrentUser() != null) {
+            db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if(task.isSuccessful()){
-                        if(task.getResult().size() > 0){
-                            for(DocumentSnapshot document : task.getResult()){
-                                PerfilSocial perfil = document.toObject(PerfilSocial.class);
-                                addCardFragment(perfil);
-                            }
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            addCardFragment(new CardFragment());
                         }
                     }
                 }
@@ -70,11 +67,7 @@ public class CardFragmentPagerAdapter extends FragmentPagerAdapter implements Ca
 
     @Override
     public Fragment getItem(int position) {
-        CardFragment result = null;
-        for(int i = 0; i<fragments.size(); i++){
-            result = fragments.get(i);
-        }
-        return result;
+        return fragments.get(position);
     }
 
     @Override
@@ -84,8 +77,7 @@ public class CardFragmentPagerAdapter extends FragmentPagerAdapter implements Ca
         return fragment;
     }
 
-    public void addCardFragment(PerfilSocial perfil) {
-        CardFragment fragment = new CardFragment().getInstance(perfil.getNombre(), perfil.getPrimerApellido(), perfil.getSegundoApellido());
+    public void addCardFragment(CardFragment fragment) {
         fragments.add(fragment);
     }
 
