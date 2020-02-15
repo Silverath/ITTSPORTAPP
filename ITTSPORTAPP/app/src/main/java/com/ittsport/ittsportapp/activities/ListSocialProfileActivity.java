@@ -11,6 +11,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,6 +37,7 @@ public class ListSocialProfileActivity extends AppCompatActivity {
     private CardFragmentPagerAdapter mFragmentCardAdapter;
     private ShadowTransformer mFragmentCardShadowTransformer;
     private TabLayout tabLayout;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,10 @@ public class ListSocialProfileActivity extends AppCompatActivity {
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_choose_social_profile);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_list_profile);
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         mViewPager = (ViewPager) findViewById(R.id.vpPager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         FloatingActionButton newSocialProfile = (FloatingActionButton) findViewById(R.id.btn_nuevo_social_profile);
@@ -65,6 +72,8 @@ public class ListSocialProfileActivity extends AppCompatActivity {
                     mViewPager.setAdapter(mCardAdapter);
                     mViewPager.setPageTransformer(false, mCardShadowTransformer);
                     mViewPager.setOffscreenPageLimit(3);
+                    progressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }
             }
         });

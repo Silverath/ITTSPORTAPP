@@ -66,6 +66,11 @@ public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implemen
     }
 
     @Override
+    public int getItemPosition(@NonNull Object object) {
+        return super.getItemPosition(object);
+    }
+
+    @Override
     public Fragment getItem(int position) {
         return fragments.get(position);
     }
@@ -80,5 +85,4 @@ public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implemen
     public void addCardFragment(CardFragment fragment) {
         fragments.add(fragment);
     }
-
 }

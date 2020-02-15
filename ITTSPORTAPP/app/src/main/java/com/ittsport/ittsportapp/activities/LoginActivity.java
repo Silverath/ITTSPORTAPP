@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +36,14 @@ public class LoginActivity extends AppCompatActivity {
     Button buttonLogin;
     TextView go_to_register;
     FirebaseAuth firebaseAuth;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_login);
+        progressBar.setVisibility(View.GONE);
         correo_electronico = (EditText) findViewById(R.id.correo_electronico);
         passwordLogin = (EditText)findViewById(R.id.contraseña);
         buttonLogin = (Button) findViewById(R.id.boton_iniciar_sesion);
@@ -58,10 +62,17 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            progressBar.setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             String email = correo_electronico.getText().toString();
             String password = passwordLogin.getText().toString();
             if(validate(email, password)){
                 login(email, password);
+            }
+            else{
+                progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
             }
         });
@@ -73,16 +84,17 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             goToNextActivity();
 
                         } else {
                             try {
+                                progressBar.setVisibility(View.GONE);
                                 throw task.getException();
-                            } catch(FirebaseAuthWeakPasswordException e) {
-                                Toast.makeText(LoginActivity.this, "Contraseña inválida", Toast.LENGTH_SHORT).show();
-                            } catch(FirebaseAuthInvalidCredentialsException e) {
-                                Toast.makeText(LoginActivity.this, "Email no válido", Toast.LENGTH_SHORT).show();
+                            }
+                            catch(FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(LoginActivity.this, "Email o contraseña no válidos", Toast.LENGTH_SHORT).show();
                             } catch(FirebaseAuthInvalidUserException e) {
                                 Toast.makeText(LoginActivity.this, "No existe cuenta con este Email", Toast.LENGTH_SHORT).show();
                             }catch(Exception e) {
