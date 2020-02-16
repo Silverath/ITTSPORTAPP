@@ -15,7 +15,6 @@ public class PerfilSocial {
     private String segundoApellido;
     @PropertyName("cuentaUsuarioId")
     private String cuentaUsuarioId;
-    private String perfilID;
 
     public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId){
         this.nombre = nombre;
@@ -67,11 +66,4 @@ public class PerfilSocial {
         this.cuentaUsuarioId = cuentaUsuarioId;
     }
 
-    public String getPerfilID() {
-        return perfilID;
-    }
-
-    public void setPerfilID(String perfilID) {
-        this.perfilID = perfilID;
-    }
 }

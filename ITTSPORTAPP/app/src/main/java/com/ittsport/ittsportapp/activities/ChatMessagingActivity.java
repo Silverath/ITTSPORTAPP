@@ -1,5 +1,6 @@
 package com.ittsport.ittsportapp.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,23 +24,24 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.adapters.ChatMessagingAdapter;
 import com.ittsport.ittsportapp.models.Chat;
 import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatMessagingActivity extends AppCompatActivity {
+public class ChatMessagingActivity extends Activity {
 
     CircleImageView profile_image;
     TextView tv_nombre;
@@ -61,7 +60,7 @@ public class ChatMessagingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_messaging);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +81,7 @@ public class ChatMessagingActivity extends AppCompatActivity {
 
         intent = getIntent();
         final String perfilId = intent.getStringExtra("profileSelected");
-        final String loggedId = "NuOlyGV3tPzpJmT2XDgK"; //Es Airin
+        final String loggedId = VariablesGlobales.perfilLogueado;
 
         // Esto se crea para poder acceder desde dentro de los eventos.
         final List<PerfilSocial> perfilSocial = new ArrayList<>();
@@ -98,7 +97,7 @@ public class ChatMessagingActivity extends AppCompatActivity {
             }
         });
 
-        db.collection("chat" + loggedId).whereEqualTo("targetId", perfilId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("chat").whereEqualTo("targetId", perfilId).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                 tv_nombre.setText(intent.getStringExtra("nameSelected"));
@@ -119,7 +118,7 @@ public class ChatMessagingActivity extends AppCompatActivity {
             }
         });
 
-        db.collection("chat"+loggedId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("chat").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 readMessages(loggedId, perfilId);
@@ -135,8 +134,9 @@ public class ChatMessagingActivity extends AppCompatActivity {
         map.put("sender", sender);
         map.put("receiver", receiver);
         map.put("message", message);
+        map.put("sentDate", Calendar.getInstance().getTime());
 
-        final CollectionReference colRef = db.collection("chat" + sender);
+        final CollectionReference colRef = db.collection("chat");
         /*db.collection("chat" + sender).whereEqualTo("targetID", receiver).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -147,15 +147,15 @@ public class ChatMessagingActivity extends AppCompatActivity {
                 }
             }
         });*/
-        DocumentReference doc = db.collection("chat" + sender).document();
+        DocumentReference doc = db.collection("chat").document();
         doc.set(map);
     }
 
     private void readMessages(final String myId, final String userId){
         mChat = new ArrayList<>();
 
-        CollectionReference colRef = FirebaseFirestore.getInstance().collection("chat" + myId);
-        colRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        CollectionReference colRef = FirebaseFirestore.getInstance().collection("chat");
+        colRef.orderBy("sentDate").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 mChat.clear();

@@ -9,10 +9,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -85,6 +87,8 @@ public class ListSocialProfileActivity extends AppCompatActivity {
                 goToNextActivity();
             }
         });
+
+        //Toast.makeText(ListSocialProfileActivity.this, "Click", Toast.LENGTH_LONG);
     }
 
     /**
@@ -101,5 +105,7 @@ public class ListSocialProfileActivity extends AppCompatActivity {
         Intent startNewSocialProfileActivityClass = new Intent(context, NewSocialProfileActivity.class);
         startActivity(startNewSocialProfileActivityClass);
     }
+
+
 }
 

@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Chat;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ChatMessagingAdapter extends RecyclerView.Adapter<ChatMessagingAdap
     private Context mContext;
     private List<Chat> mChat;
 
-    String loggedId = "NuOlyGV3tPzpJmT2XDgK";
+    String loggedId = VariablesGlobales.perfilLogueado;
 
     public ChatMessagingAdapter(Context mContext, List<Chat> mChat) {
         this.mChat = mChat;
