@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import com.google.firebase.firestore.PropertyName;
 import com.google.gson.annotations.SerializedName;
 
-public class PerfilSocial {
+import java.io.Serializable;
+
+public class PerfilSocial implements Serializable {
 
     @PropertyName("nombre")
     private String nombre;

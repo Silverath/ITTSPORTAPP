@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
     Button buttonRegister;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +53,17 @@ public class RegisterActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.et_contraseña);
         confirmPassword = (EditText) findViewById(R.id.et_repetir_contraseña);
         buttonRegister = (Button) findViewById(R.id.btn_registro);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_login);
+        progressBar.setVisibility(View.GONE);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 String email = correo_electronico.getText().toString();
                 String passwordString = password.getText().toString();
                 String confirmPass = confirmPassword.getText().toString();
@@ -102,12 +110,16 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(RegisterActivity.this, "Se ha registrado correctamente", Toast.LENGTH_SHORT).show();
                             Intent startLoginActivityClass = new Intent(context, MainActivity.class);
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             startActivity(startLoginActivityClass);
                         }
                     })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+                                    progressBar.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                     Toast.makeText(RegisterActivity.this, "Ha habido un error", Toast.LENGTH_SHORT).show();
                                 }
                             });
