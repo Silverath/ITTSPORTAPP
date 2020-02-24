@@ -1,5 +1,8 @@
 package com.ittsport.ittsportapp.utils;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
@@ -15,6 +18,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.activities.HomeActivity;
+import com.ittsport.ittsportapp.activities.ListSocialProfileActivity;
+import com.ittsport.ittsportapp.activities.LoginActivity;
+import com.ittsport.ittsportapp.activities.MainActivity;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 
 import java.util.ArrayList;
@@ -25,10 +32,12 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private List<CardView> mViews;
     private List<PerfilSocial> mData;
     private float mBaseElevation;
+    private Context context;
 
-    public CardPagerAdapter() {
+    public CardPagerAdapter(Context contextActivity) {
         mData = new ArrayList<>();
         mViews = new ArrayList<>();
+        context = contextActivity;
     }
 
     public void addCardItem(PerfilSocial item) {
@@ -83,6 +92,9 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot document: task.getResult()){
                                 VariablesGlobales.perfilLogueado = document.getId();
+                                Context thisContext = context;
+                                Intent startHomeActivityClass = new Intent(context, HomeActivity.class);
+                                context.startActivity(startHomeActivityClass);
                             }
                         }
                     }

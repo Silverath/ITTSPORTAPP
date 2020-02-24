@@ -63,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
             progressBar.setVisibility(View.VISIBLE);
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             String email = correo_electronico.getText().toString();
             String password = passwordLogin.getText().toString();
             if(validate(email, password)){

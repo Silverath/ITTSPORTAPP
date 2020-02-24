@@ -16,24 +16,18 @@
             android:id="@+id/logo"
             android:layout_width="248dp"
             android:layout_height="165dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/ittsport"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_correo_electronico"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="80dp"
-            android:layout_marginEnd="8dp"
             android:ems="10"
             android:inputType="textEmailAddress"
             android:hint="Correo electrónico"
@@ -45,9 +39,7 @@
             android:id="@+id/et_repetir_contraseña"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="8dp"
             android:ems="10"
             android:inputType="textPassword"
             android:hint="Contraseña"
@@ -60,9 +52,7 @@
             android:id="@+id/et_contraseña"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="8dp"
             android:ems="10"
             android:inputType="textPassword"
             android:hint="Confirmar contraseña"
@@ -75,9 +65,7 @@
             android:id="@+id/btn_registro"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="50dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/button_rounded"
             android:text="Registrarse"
@@ -87,5 +75,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_contraseña" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

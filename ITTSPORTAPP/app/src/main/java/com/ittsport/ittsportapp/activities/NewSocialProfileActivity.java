@@ -1,5 +1,7 @@
 package com.ittsport.ittsportapp.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,7 +51,7 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                 }
                 else{
                     String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
-                    PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), cuentaUsuarioId);
+                    final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), cuentaUsuarioId);
                     Map<String, Object> nuevoPerfil = new HashMap<>();
                     nuevoPerfil.put("nombre", nuevo.getNombre());
                     nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
@@ -61,6 +63,11 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
+                                    Intent returnIntent = new Intent();
+                                    returnIntent.putExtra("perfilSocial", nuevo);
+                                    setResult(Activity.RESULT_OK, returnIntent);
+                                    finish();
+
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

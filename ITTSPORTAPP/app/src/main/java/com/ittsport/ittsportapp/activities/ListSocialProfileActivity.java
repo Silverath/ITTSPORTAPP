@@ -1,5 +1,6 @@
 package com.ittsport.ittsportapp.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -28,6 +29,8 @@ import com.ittsport.ittsportapp.utils.CardFragmentPagerAdapter;
 import com.ittsport.ittsportapp.utils.CardPagerAdapter;
 import com.ittsport.ittsportapp.utils.ShadowTransformer;
 
+import java.io.Serializable;
+
 public class ListSocialProfileActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
@@ -40,6 +43,7 @@ public class ListSocialProfileActivity extends AppCompatActivity {
     private ShadowTransformer mFragmentCardShadowTransformer;
     private TabLayout tabLayout;
     private ProgressBar progressBar;
+    private int LAUNCH_CREATE_SOCIAL_PROFILE_ACTIVITY = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +59,7 @@ public class ListSocialProfileActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         FloatingActionButton newSocialProfile = (FloatingActionButton) findViewById(R.id.btn_nuevo_social_profile);
 
-        mCardAdapter = new CardPagerAdapter();
+        mCardAdapter = new CardPagerAdapter(this);
         db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -100,10 +104,23 @@ public class ListSocialProfileActivity extends AppCompatActivity {
         return dp * (context.getResources().getDisplayMetrics().density);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LAUNCH_CREATE_SOCIAL_PROFILE_ACTIVITY) {
+            if(resultCode == Activity.RESULT_OK){
+                PerfilSocial nuevo = (PerfilSocial) data.getSerializableExtra("perfilSocial");
+                mCardAdapter.addCardItem(nuevo);
+                mCardAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
     public void goToNextActivity(){
+        int LAUNCH_SECOND_ACTIVITY = 1;
         Context context = ListSocialProfileActivity.this;
         Intent startNewSocialProfileActivityClass = new Intent(context, NewSocialProfileActivity.class);
-        startActivity(startNewSocialProfileActivityClass);
+        startActivityForResult(startNewSocialProfileActivityClass, LAUNCH_SECOND_ACTIVITY);
     }
 
 

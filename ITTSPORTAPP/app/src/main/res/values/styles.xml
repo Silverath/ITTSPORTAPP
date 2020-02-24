@@ -8,5 +8,12 @@
         <item name="colorAccent">@color/colorSecondary</item>
     </style>
 
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColorPrimary">@color/white</item>
+        <!-- actionMenuTextColor is the color of the text of action (menu) items  -->
+        <item name="android:textColorSecondary">@color/white</item>
+        <!-- Tints the input fields like checkboxes and text fields -->
+    </style>
+
 
 </resources>
