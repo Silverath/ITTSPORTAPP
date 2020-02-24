@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -63,6 +65,7 @@ public class UsersFragment extends Fragment {
         db.collection("perfilesSociales").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
                 for(DocumentSnapshot i: queryDocumentSnapshots) {
                     PerfilSocial perfilSocial = new PerfilSocial(i.getString("nombre"), i.getString("primerApellido"), i.getString("segundoApellido"), i.getString("cuentaUsuarioId"));
                     String id = i.getId();
@@ -70,6 +73,7 @@ public class UsersFragment extends Fragment {
                 }
                 userMessagingAdapter = new UserMessagingAdapter(UsersFragment.this.getContext(), mUsers);
                 recyclerView.setAdapter(userMessagingAdapter);
+
             }
         });
 

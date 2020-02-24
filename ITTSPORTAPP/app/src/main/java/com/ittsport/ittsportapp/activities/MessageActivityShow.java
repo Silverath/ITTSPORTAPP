@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,11 +45,19 @@ public class MessageActivityShow extends AppCompatActivity {
 
     ArrayList<Mensaje> mensajes;
 
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_show);
+
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_chat_activity);
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
         mensajes = new ArrayList<Mensaje>();
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -62,6 +71,7 @@ public class MessageActivityShow extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
 
         tabLayout.setupWithViewPager(viewPager);
+
 
     }
 
