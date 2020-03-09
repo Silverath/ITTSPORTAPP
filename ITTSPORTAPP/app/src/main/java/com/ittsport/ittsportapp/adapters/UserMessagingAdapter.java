@@ -118,10 +118,10 @@ public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdap
         theLastMessage = "";
         CollectionReference collRef = FirebaseFirestore.getInstance().collection("chats");
 
-        collRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(QueryDocumentSnapshot q: task.getResult()){
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                for(QueryDocumentSnapshot q: queryDocumentSnapshots){
                     Chat chat = new Chat();
                     chat.setSender(q.get("sender").toString());
                     chat.setReceiver(q.get("receiver").toString());
