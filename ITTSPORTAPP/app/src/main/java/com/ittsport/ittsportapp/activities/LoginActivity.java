@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import static android.content.ContentValues.TAG;
 
@@ -43,7 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_login);
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         correo_electronico = (EditText) findViewById(R.id.correo_electronico);
         passwordLogin = (EditText)findViewById(R.id.contraseña);
         buttonLogin = (Button) findViewById(R.id.boton_iniciar_sesion);
@@ -76,6 +79,21 @@ public class LoginActivity extends AppCompatActivity {
             }
             }
         });
+        VariablesGlobales sharedPreferences = new VariablesGlobales(this);
+        if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() != null){
+            progressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            goToHome(true);
+        }
+        else if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() == null){
+            progressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            goToHome(false);
+        }
+        else{
+            progressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
     }
 
     public void login(String email, String password){
@@ -86,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             progressBar.setVisibility(View.GONE);
                             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            goToNextActivity();
+                            goToHome(false);
 
                         } else {
                             try {
@@ -115,10 +133,17 @@ public class LoginActivity extends AppCompatActivity {
         return res;
     }
 
-    public void goToNextActivity(){
-        Context context = LoginActivity.this;
-        Intent startMainActivityClass = new Intent(context, MainActivity.class);
-        startActivity(startMainActivityClass);
+    public void goToHome(Boolean home){
+        if(home == true){
+            Context context = LoginActivity.this;
+            Intent startHomeActivityClass = new Intent(context, HomeActivity.class);
+            startActivity(startHomeActivityClass);
+        }
+        else{
+            Context context = LoginActivity.this;
+            Intent startListSocialProfileActivityClass = new Intent(context, ListSocialProfileActivity.class);
+            startActivity(startListSocialProfileActivityClass);
+        }
     }
 
     public void goToRegisterActivity(){

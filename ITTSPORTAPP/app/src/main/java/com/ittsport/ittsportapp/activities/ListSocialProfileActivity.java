@@ -66,6 +66,7 @@ public class ListSocialProfileActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot document : task.getResult()) {
                         PerfilSocial perfil = document.toObject(PerfilSocial.class);
+                        perfil.setId(document.getId());
                         mCardAdapter.addCardItem(perfil);
                     }
                     mFragmentCardAdapter = new CardFragmentPagerAdapter(getSupportFragmentManager(),
