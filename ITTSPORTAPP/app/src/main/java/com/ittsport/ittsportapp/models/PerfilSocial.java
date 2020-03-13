@@ -18,14 +18,16 @@ public class PerfilSocial implements Serializable {
     @PropertyName("cuentaUsuarioId")
     private String cuentaUsuarioId;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId){
+    private String id;
+
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
         this.cuentaUsuarioId = cuentaUsuarioId;
     }
 
-    public PerfilSocial(){
+    public PerfilSocial() {
 
     }
 
@@ -66,6 +68,14 @@ public class PerfilSocial implements Serializable {
 
     public void setCuentaUsuarioId(String cuentaUsuarioId) {
         this.cuentaUsuarioId = cuentaUsuarioId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

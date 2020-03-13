@@ -16,6 +16,7 @@
             android:id="@+id/boton_iniciar_sesion"
             android:layout_width="300dp"
             android:layout_height="50dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/button_rounded"
             android:text="Iniciar sesión"

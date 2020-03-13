@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.errorprone.annotations.Var;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -82,20 +84,15 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                 PerfilSocial perfilSocial = mData.get(position);
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 CollectionReference colRef = db.collection("perfilesSociales");
-                colRef.whereEqualTo("nombre", perfilSocial.getNombre())
-                        .whereEqualTo("primerApellido", perfilSocial.getPrimerApellido())
-                        .whereEqualTo("segundoApellido", perfilSocial.getSegundoApellido())
-                        .whereEqualTo("cuentaUsuarioId", perfilSocial.getCuentaUsuarioId())
-                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                colRef.document(perfilSocial.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot document: task.getResult()){
-                                VariablesGlobales.perfilLogueado = document.getId();
-                                Context thisContext = context;
-                                Intent startHomeActivityClass = new Intent(context, HomeActivity.class);
-                                context.startActivity(startHomeActivityClass);
-                            }
+                            VariablesGlobales shared = new VariablesGlobales(context);
+                            VariablesGlobales.perfilLogueado = task.getResult().getId();
+                            shared.setPerfilLogueadoId(task.getResult().getId());
+                            Intent startHomeActivityClass = new Intent(context, HomeActivity.class);
+                            context.startActivity(startHomeActivityClass);
                         }
                     }
                 });
