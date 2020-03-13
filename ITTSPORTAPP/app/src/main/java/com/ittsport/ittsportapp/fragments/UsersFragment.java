@@ -7,10 +7,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +41,9 @@ public class UsersFragment extends Fragment {
 
     private UserMessagingAdapter userMessagingAdapter;
     private List<PerfilSocial> mUsers = new ArrayList<>();
+    private List<PerfilSocial> afterSearch = new ArrayList<>();
+
+    EditText search_Users;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +54,24 @@ public class UsersFragment extends Fragment {
         mUsers = new ArrayList<>();
 
         readUsers();
+
+        search_Users = view.findViewById(R.id.search_users);
+        search_Users.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchUsers(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         recyclerView = view.findViewById(R.id.rv_usuarios);
         recyclerView.setHasFixedSize(true);
@@ -77,6 +101,24 @@ public class UsersFragment extends Fragment {
             }
         });
 
+    }
+
+    private void searchUsers(String text){
+        if(text.isEmpty()){
+            userMessagingAdapter = new UserMessagingAdapter(UsersFragment.this.getContext(), mUsers);
+            recyclerView.setAdapter(userMessagingAdapter);
+        } else {
+            afterSearch.clear();
+            for (PerfilSocial perfilSocial : mUsers) {
+                String nombreCompleto = perfilSocial.getNombre() + " " + perfilSocial.getPrimerApellido() + " " +
+                        perfilSocial.getSegundoApellido();
+                if (nombreCompleto.toLowerCase().contains(text.toLowerCase())) {
+                    afterSearch.add(perfilSocial);
+                }
+                userMessagingAdapter = new UserMessagingAdapter(UsersFragment.this.getContext(), afterSearch);
+                recyclerView.setAdapter(userMessagingAdapter);
+            }
+        }
     }
 
 }

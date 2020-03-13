@@ -11,23 +11,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.activities.ChatMessagingActivity;
+import com.ittsport.ittsportapp.models.Chat;
 import com.ittsport.ittsportapp.models.CuentaUsuario;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdapter.ViewHolder> {
 
     private Context mContext;
     private List<PerfilSocial> mUsers;
+
+    private String theLastMessage;
 
     public UserMessagingAdapter(Context mContext, List<PerfilSocial> mUsers){
         this.mUsers = mUsers;
@@ -43,10 +53,20 @@ public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(final @NonNull ViewHolder holder, int position) {
         final PerfilSocial usuario = mUsers.get(position);
         holder.perfil.setText(usuario.getNombre() + " " + usuario.getPrimerApellido() + " " + usuario.getSegundoApellido());
         holder.profile_image.setImageResource(R.mipmap.ic_launcher_round);
+
+        CollectionReference collRef = FirebaseFirestore.getInstance().collection("perfilesSociales");
+        collRef.whereEqualTo("nombre", usuario.getNombre()).whereEqualTo("primerApellido", usuario.getPrimerApellido())
+                .whereEqualTo("segundoApellido", usuario.getSegundoApellido()).whereEqualTo("cuentaUsuarioId", usuario.getCuentaUsuarioId())
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                lastMessage(queryDocumentSnapshots.getDocuments().get(0).getId(), holder.last_message);
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,12 +103,49 @@ public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdap
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView perfil;
         public ImageView profile_image;
+        public TextView last_message;
 
         public ViewHolder(View itemView){
             super(itemView);
 
             perfil = itemView.findViewById(R.id.chat_username);
             profile_image = itemView.findViewById(R.id.profile_image_user);
+            last_message = itemView.findViewById(R.id.last_message);
         }
     }
+
+    private void lastMessage(final String userId, final TextView last_message){
+        theLastMessage = "";
+        CollectionReference collRef = FirebaseFirestore.getInstance().collection("chats");
+
+        collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                for(QueryDocumentSnapshot q: queryDocumentSnapshots){
+                    Chat chat = new Chat();
+                    chat.setSender(q.get("sender").toString());
+                    chat.setReceiver(q.get("receiver").toString());
+                    chat.setSentDate(new Date(q.get("sentDate").toString()));
+                    chat.setMessage(q.get("message").toString());
+                    if((chat.getReceiver().equals(VariablesGlobales.perfilLogueado) && chat.getSender().equals(userId)) ||
+                            (chat.getSender().equals(VariablesGlobales.perfilLogueado) && chat.getReceiver().equals(userId))){
+                        theLastMessage = chat.getMessage();
+                    }
+                }
+
+                switch (theLastMessage) {
+                    case "":
+                        last_message.setText("");
+                        break;
+                    default:
+                        last_message.setText(theLastMessage);
+                        break;
+                }
+
+                theLastMessage = "";
+            }
+        });
+    }
+
+
 }
