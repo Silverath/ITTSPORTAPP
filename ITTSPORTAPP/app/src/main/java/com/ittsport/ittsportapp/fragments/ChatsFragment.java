@@ -48,7 +48,6 @@ public class ChatsFragment extends Fragment {
         perfilSocialList = new ArrayList<>();
         IDList = new ArrayList<>();
 
-
         getOpenChats();
 
         recyclerView = view.findViewById(R.id.rv_chats);
@@ -85,12 +84,13 @@ public class ChatsFragment extends Fragment {
                                     perfilSocialList.add(perfil);
                                     userMessagingAdapter = new UserMessagingAdapter(ChatsFragment.this.getContext(), perfilSocialList);
                                     recyclerView.setAdapter(userMessagingAdapter);
-                                    ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_bar_chat_activity);
-                                    progressBar.setVisibility(View.GONE);
-                                    getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                                 }
 
                             });
+                ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_bar_chat_activity);
+                progressBar.setVisibility(View.GONE);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
         });
 
