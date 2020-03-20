@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -20,9 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,23 +36,25 @@ import static android.content.ContentValues.TAG;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText correo_electronico;
+    EditText correoElectronico;
     EditText password;
     EditText confirmPassword;
     Button buttonRegister;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
+    ImageView arrowBack;
     private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        correo_electronico = (EditText) findViewById(R.id.et_correo_electronico);
+        arrowBack = (ImageView) findViewById(R.id.arrow_back);
+        correoElectronico = (EditText) findViewById(R.id.et_correo_electronico);
         password = (EditText) findViewById(R.id.et_contraseña);
         confirmPassword = (EditText) findViewById(R.id.et_repetir_contraseña);
         buttonRegister = (Button) findViewById(R.id.btn_registro);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar_login);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_register);
         progressBar.setVisibility(View.GONE);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -64,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                String email = correo_electronico.getText().toString();
+                String email = correoElectronico.getText().toString();
                 String passwordString = password.getText().toString();
                 String confirmPass = confirmPassword.getText().toString();
 
@@ -72,6 +73,13 @@ public class RegisterActivity extends AppCompatActivity {
                     register(email, passwordString);
                 }
 
+            }
+        });
+
+        arrowBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

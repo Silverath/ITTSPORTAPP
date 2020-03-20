@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.ChatMessagingActivity"></activity>
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
         <activity android:name=".activities.MessageActivityShow" />
         <activity android:name=".activities.ListSocialProfileActivity" />
         <activity android:name=".activities.NewSocialProfileActivity" />
-        <activity android:name=".activities.LoginActivity"
+        <activity android:name=".activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
