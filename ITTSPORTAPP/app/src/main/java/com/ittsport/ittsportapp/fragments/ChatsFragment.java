@@ -60,7 +60,8 @@ public class ChatsFragment extends Fragment {
 
 
     private void getOpenChats(){
-        final String loggedId = VariablesGlobales.perfilLogueado;
+        VariablesGlobales sharedPreferences = new VariablesGlobales(getContext());
+        final String loggedId = sharedPreferences.getPerfilLogueadoId();
 
         db.collection("chat").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
