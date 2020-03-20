@@ -3,6 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.HomeActivity">
+    <item android:id="@+id/vista_mensajes"
+        android:icon="@drawable/ittsport"
+        android:title="Chats"/>
     <item android:id="@+id/cambiar_perfil"
         android:icon="@drawable/ittsport"
         android:title="Cambiar perfil" />
