@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             try {
                                 progressBar.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 throw task.getException();
                             }
                             catch(FirebaseAuthInvalidCredentialsException e) {
