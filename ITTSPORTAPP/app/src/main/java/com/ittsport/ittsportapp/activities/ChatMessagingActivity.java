@@ -81,7 +81,8 @@ public class ChatMessagingActivity extends Activity {
 
         intent = getIntent();
         final String perfilId = intent.getStringExtra("profileSelected");
-        final String loggedId = VariablesGlobales.perfilLogueado;
+        VariablesGlobales sharedPreferences = new VariablesGlobales(ChatMessagingActivity.this);
+        final String loggedId = sharedPreferences.getPerfilLogueadoId();
 
         // Esto se crea para poder acceder desde dentro de los eventos.
         final List<PerfilSocial> perfilSocial = new ArrayList<>();
