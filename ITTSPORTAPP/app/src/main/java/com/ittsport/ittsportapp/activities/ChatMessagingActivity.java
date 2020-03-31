@@ -26,6 +26,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.adapters.ChatMessagingAdapter;
+import com.ittsport.ittsportapp.fragments.ChatsFragment;
 import com.ittsport.ittsportapp.models.Chat;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
@@ -81,7 +82,8 @@ public class ChatMessagingActivity extends Activity {
 
         intent = getIntent();
         final String perfilId = intent.getStringExtra("profileSelected");
-        final String loggedId = VariablesGlobales.perfilLogueado;
+        VariablesGlobales sharedPreferences = new VariablesGlobales(ChatMessagingActivity.this);
+        final String loggedId = sharedPreferences.getPerfilLogueadoId();
 
         // Esto se crea para poder acceder desde dentro de los eventos.
         final List<PerfilSocial> perfilSocial = new ArrayList<>();
@@ -128,28 +130,10 @@ public class ChatMessagingActivity extends Activity {
     }
 
     private void sendMessage(String sender, String receiver, String message){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        final Map<String, Object> map = new HashMap<>();
-        map.put("sender", sender);
-        map.put("receiver", receiver);
-        map.put("message", message);
-        map.put("sentDate", Calendar.getInstance().getTime());
-
-        final CollectionReference colRef = db.collection("chat");
-        /*db.collection("chat" + sender).whereEqualTo("targetID", receiver).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot query: task.getResult()){
-                        colRef.document(query.getId()).set(map, SetOptions.merge());
-                    }
-                }
-            }
-        });*/
-        DocumentReference doc = db.collection("chat").document();
-        doc.set(map);
+        ChatsFragment.checkChats(sender, receiver, message);
     }
+
+
 
     private void readMessages(final String myId, final String userId){
         mChat = new ArrayList<>();

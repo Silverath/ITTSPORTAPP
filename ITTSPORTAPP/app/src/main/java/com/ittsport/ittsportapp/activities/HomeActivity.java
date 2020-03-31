@@ -55,6 +55,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         switch(item.getItemId()){
+            case R.id.vista_mensajes:
+                vistaMensajeria();
+                return true;
             case R.id.cerrar_sesion:
                 cerrarSesion();
                 return true;
@@ -98,5 +101,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Context context = HomeActivity.this;
         Intent goToElegirPerfil = new Intent(context, ListSocialProfileActivity.class);
         startActivity(goToElegirPerfil);
+    }
+
+    private void vistaMensajeria(){
+        Context context = HomeActivity.this;
+        Class destinationActivity = MessageActivityShow.class;
+        Intent startMessageActivityIntent = new Intent(context, destinationActivity);
+        startActivity(startMessageActivityIntent);
     }
 }

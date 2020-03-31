@@ -26,6 +26,7 @@ import com.ittsport.ittsportapp.models.CuentaUsuario;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -116,16 +117,15 @@ public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdap
 
     private void lastMessage(final String userId, final TextView last_message){
         theLastMessage = "";
-        CollectionReference collRef = FirebaseFirestore.getInstance().collection("chats");
+        CollectionReference collRef = FirebaseFirestore.getInstance().collection("chat");
 
-        collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collRef.orderBy("sentDate").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 for(QueryDocumentSnapshot q: queryDocumentSnapshots){
                     Chat chat = new Chat();
                     chat.setSender(q.get("sender").toString());
                     chat.setReceiver(q.get("receiver").toString());
-                    chat.setSentDate(new Date(q.get("sentDate").toString()));
                     chat.setMessage(q.get("message").toString());
                     if((chat.getReceiver().equals(VariablesGlobales.perfilLogueado) && chat.getSender().equals(userId)) ||
                             (chat.getSender().equals(VariablesGlobales.perfilLogueado) && chat.getReceiver().equals(userId))){
