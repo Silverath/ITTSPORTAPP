@@ -13,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,16 +29,19 @@ import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
 public class ChatsFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    private static RecyclerView recyclerView;
 
-    private UserMessagingAdapter userMessagingAdapter;
-    private ArrayList<String> IDList;
-    private ArrayList<PerfilSocial> perfilSocialList;
+    private static UserMessagingAdapter userMessagingAdapter;
+    private static ArrayList<String> IDList;
+    private static ArrayList<PerfilSocial> perfilSocialList;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -63,9 +68,9 @@ public class ChatsFragment extends Fragment {
         VariablesGlobales sharedPreferences = new VariablesGlobales(getContext());
         final String loggedId = sharedPreferences.getPerfilLogueadoId();
 
-        db.collection("chat").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("chat").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(QueryDocumentSnapshot q: queryDocumentSnapshots){
                     if(q.get("sender").equals(loggedId) && !IDList.contains(q.get("receiver"))){
                         IDList.add(q.get("receiver").toString());
@@ -85,7 +90,6 @@ public class ChatsFragment extends Fragment {
                                     perfilSocialList.add(perfil);
                                     userMessagingAdapter = new UserMessagingAdapter(ChatsFragment.this.getContext(), perfilSocialList);
                                     recyclerView.setAdapter(userMessagingAdapter);
-
                                 }
 
                             });
@@ -94,7 +98,42 @@ public class ChatsFragment extends Fragment {
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
         });
+    }
+
+    public static void checkChats(final String sender, final String receiver, final String message){
+        final FirebaseFirestore dataBase = FirebaseFirestore.getInstance();
+        dataBase.collection("chat").whereEqualTo("receiver", receiver).
+                get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.getDocuments().isEmpty()){
+                    userMessagingAdapter.notifyDataSetChanged();
+                } else{
+                    dataBase.collection("perfilesSociales").document(receiver).get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    PerfilSocial perfil = new PerfilSocial(documentSnapshot.get("nombre").toString(),
+                                            documentSnapshot.get("primerApellido").toString(),
+                                            documentSnapshot.get("segundoApellido").toString(),
+                                            documentSnapshot.get("cuentaUsuarioId").toString());
+                                    perfilSocialList.add(perfil);
+                                    userMessagingAdapter.notifyDataSetChanged();
+                                }
+
+                            });
+                }
+                final Map<String, Object> map = new HashMap<>();
+                map.put("sender", sender);
+                map.put("receiver", receiver);
+                map.put("message", message);
+                map.put("sentDate", Calendar.getInstance().getTime());
+                final CollectionReference colRef = dataBase.collection("chat");
 
 
+                DocumentReference doc = dataBase.collection("chat").document();
+                doc.set(map);
+            }
+        });
     }
 }

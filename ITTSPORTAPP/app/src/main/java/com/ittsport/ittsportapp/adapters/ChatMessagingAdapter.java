@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.activities.ChatMessagingActivity;
 import com.ittsport.ittsportapp.models.Chat;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
@@ -24,12 +25,14 @@ public class ChatMessagingAdapter extends RecyclerView.Adapter<ChatMessagingAdap
 
     private Context mContext;
     private List<Chat> mChat;
-
-    String loggedId = VariablesGlobales.perfilLogueado;
+    VariablesGlobales sharedPreferences;
+    String loggedId;
 
     public ChatMessagingAdapter(Context mContext, List<Chat> mChat) {
         this.mChat = mChat;
         this.mContext = mContext;
+        sharedPreferences = new VariablesGlobales(this.mContext);
+        loggedId = sharedPreferences.getPerfilLogueadoId();
     }
 
     @NonNull
