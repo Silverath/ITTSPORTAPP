@@ -124,6 +124,9 @@ public class ListSocialProfileActivity extends AppCompatActivity {
         startActivityForResult(startNewSocialProfileActivityClass, LAUNCH_SECOND_ACTIVITY);
     }
 
+    @Override
+    public void onBackPressed() {
 
+    }
 }
 

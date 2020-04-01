@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "832210136634-7s24nsb2v5k41mc05ucg6uqu1c4d1j0e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ittsport.ittsportapp",
+            "certificate_hash": "7bddbfb59c0b6f0c6ada3e32776d8e2a385278c8"
+          }
+        },
+        {
           "client_id": "832210136634-0a3a64m23e15tr55p9qu198oba66pspi.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -25,15 +33,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832210136634-0a3a64m23e15tr55p9qu198oba66pspi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
