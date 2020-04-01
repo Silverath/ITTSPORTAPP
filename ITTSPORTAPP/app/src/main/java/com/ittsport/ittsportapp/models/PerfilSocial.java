@@ -17,10 +17,14 @@ public class PerfilSocial implements Serializable {
     private String segundoApellido;
     @PropertyName("cuentaUsuarioId")
     private String cuentaUsuarioId;
+    @PropertyName("nombreImagen")
+    private String nombreImagen;
+    @PropertyName("urlImagen")
+    private String urlImagen;
 
     private String id;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId) {
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String name, String imageUrl, String cuentaUsuarioId) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
