@@ -71,37 +71,85 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                 if (nombre.getText().toString().equals("") || primerApellido.getText().toString().equals("") || segundoApellido.getText().toString().equals("")) {
                     Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
                 } else {
-                    String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
-                    final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), cuentaUsuarioId);
-                    Map<String, Object> nuevoPerfil = new HashMap<>();
-                    nuevoPerfil.put("nombre", nuevo.getNombre());
-                    nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
-                    nuevoPerfil.put("segundoApellido", nuevo.getSegundoApellido());
-                    nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
-                    db.collection("perfilesSociales").document()
-                            .set(nuevoPerfil)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
-                                    if(uriImagenPerfil != null){
-                                        uploadFile(nombreCompleto, nuevo);
+                    if (uriImagenPerfil != null) {
+                        String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
+                        String nombreCompleto = nombre.getText().toString() + primerApellido.getText().toString() + segundoApellido.getText().toString();
+                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, uriImagenPerfil.toString(), cuentaUsuarioId);
+                        Map<String, Object> nuevoPerfil = new HashMap<>();
+                        nuevoPerfil.put("nombre", nuevo.getNombre());
+                        nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
+                        nuevoPerfil.put("segundoApellido", nuevo.getSegundoApellido());
+                        nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
+                        nuevoPerfil.put("nombreImagen", nuevo.getNombreImagen());
+                        nuevoPerfil.put("urlImagen", nuevo.getUrlImagen());
+
+                        StorageReference fileReference = storageReference.child((nombreCompleto + "." + getFileExtension(uriImagenPerfil)));
+                        fileReference.putFile(uriImagenPerfil)
+                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        db.collection("perfilesSociales").document()
+                                                .set(nuevo)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
+
+                                                        Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
+                                                        Intent returnIntent = new Intent();
+                                                        returnIntent.putExtra("perfilSocial", nuevo);
+                                                        setResult(Activity.RESULT_OK, returnIntent);
+                                                        finish();
+
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
                                     }
-                                    else{
-                                        Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
-                                        Intent returnIntent = new Intent();
-                                        returnIntent.putExtra("perfilSocial", nuevo);
-                                        setResult(Activity.RESULT_OK, returnIntent);
-                                        finish();
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getBaseContext(), "Ha habido un problema al guardar la foto", Toast.LENGTH_SHORT).show();
                                     }
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getBaseContext(), "Ha habido un problema", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                });
+                    } else {
+                        String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
+                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), cuentaUsuarioId);
+                        Map<String, Object> nuevoPerfil = new HashMap<>();
+                        nuevoPerfil.put("nombre", nuevo.getNombre());
+                        nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
+                        nuevoPerfil.put("segundoApellido", nuevo.getSegundoApellido());
+                        nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
+                        db.collection("perfilesSociales").document()
+                                .set(nuevoPerfil)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
+                                        if (uriImagenPerfil != null) {
+                                            uploadFile(nombreCompleto, nuevo);
+                                        } else {
+                                            Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
+                                            Intent returnIntent = new Intent();
+                                            returnIntent.putExtra("perfilSocial", nuevo);
+                                            setResult(Activity.RESULT_OK, returnIntent);
+                                            finish();
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+
                 }
             }
         });

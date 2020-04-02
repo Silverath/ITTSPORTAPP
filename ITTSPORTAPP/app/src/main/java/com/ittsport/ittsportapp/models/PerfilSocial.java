@@ -19,12 +19,27 @@ public class PerfilSocial implements Serializable {
     private String cuentaUsuarioId;
     @PropertyName("nombreImagen")
     private String nombreImagen;
+
     @PropertyName("urlImagen")
     private String urlImagen;
 
     private String id;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String name, String imageUrl, String cuentaUsuarioId) {
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String nombreImagen, String imagenUrl, String cuentaUsuarioId) {
+
+        if (nombreImagen.trim().equals("")) {
+            nombreImagen = "No Name";
+        }
+        this.nombreImagen = nombreImagen;
+        this.urlImagen = imagenUrl;
+        this.nombre = nombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.cuentaUsuarioId = cuentaUsuarioId;
+    }
+
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId) {
+
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
@@ -72,6 +87,24 @@ public class PerfilSocial implements Serializable {
 
     public void setCuentaUsuarioId(String cuentaUsuarioId) {
         this.cuentaUsuarioId = cuentaUsuarioId;
+    }
+
+    @PropertyName("nombreImagen")
+    public String getNombreImagen() {
+        return nombreImagen;
+    }
+
+    public void setNombreImagen(String nombreImagen) {
+        this.nombreImagen = nombreImagen;
+    }
+
+    @PropertyName("urlImagen")
+    public String getUrlImagen() {
+        return urlImagen;
+    }
+
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
     }
 
     public String getId() {
