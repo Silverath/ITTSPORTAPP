@@ -1,4 +1,4 @@
-package com.ittsport.ittsportapp.utils;
+package com.ittsport.ittsportapp.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,18 +25,20 @@ import com.ittsport.ittsportapp.activities.ListSocialProfileActivity;
 import com.ittsport.ittsportapp.activities.LoginActivity;
 import com.ittsport.ittsportapp.activities.MainActivity;
 import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.utils.CardAdapter;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
+public class CardPagerAdapterSocialProfile extends PagerAdapter implements CardAdapter {
 
     private List<CardView> mViews;
     private List<PerfilSocial> mData;
     private float mBaseElevation;
     private Context context;
 
-    public CardPagerAdapter(Context contextActivity) {
+    public CardPagerAdapterSocialProfile(Context contextActivity) {
         mData = new ArrayList<>();
         mViews = new ArrayList<>();
         context = contextActivity;

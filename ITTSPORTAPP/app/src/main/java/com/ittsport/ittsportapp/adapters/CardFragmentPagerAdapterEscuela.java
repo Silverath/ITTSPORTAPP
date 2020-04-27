@@ -1,10 +1,8 @@
-package com.ittsport.ittsportapp.utils;
+package com.ittsport.ittsportapp.adapters;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.ViewGroup;
@@ -12,36 +10,38 @@ import android.view.ViewGroup;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.fragments.CardFragmentEscuela;
+import com.ittsport.ittsportapp.fragments.CardFragmentSocialProfile;
+import com.ittsport.ittsportapp.utils.CardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implements CardAdapter {
+public class CardFragmentPagerAdapterEscuela extends FragmentStatePagerAdapter implements CardAdapter {
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
-    private List<CardFragment> fragments;
+    private List<CardFragmentEscuela> fragments;
     private float baseElevation;
 
-    public CardFragmentPagerAdapter(FragmentManager fm, float baseElevation) {
+    public CardFragmentPagerAdapterEscuela(FragmentManager fm, float baseElevation) {
         super(fm);
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         fragments = new ArrayList<>();
         this.baseElevation = baseElevation;
+        //TODO
+        //Hay que buscar en la lista de alumnos de la escuela y filtrar por el id del logueado
         if (firebaseAuth.getCurrentUser() != null) {
-            db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            db.collection("escuelas").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         for (DocumentSnapshot document : task.getResult()) {
-                            addCardFragment(new CardFragment());
+                            addCardFragment(new CardFragmentEscuela());
                         }
                     }
                 }
@@ -78,11 +78,11 @@ public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implemen
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Object fragment = super.instantiateItem(container, position);
-        fragments.set(position, (CardFragment) fragment);
+        fragments.set(position, (CardFragmentEscuela) fragment);
         return fragment;
     }
 
-    public void addCardFragment(CardFragment fragment) {
+    public void addCardFragment(CardFragmentEscuela fragment) {
         fragments.add(fragment);
     }
 }
