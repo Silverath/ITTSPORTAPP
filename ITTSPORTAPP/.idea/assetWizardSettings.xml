@@ -179,8 +179,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="add_icon" />
-                            <entry key="sourceFile" value="C:\Users\Pablo" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_turn_onoff" />
+                            <entry key="sourceFile" value="C:\Users\Pablo\Downloads\Turn-OnOff-Icon-by-Kanggraphic-580x386.svg" />
                           </map>
                         </option>
                       </PersistentState>
