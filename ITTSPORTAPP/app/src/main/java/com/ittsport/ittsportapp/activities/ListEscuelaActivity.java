@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,50 +23,60 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
-import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.adapters.CardFragmentPagerAdapterEscuela;
 import com.ittsport.ittsportapp.adapters.CardFragmentPagerAdapterSocialProfile;
+import com.ittsport.ittsportapp.adapters.CardPagerAdapterEscuela;
 import com.ittsport.ittsportapp.adapters.CardPagerAdapterSocialProfile;
+import com.ittsport.ittsportapp.models.Escuela;
+import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.ShadowTransformer;
 
-public class ListSocialProfileActivity extends AppCompatActivity {
+public class ListEscuelaActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
     private boolean mShowingFragments = false;
+    private ImageView cerrarSesion;
+    private Button solicitarEscuela;
+    private Button inscribirseEscuela;
     private ViewPager mViewPager;
-    private CardPagerAdapterSocialProfile mCardAdapter;
-    private ShadowTransformer mCardShadowTransformer;
-    private CardFragmentPagerAdapterSocialProfile mFragmentCardAdapter;
-    private ShadowTransformer mFragmentCardShadowTransformer;
     private TabLayout tabLayout;
     private ProgressBar progressBar;
-    private int LAUNCH_CREATE_SOCIAL_PROFILE_ACTIVITY = 1;
+    private CardPagerAdapterEscuela mCardAdapter;
+    private ShadowTransformer mCardShadowTransformer;
+    private CardFragmentPagerAdapterEscuela mFragmentCardAdapter;
+    private ShadowTransformer mFragmentCardShadowTransformer;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Context context = this;
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
-        setContentView(R.layout.activity_choose_social_profile);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar_list_profile);
+        cerrarSesion = (ImageView) findViewById(R.id.iv_cerrar_sesion);
+        solicitarEscuela = (Button) findViewById(R.id.btn_crear_escuela);
+        inscribirseEscuela = (Button) findViewById(R.id.btn_inscribirse_en_escuela);
+        setContentView(R.layout.activity_escuelas_list);
+        progressBar = (ProgressBar) findViewById(R.id.pb_list_escuelas);
         progressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        mViewPager = (ViewPager) findViewById(R.id.vpPager);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mViewPager = (ViewPager) findViewById(R.id.vp_escuelas_list);
+        tabLayout = (TabLayout) findViewById(R.id.tl_escuelas_list);
         FloatingActionButton newSocialProfile = (FloatingActionButton) findViewById(R.id.btn_nuevo_social_profile);
 
-        mCardAdapter = new CardPagerAdapterSocialProfile(this);
-        db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        mCardAdapter = new CardPagerAdapterEscuela(this);
+        //TODO
+        db.collection("escuelas").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot document : task.getResult()) {
-                        PerfilSocial perfil = document.toObject(PerfilSocial.class);
-                        perfil.setId(document.getId());
-                        mCardAdapter.addCardItem(perfil);
+                        Escuela escuela = document.toObject(Escuela.class);
+                        escuela.setId(document.getId());
+                        mCardAdapter.addCardItem(escuela);
                     }
-                    mFragmentCardAdapter = new CardFragmentPagerAdapterSocialProfile(getSupportFragmentManager(),
+                    mFragmentCardAdapter = new CardFragmentPagerAdapterEscuela(getSupportFragmentManager(),
                             dpToPixels(2, context));
 
                     mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
@@ -78,20 +91,32 @@ public class ListSocialProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        newSocialProfile.setOnClickListener(new View.OnClickListener() {
+        //TODO
+        cerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToNextActivity();
+
             }
         });
+        //TODO
+        solicitarEscuela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        //Toast.makeText(ListSocialProfileActivity.this, "Click", Toast.LENGTH_LONG);
+            }
+        });
+        //TODO
+        inscribirseEscuela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     /**
      * Change value in dp to pixels
+     *
      * @param dp
      * @param context
      */
@@ -100,27 +125,7 @@ public class ListSocialProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LAUNCH_CREATE_SOCIAL_PROFILE_ACTIVITY) {
-            if(resultCode == Activity.RESULT_OK){
-                PerfilSocial nuevo = (PerfilSocial) data.getSerializableExtra("perfilSocial");
-                mCardAdapter.addCardItem(nuevo);
-                mCardAdapter.notifyDataSetChanged();
-            }
-        }
-    }
-
-    public void goToNextActivity(){
-        int LAUNCH_SECOND_ACTIVITY = 1;
-        Context context = ListSocialProfileActivity.this;
-        Intent startNewSocialProfileActivityClass = new Intent(context, NewSocialProfileActivity.class);
-        startActivityForResult(startNewSocialProfileActivityClass, LAUNCH_SECOND_ACTIVITY);
-    }
-
-    @Override
     public void onBackPressed() {
 
     }
 }
-
