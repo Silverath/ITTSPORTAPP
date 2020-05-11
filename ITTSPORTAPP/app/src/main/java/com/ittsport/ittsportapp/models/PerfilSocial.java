@@ -19,7 +19,8 @@ public class PerfilSocial implements Serializable {
     private String cuentaUsuarioId;
     @PropertyName("nombreImagen")
     private String nombreImagen;
-
+    @PropertyName("escuelaId")
+    private String escuelaId;
     @PropertyName("urlImagen")
     private String urlImagen;
 
@@ -105,6 +106,15 @@ public class PerfilSocial implements Serializable {
 
     public void setUrlImagen(String urlImagen) {
         this.urlImagen = urlImagen;
+    }
+
+    @PropertyName("escuelaId")
+    public String getEscuelaId() {
+        return escuelaId;
+    }
+
+    public void setEscuelaId(String escuelaId) {
+        this.escuelaId = escuelaId;
     }
 
     public String getId() {

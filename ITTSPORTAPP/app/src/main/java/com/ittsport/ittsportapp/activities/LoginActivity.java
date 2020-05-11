@@ -80,15 +80,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         VariablesGlobales sharedPreferences = new VariablesGlobales(this);
-        if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() != null){
+        if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() != null && sharedPreferences.getEscuelaSeleccionada() != null){
             progressBar.setVisibility(View.GONE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            goToHome(true);
+            goTo(3);
         }
-        else if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() == null){
+        else if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() == null && sharedPreferences.getEscuelaSeleccionada() != null){
             progressBar.setVisibility(View.GONE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            goToHome(false);
+            goTo(2);
+        }
+        else if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() == null && sharedPreferences.getEscuelaSeleccionada() == null){
+            progressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            goTo(1);
         }
         else{
             progressBar.setVisibility(View.GONE);
@@ -104,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             progressBar.setVisibility(View.GONE);
                             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            goToHome(false);
+                            goTo(1);
 
                         } else {
                             try {
@@ -134,16 +139,21 @@ public class LoginActivity extends AppCompatActivity {
         return res;
     }
 
-    public void goToHome(Boolean home){
-        if(home == true){
+    public void goTo(Integer nextStep){
+        if(nextStep == 3){
             Context context = LoginActivity.this;
             Intent startHomeActivityClass = new Intent(context, HomeActivity.class);
             startActivity(startHomeActivityClass);
         }
-        else{
+        else if(nextStep == 2){
             Context context = LoginActivity.this;
             Intent startListSocialProfileActivityClass = new Intent(context, ListSocialProfileActivity.class);
             startActivity(startListSocialProfileActivityClass);
+        }
+        else if(nextStep == 1){
+            Context context = LoginActivity.this;
+            Intent startListEscuelaActivityClass = new Intent(context, ListEscuelaActivity.class);
+            startActivity(startListEscuelaActivityClass);
         }
     }
 
