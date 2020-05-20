@@ -26,6 +26,12 @@ public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHold
     public ChooseEscuelaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(chooseEscuelaActivity.getBaseContext());
         View view = layoutInflater.inflate(R.layout.list_grupo_activity_row, parent, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return new ChooseEscuelaHolder(view);
     }
@@ -35,6 +41,13 @@ public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHold
         holder.nombre.setText(escuelas.get(position).getNombre());
         String lugar = escuelas.get(position).getProvincia() + ", " + escuelas.get(position).getMunicipio();
         holder.lugar.setText(lugar);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     @Override

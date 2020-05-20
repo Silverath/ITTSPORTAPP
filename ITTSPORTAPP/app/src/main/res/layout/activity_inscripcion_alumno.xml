@@ -15,9 +15,9 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_escuela_logo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:id="@+id/iv_nueva_inscripcion_escuela_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:src="@drawable/camera_icon"
             />
@@ -26,33 +26,33 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:id="@+id/iv_nueva_foto_perfil"
+        android:id="@+id/iv_nueva_inscripcion_foto_perfil"
         android:layout_marginTop="24dp"
         android:src="@drawable/camera_icon"
         app:layout_constraintTop_toBottomOf="@+id/ll_escuela_logo"
-        app:layout_constraintBottom_toTopOf="@id/btn_nueva_foto_perfil"
+        app:layout_constraintBottom_toTopOf="@id/btn_nueva_inscripcion_nueva_foto_perfil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_nueva_foto_perfil"
+        android:id="@+id/btn_nueva_inscripcion_nueva_foto_perfil"
         android:layout_marginTop="8dp"
         android:text="Elegir imagen"
         android:textAlignment="center"
         android:background="@drawable/button_rounded"
-        app:layout_constraintTop_toBottomOf="@id/iv_nueva_foto_perfil"
+        app:layout_constraintTop_toBottomOf="@id/iv_nueva_inscripcion_foto_perfil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ll_perfil_social_nombre"/>
+        app:layout_constraintBottom_toTopOf="@id/ll_nueva_inscripcion_perfil_social_nombre"/>
 
     <LinearLayout
-        android:id="@+id/ll_perfil_social_nombre"
+        android:id="@+id/ll_nueva_inscripcion_perfil_social_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/btn_nueva_foto_perfil"
+        app:layout_constraintTop_toBottomOf="@id/btn_nueva_inscripcion_nueva_foto_perfil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="36dp"
@@ -60,7 +60,7 @@
         android:layout_marginEnd="36dp">
 
         <EditText
-            android:id="@+id/et_perfil_social_nombre"
+            android:id="@+id/et_nueva_inscripcion_perfil_social_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -68,11 +68,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_perfil_social_primer_apellido"
+        android:id="@+id/ll_nueva_inscripcion_perfil_social_primer_apellido"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/ll_perfil_social_nombre"
+        app:layout_constraintTop_toBottomOf="@+id/ll_nueva_inscripcion_perfil_social_nombre"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="36dp"
@@ -80,7 +80,7 @@
         android:layout_marginEnd="36dp">
 
         <EditText
-            android:id="@+id/et_perfil_social_primer_apellido"
+            android:id="@+id/et_nueva_inscripcion_perfil_social_primer_apellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -88,11 +88,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_perfil_social_segundo_apellido"
+        android:id="@+id/ll_nueva_inscripcion_perfil_social_segundo_apellido"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/ll_perfil_social_primer_apellido"
+        app:layout_constraintTop_toBottomOf="@id/ll_nueva_inscripcion_perfil_social_primer_apellido"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="36dp"
@@ -100,7 +100,7 @@
         android:layout_marginEnd="36dp">
 
         <EditText
-            android:id="@+id/et_perfil_social_segundo_apellido"
+            android:id="@+id/et_nueva_inscripcion_perfil_social_segundo_apellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -108,7 +108,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_crear_perfil_social"
+        android:id="@+id/btn_nueva_inscripcion_crear_perfil_social"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
@@ -122,6 +122,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_perfil_social_segundo_apellido" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_nueva_inscripcion_perfil_social_segundo_apellido" />
 
 </android.support.constraint.ConstraintLayout>

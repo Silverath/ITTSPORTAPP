@@ -89,7 +89,7 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                         db.collection("perfilesSociales").document()
-                                                .set(nuevo)
+                                                .set(nuevoPerfil)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
