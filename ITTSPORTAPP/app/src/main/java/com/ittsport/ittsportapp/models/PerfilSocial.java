@@ -30,7 +30,7 @@ public class PerfilSocial implements Serializable {
 
     private String id;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String nombreImagen, String imagenUrl, String cuentaUsuarioId, Estado status, Rol rol) {
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String nombreImagen, String imagenUrl, String cuentaUsuarioId, Estado status, Rol rol, String escuelaId) {
 
         if (nombreImagen.trim().equals("")) {
             nombreImagen = "No Name";
@@ -43,9 +43,10 @@ public class PerfilSocial implements Serializable {
         this.cuentaUsuarioId = cuentaUsuarioId;
         this.status = status;
         this.rol = rol;
+        this.escuelaId = escuelaId;
     }
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId, Estado status, Rol rol) {
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId, Estado status, Rol rol, String escuelaId) {
 
         this.nombre = nombre;
         this.primerApellido = primerApellido;
@@ -53,6 +54,7 @@ public class PerfilSocial implements Serializable {
         this.cuentaUsuarioId = cuentaUsuarioId;
         this.status = status;
         this.rol = rol;
+        this.escuelaId = escuelaId;
     }
 
     public PerfilSocial() {

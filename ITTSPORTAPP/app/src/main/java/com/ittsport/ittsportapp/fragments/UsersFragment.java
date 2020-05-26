@@ -91,7 +91,7 @@ public class UsersFragment extends Fragment {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                 for(DocumentSnapshot i: queryDocumentSnapshots) {
-                    PerfilSocial perfilSocial = new PerfilSocial(i.getString("nombre"), i.getString("primerApellido"), i.getString("segundoApellido"), i.getString("cuentaUsuarioId"));
+                    PerfilSocial perfilSocial = i.toObject(PerfilSocial.class);
                     String id = i.getId();
                     mUsers.add(perfilSocial);
                 }

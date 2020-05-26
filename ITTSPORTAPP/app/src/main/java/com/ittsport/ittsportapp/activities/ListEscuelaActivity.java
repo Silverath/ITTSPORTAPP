@@ -39,6 +39,7 @@ import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.ShadowTransformer;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import org.w3c.dom.Document;
 
@@ -62,10 +63,12 @@ public class ListEscuelaActivity extends AppCompatActivity {
     private CardFragmentPagerAdapterEscuela mFragmentCardAdapter;
     private ShadowTransformer mFragmentCardShadowTransformer;
     private List<Escuela> escuelas;
+    private int LAUNCH_SECOND_ACTIVITY = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_escuelas_list);
         final Context context = this;
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
@@ -73,7 +76,6 @@ public class ListEscuelaActivity extends AppCompatActivity {
         cerrarSesion = (ImageView) findViewById(R.id.iv_cerrar_sesion);
         solicitarEscuela = (Button) findViewById(R.id.btn_crear_escuela);
         inscribirseEscuela = (Button) findViewById(R.id.btn_inscribirse_en_escuela);
-        setContentView(R.layout.activity_escuelas_list);
         progressBar = (ProgressBar) findViewById(R.id.pb_list_escuelas);
         progressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -82,25 +84,24 @@ public class ListEscuelaActivity extends AppCompatActivity {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         mViewPager = (ViewPager) findViewById(R.id.vp_escuelas_list);
         tabLayout = (TabLayout) findViewById(R.id.tl_escuelas_list);
-        FloatingActionButton newSocialProfile = (FloatingActionButton) findViewById(R.id.btn_nuevo_social_profile);
 
         mCardAdapter = new CardPagerAdapterEscuela(this);
         //TODO
-        Task<QuerySnapshot> perfiles = db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get();
+        Task<QuerySnapshot> perfiles = db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("status", Estado.ACEPTADO).get();
         perfiles.continueWithTask(new Continuation<QuerySnapshot, Task<List<DocumentSnapshot>>>() {
             @Override
             public Task<List<DocumentSnapshot>> then(@NonNull Task<QuerySnapshot> task) throws Exception {
                 List<Task<DocumentSnapshot>> allTasks = new ArrayList<>();
                 List<String> idEscuelas = new ArrayList<>();
-                if(task.getResult().isEmpty()){
+                if (task.getResult().isEmpty()) {
                     progressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }
-                for(DocumentSnapshot documentSnapshot : task.getResult()){
+                for (DocumentSnapshot documentSnapshot : task.getResult()) {
                     PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
                     String id = documentSnapshot.getId();
                     perfil.setId(documentSnapshot.getId());
-                    if(!idEscuelas.contains(perfil.getEscuelaId())){
+                    if (!idEscuelas.contains(perfil.getEscuelaId())) {
                         idEscuelas.add(perfil.getEscuelaId());
                         Task<DocumentSnapshot> query = db.collection("escuelas").document(perfil.getEscuelaId()).get();
                         allTasks.add(query);
@@ -111,9 +112,9 @@ public class ListEscuelaActivity extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<List<DocumentSnapshot>>() {
             @Override
             public void onSuccess(List<DocumentSnapshot> documentSnapshots) {
-                for (DocumentSnapshot doc : documentSnapshots){
+                for (DocumentSnapshot doc : documentSnapshots) {
                     Escuela escuela = doc.toObject(Escuela.class);
-                    if(escuela.getStatus() == Estado.ACEPTADO && !escuelas.contains(escuela)){
+                    if (!escuelas.contains(escuela)) {
                         escuelas.add(escuela);
                         mCardAdapter.addCardItem(escuela);
                         mCardAdapter.notifyDataSetChanged();
@@ -131,7 +132,7 @@ public class ListEscuelaActivity extends AppCompatActivity {
                 mViewPager.setOffscreenPageLimit(3);
                 progressBar.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                if(documentSnapshots.isEmpty()){
+                if (documentSnapshots.isEmpty()) {
                     progressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }
@@ -144,7 +145,7 @@ public class ListEscuelaActivity extends AppCompatActivity {
         });
 
         //TODO
-        if(cerrarSesion != null)
+        if (cerrarSesion != null)
             cerrarSesion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -152,7 +153,7 @@ public class ListEscuelaActivity extends AppCompatActivity {
                 }
             });
         //TODO
-        if(solicitarEscuela != null)
+        if (solicitarEscuela != null)
             solicitarEscuela.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -160,11 +161,11 @@ public class ListEscuelaActivity extends AppCompatActivity {
                 }
             });
         //TODO
-        if(inscribirseEscuela != null)
+        if (inscribirseEscuela != null)
             inscribirseEscuela.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    goToNextActivity();
                 }
             });
     }
@@ -182,5 +183,12 @@ public class ListEscuelaActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    public void goToNextActivity() {
+        int LAUNCH_SECOND_ACTIVITY = 1;
+        Context context = ListEscuelaActivity.this;
+        Intent startNewSocialProfileActivityClass = new Intent(context, ChooseEscuelaActivity.class);
+        startActivityForResult(startNewSocialProfileActivityClass, LAUNCH_SECOND_ACTIVITY);
     }
 }

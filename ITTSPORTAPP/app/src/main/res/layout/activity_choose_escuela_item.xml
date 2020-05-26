@@ -13,9 +13,9 @@
         android:layout_gravity="center"
         android:text="escuela de tenis noseque"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_escuela_provincia_municipio"
+        app:layout_constraintBottom_toTopOf="@id/tv_escuela_provincia_municipio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_escuela_photo"
+        app:layout_constraintStart_toEndOf="@id/iv_escuela_photo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -25,8 +25,8 @@
         android:text="Sevilla, Dos Hermanas"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tv_escuela_nombre"
-        app:layout_constraintStart_toStartOf="@+id/tv_escuela_nombre"
+        app:layout_constraintEnd_toEndOf="@id/tv_escuela_nombre"
+        app:layout_constraintStart_toStartOf="@id/tv_escuela_nombre"
         app:layout_constraintTop_toBottomOf="@id/tv_escuela_nombre" />
 
     <de.hdodenhof.circleimageview.CircleImageView

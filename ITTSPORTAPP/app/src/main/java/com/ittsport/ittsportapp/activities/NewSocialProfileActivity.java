@@ -2,6 +2,7 @@ package com.ittsport.ittsportapp.activities;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -27,7 +28,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.models.Rol;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -49,12 +53,14 @@ public class NewSocialProfileActivity extends AppCompatActivity {
     private Uri uriImagenPerfil;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
+    private Context context;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_social_profile);
+        context = this;
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("profile images");
@@ -72,9 +78,10 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
                 } else {
                     if (uriImagenPerfil != null) {
+                        VariablesGlobales sharedPreferences = new VariablesGlobales(context);
                         String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
                         String nombreCompleto = nombre.getText().toString() + primerApellido.getText().toString() + segundoApellido.getText().toString();
-                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, uriImagenPerfil.toString(), cuentaUsuarioId);
+                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, uriImagenPerfil.toString(), cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, sharedPreferences.getEscuelaParaInscribirse());
                         Map<String, Object> nuevoPerfil = new HashMap<>();
                         nuevoPerfil.put("nombre", nuevo.getNombre());
                         nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
@@ -82,6 +89,9 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                         nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
                         nuevoPerfil.put("nombreImagen", nuevo.getNombreImagen());
                         nuevoPerfil.put("urlImagen", nuevo.getUrlImagen());
+                        nuevoPerfil.put("estado", nuevo.getStatus());
+                        nuevoPerfil.put("rol", nuevo.getRol());
+                        nuevoPerfil.put("escuelaId", nuevo.getEscuelaId());
 
                         StorageReference fileReference = storageReference.child((nombreCompleto + "." + getFileExtension(uriImagenPerfil)));
                         fileReference.putFile(uriImagenPerfil)
@@ -118,13 +128,17 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                     }
                                 });
                     } else {
+                        VariablesGlobales sharedPreferences = new VariablesGlobales(context);
                         String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
-                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), cuentaUsuarioId);
+                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, sharedPreferences.getEscuelaParaInscribirse());
                         Map<String, Object> nuevoPerfil = new HashMap<>();
                         nuevoPerfil.put("nombre", nuevo.getNombre());
                         nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
                         nuevoPerfil.put("segundoApellido", nuevo.getSegundoApellido());
                         nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
+                        nuevoPerfil.put("estado", nuevo.getStatus());
+                        nuevoPerfil.put("rol", nuevo.getRol());
+                        nuevoPerfil.put("escuelaId", nuevo.getEscuelaId());
                         db.collection("perfilesSociales").document()
                                 .set(nuevoPerfil)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

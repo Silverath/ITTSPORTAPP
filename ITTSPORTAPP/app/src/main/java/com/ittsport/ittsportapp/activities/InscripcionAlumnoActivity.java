@@ -2,6 +2,7 @@ package com.ittsport.ittsportapp.activities;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.models.Rol;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -49,11 +51,13 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
     private Uri uriImagenPerfil;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
+    private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_social_profile);
+        setContentView(R.layout.activity_inscripcion_alumno);
+        context = this;
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("profile images");
@@ -71,9 +75,10 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
                 } else {
                     if (uriImagenPerfil != null) {
+                        VariablesGlobales sharedPreferences = new VariablesGlobales(context);
                         String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
                         String nombreCompleto = nombre.getText().toString() + primerApellido.getText().toString() + segundoApellido.getText().toString();
-                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, uriImagenPerfil.toString(), cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO);
+                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, uriImagenPerfil.toString(), cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, sharedPreferences.getEscuelaParaInscribirse());
                         Map<String, Object> nuevoPerfil = new HashMap<>();
                         nuevoPerfil.put("nombre", nuevo.getNombre());
                         nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
@@ -94,11 +99,8 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
-                                                        String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
-
                                                         Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
                                                         Intent returnIntent = new Intent();
-                                                        returnIntent.putExtra("perfilSocial", nuevo);
                                                         setResult(Activity.RESULT_OK, returnIntent);
                                                         finish();
 
@@ -120,7 +122,8 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                 });
                     } else {
                         String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
-                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO);
+                        VariablesGlobales sharedPreferences = new VariablesGlobales(context);
+                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, sharedPreferences.getEscuelaParaInscribirse());
                         Map<String, Object> nuevoPerfil = new HashMap<>();
                         nuevoPerfil.put("nombre", nuevo.getNombre());
                         nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
@@ -139,7 +142,6 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                         } else {
                                             Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
                                             Intent returnIntent = new Intent();
-                                            returnIntent.putExtra("perfilSocial", nuevo);
                                             setResult(Activity.RESULT_OK, returnIntent);
                                             finish();
                                         }

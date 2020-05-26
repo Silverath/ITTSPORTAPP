@@ -10,6 +10,7 @@ public class VariablesGlobales extends Application {
     public static String perfilParaChatear;
     public static String perfilLogueado;
     public static String escuelaSeleccionada;
+    public static String escuelaParaInscribirse;
 
     public VariablesGlobales(Context context) {
         this.preferences = context.getSharedPreferences("session", MODE_PRIVATE);
@@ -29,5 +30,13 @@ public class VariablesGlobales extends Application {
 
     public void setEscuelaSeleccionada(String escuelaSeleccionada) {
         preferences.edit().putString("escuela_seleccionada_id", escuelaSeleccionada).commit();
+    }
+
+    public String getEscuelaParaInscribirse() {
+        return preferences.getString("escuela_para_inscribirse_id", null);
+    }
+
+    public void setEscuelaParaInscribirse(String escuelaParaInscribirse) {
+        preferences.edit().putString("escuela_para_inscribirse_id", escuelaSeleccionada).commit();
     }
 }

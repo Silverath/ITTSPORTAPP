@@ -20,6 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.ChooseEscuelaActivity" />
+        <activity android:name=".activities.InscripcionAlumnoActivity" />
         <activity android:name=".activities.ListEscuelaActivity" />
         <activity android:name=".activities.ListGrupoActivity" />
         <activity android:name=".activities.MessageActivityShow" />
