@@ -9,16 +9,23 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Escuela;
@@ -54,31 +61,35 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
     }
 
     private void loadDataFromFirebase() {
-        db.collection("escuelas").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        ArrayList<Escuela> escuelasNoInscrito = new ArrayList<>();
+        Task<QuerySnapshot> allEscuelas = db.collection("escuelas").get();
+        allEscuelas.continueWithTask(new Continuation<QuerySnapshot, Task<QuerySnapshot>>() {
+            @Override
+            public Task<QuerySnapshot> then(@NonNull Task<QuerySnapshot> task) throws Exception {
+                for(DocumentSnapshot documentSnapshot : task.getResult()){
+                    Escuela escuela = documentSnapshot.toObject(Escuela.class);
+                    escuela.setId(documentSnapshot.getId());
+                    escuelasNoInscrito.add(escuela);
+                }
+                return db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    Escuela escuela = documentSnapshot.toObject(Escuela.class);
-                    escuela.setId(documentSnapshot.getId());
-                    db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            List<PerfilSocial> perfiles = new ArrayList<PerfilSocial>();
-                            for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                                PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
-                                perfil.setId(documentSnapshot.getId());
-                                if(escuela.getId() != perfil.getEscuelaId()){
-                                    escuelas.add(escuela);
-                                }
-                            }
+                    PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
+                    perfil.setId(documentSnapshot.getId());
+                    for(Escuela e : escuelasNoInscrito){
+                        if(e.getId() == perfil.getEscuelaId() && escuelasNoInscrito.contains(e)){
+                            escuelasNoInscrito.remove(e);
                         }
-                    });
+                    }
                 }
+                escuelas = escuelasNoInscrito;
                 chooseEscuelaAdapter = new ChooseEscuelaAdapter(ChooseEscuelaActivity.this, escuelas, context);
                 mRecyclerview.setAdapter(chooseEscuelaAdapter);
             }
         });
-
     }
 
     private void setUpFireBase() {
@@ -112,5 +123,28 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
         Intent startNewSocialProfileActivityClass = new Intent(context, InscripcionAlumnoActivity.class);
         startNewSocialProfileActivityClass.putExtra("escuela", escuela);
         startActivityForResult(startNewSocialProfileActivityClass, LAUNCH_THIRD_ACTIVITY);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_choose_escuela, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.choose_escuela_search_icon);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                chooseEscuelaAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
     }
 }

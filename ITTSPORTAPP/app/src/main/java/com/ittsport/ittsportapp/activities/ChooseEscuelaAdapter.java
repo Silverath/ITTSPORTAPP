@@ -6,22 +6,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Escuela;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHolder>{
+public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHolder> implements Filterable {
 
     ChooseEscuelaActivity chooseEscuelaActivity;
     ArrayList<Escuela> escuelas;
+    ArrayList<Escuela> escuelasFull;
     private Context mContext;
 
     public ChooseEscuelaAdapter(ChooseEscuelaActivity chooseEscuelaActivity, ArrayList<Escuela> escuelas, Context context) {
         this.chooseEscuelaActivity = chooseEscuelaActivity;
         this.escuelas = escuelas;
         this.mContext = context;
+        this.escuelasFull = new ArrayList<>(escuelas);
     }
 
     @NonNull
@@ -54,4 +59,39 @@ public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHold
     public int getItemCount() {
         return escuelas.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filtro;
+    }
+
+    private Filter filtro = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<Escuela> filteredList = new ArrayList<>();
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(escuelasFull);
+            }
+            else{
+                String filterPattern = constraint.toString().toLowerCase();
+                for(Escuela item : escuelasFull){
+                    if(item.getNombre().toLowerCase().contains(filterPattern) || item.getMunicipio().toLowerCase().contains(filterPattern) || item.getProvincia().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            escuelas.clear();
+            escuelas.addAll((ArrayList)results.values);
+            notifyDataSetChanged();
+        }
+    };
 }
