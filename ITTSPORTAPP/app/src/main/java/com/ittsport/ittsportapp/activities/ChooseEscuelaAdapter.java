@@ -11,6 +11,7 @@ import android.widget.Filterable;
 
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Escuela;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -40,18 +41,21 @@ public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHold
 
     @Override
     public void onBindViewHolder(@NonNull ChooseEscuelaHolder holder, int position) {
-        String nombre = escuelas.get(position).getNombre();
+        Escuela current = escuelas.get(position);
+        String nombre = current.getNombre();
         holder.nombre.setText(nombre);
-        String lugar = escuelas.get(position).getProvincia() + ", " + escuelas.get(position).getMunicipio();
+        String lugar = current.getProvincia() + ", " + current.getMunicipio();
         holder.lugar.setText(lugar);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mContext instanceof ChooseEscuelaActivity) {
-                    ((ChooseEscuelaActivity)mContext).goToNextActivity(escuelas.get(position));
+                    ((ChooseEscuelaActivity)mContext).goToNextActivity(current);
                 }
             }
         });
+        Picasso.with(mContext).load(current.getUrlLogo())
+                .fit().centerCrop().into(holder.logo);
 
     }
 
