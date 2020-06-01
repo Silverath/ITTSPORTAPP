@@ -1,4 +1,4 @@
-package com.ittsport.ittsportapp.activities;
+package com.ittsport.ittsportapp.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;

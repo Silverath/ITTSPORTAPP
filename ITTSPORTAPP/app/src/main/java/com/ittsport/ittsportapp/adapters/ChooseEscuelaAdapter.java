@@ -1,4 +1,4 @@
-package com.ittsport.ittsportapp.activities;
+package com.ittsport.ittsportapp.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,10 +10,10 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.activities.ChooseEscuelaActivity;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHolder> implements Filterable {

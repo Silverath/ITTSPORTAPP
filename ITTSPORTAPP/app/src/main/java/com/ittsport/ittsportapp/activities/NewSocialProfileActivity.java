@@ -64,6 +64,7 @@ public class NewSocialProfileActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("profile images");
+        databaseReference = FirebaseDatabase.getInstance().getReference("profile images");
         nombre = (EditText) findViewById(R.id.et_perfil_social_nombre);
         primerApellido = (EditText) findViewById(R.id.et_perfil_social_primer_apellido);
         segundoApellido = (EditText) findViewById(R.id.et_perfil_social_segundo_apellido);

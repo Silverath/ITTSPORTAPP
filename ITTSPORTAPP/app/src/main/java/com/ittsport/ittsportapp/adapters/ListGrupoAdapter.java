@@ -1,4 +1,4 @@
-package com.ittsport.ittsportapp.activities;
+package com.ittsport.ittsportapp.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.activities.ListGrupoActivity;
 import com.ittsport.ittsportapp.models.Grupo;
 
 import java.util.ArrayList;

@@ -85,15 +85,16 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                         nuevoPerfil.put("segundoApellido", nuevo.getSegundoApellido());
                         nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
                         nuevoPerfil.put("nombreImagen", nuevo.getNombreImagen());
-                        nuevoPerfil.put("urlImagen", nuevo.getUrlImagen());
                         nuevoPerfil.put("estado", nuevo.getStatus());
                         nuevoPerfil.put("rol", nuevo.getRol());
+                        nuevoPerfil.put("escuelaId", nuevo.getEscuelaId());
 
                         StorageReference fileReference = storageReference.child((nombreCompleto + "." + getFileExtension(uriImagenPerfil)));
                         fileReference.putFile(uriImagenPerfil)
                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        nuevoPerfil.put("urlImagen", fileReference.getDownloadUrl().toString());
                                         db.collection("perfilesSociales").document()
                                                 .set(nuevoPerfil)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -131,6 +132,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                         nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
                         nuevoPerfil.put("estado", nuevo.getStatus());
                         nuevoPerfil.put("rol", nuevo.getRol());
+                        nuevoPerfil.put("escuelaId", nuevo.getEscuelaId());
                         db.collection("perfilesSociales").document()
                                 .set(nuevoPerfil)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
