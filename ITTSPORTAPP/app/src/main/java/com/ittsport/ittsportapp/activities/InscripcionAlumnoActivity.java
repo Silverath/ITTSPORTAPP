@@ -38,13 +38,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class InscripcionAlumnoActivity extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
     private EditText nombre;
     private EditText primerApellido;
     private EditText segundoApellido;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     private Button createProfile;
-    private static final int PICK_IMAGE_REQUEST = 1;
     private Button btnNuevaImagenPerfil;
     private ImageView ivNuevaImagenPerfil;
     private CircleImageView logo;
@@ -61,12 +61,12 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("profile images");
-        nombre = (EditText) findViewById(R.id.et_nueva_inscripcion_perfil_social_nombre);
-        primerApellido = (EditText) findViewById(R.id.et_nueva_inscripcion_perfil_social_primer_apellido);
-        segundoApellido = (EditText) findViewById(R.id.et_nueva_inscripcion_perfil_social_segundo_apellido);
-        createProfile = (Button) findViewById(R.id.btn_nueva_inscripcion_crear_perfil_social);
-        btnNuevaImagenPerfil = (Button) findViewById(R.id.btn_nueva_inscripcion_nueva_foto_perfil);
-        ivNuevaImagenPerfil = (ImageView) findViewById(R.id.iv_nueva_inscripcion_foto_perfil);
+        nombre = findViewById(R.id.et_nueva_inscripcion_perfil_social_nombre);
+        primerApellido = findViewById(R.id.et_nueva_inscripcion_perfil_social_primer_apellido);
+        segundoApellido = findViewById(R.id.et_nueva_inscripcion_perfil_social_segundo_apellido);
+        createProfile = findViewById(R.id.btn_nueva_inscripcion_crear_perfil_social);
+        btnNuevaImagenPerfil = findViewById(R.id.btn_nueva_inscripcion_nueva_foto_perfil);
+        ivNuevaImagenPerfil = findViewById(R.id.iv_nueva_inscripcion_foto_perfil);
 
         createProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +78,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                         VariablesGlobales sharedPreferences = new VariablesGlobales(context);
                         String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
                         String nombreCompleto = nombre.getText().toString() + primerApellido.getText().toString() + segundoApellido.getText().toString();
-                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, uriImagenPerfil.toString(), cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, sharedPreferences.getEscuelaParaInscribirse());
+                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, sharedPreferences.getEscuelaParaInscribirse());
                         Map<String, Object> nuevoPerfil = new HashMap<>();
                         nuevoPerfil.put("nombre", nuevo.getNombre());
                         nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
@@ -94,25 +94,30 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        nuevoPerfil.put("urlImagen", fileReference.getDownloadUrl().toString());
-                                        db.collection("perfilesSociales").document()
-                                                .set(nuevoPerfil)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
-                                                        Intent returnIntent = new Intent();
-                                                        setResult(Activity.RESULT_OK, returnIntent);
-                                                        finish();
+                                        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                nuevoPerfil.put("urlImagen", uri.toString());
+                                                db.collection("perfilesSociales").document()
+                                                    .set(nuevoPerfil)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
+                                                            Intent returnIntent = new Intent();
+                                                            setResult(Activity.RESULT_OK, returnIntent);
+                                                            finish();
 
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                            }
+                                        });
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

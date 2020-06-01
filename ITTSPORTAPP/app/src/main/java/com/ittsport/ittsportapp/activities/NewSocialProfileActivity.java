@@ -82,14 +82,13 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                         VariablesGlobales sharedPreferences = new VariablesGlobales(context);
                         String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
                         String nombreCompleto = nombre.getText().toString() + primerApellido.getText().toString() + segundoApellido.getText().toString();
-                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, uriImagenPerfil.toString(), cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, sharedPreferences.getEscuelaParaInscribirse());
+                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, sharedPreferences.getEscuelaParaInscribirse());
                         Map<String, Object> nuevoPerfil = new HashMap<>();
                         nuevoPerfil.put("nombre", nuevo.getNombre());
                         nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
                         nuevoPerfil.put("segundoApellido", nuevo.getSegundoApellido());
                         nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
                         nuevoPerfil.put("nombreImagen", nuevo.getNombreImagen());
-                        nuevoPerfil.put("urlImagen", nuevo.getUrlImagen());
                         nuevoPerfil.put("estado", nuevo.getStatus());
                         nuevoPerfil.put("rol", nuevo.getRol());
                         nuevoPerfil.put("escuelaId", nuevo.getEscuelaId());
@@ -99,27 +98,31 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        db.collection("perfilesSociales").document()
-                                                .set(nuevoPerfil)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
+                                        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                nuevoPerfil.put("urlImagen", uri.toString());
+                                                db.collection("perfilesSociales").document()
+                                                    .set(nuevoPerfil)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
+                                                            Intent returnIntent = new Intent();
+                                                            returnIntent.putExtra("perfilSocial", nuevo);
+                                                            setResult(Activity.RESULT_OK, returnIntent);
+                                                            finish();
 
-                                                        Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
-                                                        Intent returnIntent = new Intent();
-                                                        returnIntent.putExtra("perfilSocial", nuevo);
-                                                        setResult(Activity.RESULT_OK, returnIntent);
-                                                        finish();
-
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                            }
+                                        });
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -146,15 +149,11 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
-                                        if (uriImagenPerfil != null) {
-                                            uploadFile(nombreCompleto, nuevo);
-                                        } else {
-                                            Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
-                                            Intent returnIntent = new Intent();
-                                            returnIntent.putExtra("perfilSocial", nuevo);
-                                            setResult(Activity.RESULT_OK, returnIntent);
-                                            finish();
-                                        }
+                                        Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
+                                        Intent returnIntent = new Intent();
+                                        returnIntent.putExtra("perfilSocial", nuevo);
+                                        setResult(Activity.RESULT_OK, returnIntent);
+                                        finish();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -199,28 +198,5 @@ public class NewSocialProfileActivity extends AppCompatActivity {
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-
-    private void uploadFile(String nombreCompleto, final PerfilSocial nuevoPerfil) {
-        if (uriImagenPerfil != null) {
-            StorageReference fileReference = storageReference.child((nombreCompleto + "." + getFileExtension(uriImagenPerfil)));
-            fileReference.putFile(uriImagenPerfil)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("perfilSocial", nuevoPerfil);
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getBaseContext(), "Ha habido un problema", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
     }
 }
