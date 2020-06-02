@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import static android.content.ContentValues.TAG;
@@ -37,16 +38,13 @@ public class LoginActivity extends AppCompatActivity {
     Button buttonLogin;
     TextView go_to_register;
     FirebaseAuth firebaseAuth;
-    private ProgressBar progressBar;
+    LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar_login);
-        progressBar.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        loadingDialog = new LoadingDialog(this);
         correo_electronico = (EditText) findViewById(R.id.correo_electronico);
         passwordLogin = (EditText)findViewById(R.id.contraseña);
         buttonLogin = (Button) findViewById(R.id.boton_iniciar_sesion);
@@ -65,39 +63,32 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            progressBar.setVisibility(View.VISIBLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            loadingDialog.startLoadingDialog();
             String email = correo_electronico.getText().toString();
             String password = passwordLogin.getText().toString();
             if(validate(email, password)){
                 login(email, password);
             }
             else{
-                progressBar.setVisibility(View.GONE);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                loadingDialog.dismissDialog();
             }
             }
         });
         VariablesGlobales sharedPreferences = new VariablesGlobales(this);
         if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() != null && sharedPreferences.getEscuelaSeleccionada() != null){
-            progressBar.setVisibility(View.GONE);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            loadingDialog.dismissDialog();
             goTo(3);
         }
         else if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() == null && sharedPreferences.getEscuelaSeleccionada() != null){
-            progressBar.setVisibility(View.GONE);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            loadingDialog.dismissDialog();
             goTo(2);
         }
         else if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() == null && sharedPreferences.getEscuelaSeleccionada() == null){
-            progressBar.setVisibility(View.GONE);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            loadingDialog.dismissDialog();
             goTo(1);
         }
         else{
-            progressBar.setVisibility(View.GONE);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            loadingDialog.dismissDialog();
         }
     }
 
@@ -107,14 +98,12 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            progressBar.setVisibility(View.GONE);
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            loadingDialog.dismissDialog();
                             goTo(1);
 
                         } else {
                             try {
-                                progressBar.setVisibility(View.GONE);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                loadingDialog.dismissDialog();
                                 throw task.getException();
                             }
                             catch(FirebaseAuthInvalidCredentialsException e) {
@@ -132,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
     public boolean validate(String email, String password){
         boolean res = true;
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+            loadingDialog.dismissDialog();
             Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
             res = false;
         }

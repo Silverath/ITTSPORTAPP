@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -149,7 +151,16 @@ public class ListEscuelaActivity extends AppCompatActivity {
             cerrarSesion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    if(user == null){
+                        Toast.makeText(ListEscuelaActivity.this, "no ai nadie xd", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        FirebaseAuth.getInstance().signOut();
+                        Context context = ListEscuelaActivity.this;
+                        Intent goToLogin = new Intent(context, LoginActivity.class);
+                        startActivity(goToLogin);
+                    }
                 }
             });
         //TODO
