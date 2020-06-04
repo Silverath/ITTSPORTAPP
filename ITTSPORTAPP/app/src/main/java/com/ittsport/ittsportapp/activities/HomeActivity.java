@@ -64,6 +64,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.cambiar_perfil:
                 elegirPerfil();
                 return true;
+            case R.id.crear_escuela:
+                solicitarEscuela();
+                return true;
+            case R.id.aceptar_escuelas:
+                escuelasAAceptar();
+                return true;
             default:
         }
         //close navigation drawer
@@ -108,5 +114,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Class destinationActivity = MessageActivityShow.class;
         Intent startMessageActivityIntent = new Intent(context, destinationActivity);
         startActivity(startMessageActivityIntent);
+    }
+
+    private void solicitarEscuela(){
+        Context context = HomeActivity.this;
+        Class destinationActivity = NewEscuelaActivity.class;
+        Intent startNewEscuelaActivityIntent = new Intent(context, destinationActivity);
+        startActivity(startNewEscuelaActivityIntent);
+    }
+
+
+    private void escuelasAAceptar() {
+        Context context = HomeActivity.this;
+        Class destinationActivity = AppRejectEscuelaActivity.class;
+        Intent startAppRejectEscuelaActivityIntent = new Intent(context, destinationActivity);
+        startActivity(startAppRejectEscuelaActivityIntent);
     }
 }

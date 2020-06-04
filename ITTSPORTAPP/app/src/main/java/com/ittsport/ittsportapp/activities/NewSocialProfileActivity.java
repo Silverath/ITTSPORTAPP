@@ -100,15 +100,14 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                                         returnIntent.putExtra("perfilSocial", nuevo);
                                                         setResult(Activity.RESULT_OK, returnIntent);
                                                         finish();
-
                                                     }
                                                 })
                                                 .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
