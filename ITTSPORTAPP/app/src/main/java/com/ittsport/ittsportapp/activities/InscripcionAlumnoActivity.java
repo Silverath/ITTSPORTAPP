@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -22,7 +20,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -37,39 +34,39 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.ContentValues.TAG;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class NewSocialProfileActivity extends AppCompatActivity {
+public class InscripcionAlumnoActivity extends AppCompatActivity {
 
-    EditText nombre;
-    EditText primerApellido;
-    EditText segundoApellido;
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore db;
-    Button createProfile;
+    private EditText nombre;
+    private EditText primerApellido;
+    private EditText segundoApellido;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+    private Button createProfile;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btnNuevaImagenPerfil;
     private ImageView ivNuevaImagenPerfil;
+    private CircleImageView logo;
     private Uri uriImagenPerfil;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private Context context;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_social_profile);
+        setContentView(R.layout.activity_inscripcion_alumno);
         context = this;
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("profile images");
-        nombre = (EditText) findViewById(R.id.et_perfil_social_nombre);
-        primerApellido = (EditText) findViewById(R.id.et_perfil_social_primer_apellido);
-        segundoApellido = (EditText) findViewById(R.id.et_perfil_social_segundo_apellido);
-        createProfile = (Button) findViewById(R.id.btn_crear_perfil_social);
-        btnNuevaImagenPerfil = (Button) findViewById(R.id.btn_nueva_foto_perfil);
-        ivNuevaImagenPerfil = (ImageView) findViewById(R.id.iv_nueva_foto_perfil);
+        nombre = (EditText) findViewById(R.id.et_nueva_inscripcion_perfil_social_nombre);
+        primerApellido = (EditText) findViewById(R.id.et_nueva_inscripcion_perfil_social_primer_apellido);
+        segundoApellido = (EditText) findViewById(R.id.et_nueva_inscripcion_perfil_social_segundo_apellido);
+        createProfile = (Button) findViewById(R.id.btn_nueva_inscripcion_crear_perfil_social);
+        btnNuevaImagenPerfil = (Button) findViewById(R.id.btn_nueva_inscripcion_nueva_foto_perfil);
+        ivNuevaImagenPerfil = (ImageView) findViewById(R.id.iv_nueva_inscripcion_foto_perfil);
 
         createProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +88,6 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                         nuevoPerfil.put("urlImagen", nuevo.getUrlImagen());
                         nuevoPerfil.put("estado", nuevo.getStatus());
                         nuevoPerfil.put("rol", nuevo.getRol());
-                        nuevoPerfil.put("escuelaId", nuevo.getEscuelaId());
 
                         StorageReference fileReference = storageReference.child((nombreCompleto + "." + getFileExtension(uriImagenPerfil)));
                         fileReference.putFile(uriImagenPerfil)
@@ -103,11 +99,8 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
-                                                        String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
-
                                                         Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
                                                         Intent returnIntent = new Intent();
-                                                        returnIntent.putExtra("perfilSocial", nuevo);
                                                         setResult(Activity.RESULT_OK, returnIntent);
                                                         finish();
 
@@ -128,8 +121,8 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                     }
                                 });
                     } else {
-                        VariablesGlobales sharedPreferences = new VariablesGlobales(context);
                         String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
+                        VariablesGlobales sharedPreferences = new VariablesGlobales(context);
                         final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, sharedPreferences.getEscuelaParaInscribirse());
                         Map<String, Object> nuevoPerfil = new HashMap<>();
                         nuevoPerfil.put("nombre", nuevo.getNombre());
@@ -138,7 +131,6 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                         nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
                         nuevoPerfil.put("estado", nuevo.getStatus());
                         nuevoPerfil.put("rol", nuevo.getRol());
-                        nuevoPerfil.put("escuelaId", nuevo.getEscuelaId());
                         db.collection("perfilesSociales").document()
                                 .set(nuevoPerfil)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -150,7 +142,6 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                         } else {
                                             Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
                                             Intent returnIntent = new Intent();
-                                            returnIntent.putExtra("perfilSocial", nuevo);
                                             setResult(Activity.RESULT_OK, returnIntent);
                                             finish();
                                         }

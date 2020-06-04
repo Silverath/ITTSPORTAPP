@@ -83,10 +83,7 @@ public class ChatsFragment extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    PerfilSocial perfil = new PerfilSocial(documentSnapshot.get("nombre").toString(),
-                                            documentSnapshot.get("primerApellido").toString(),
-                                            documentSnapshot.get("segundoApellido").toString(),
-                                            documentSnapshot.get("cuentaUsuarioId").toString());
+                                    PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
                                     perfilSocialList.add(perfil);
                                     userMessagingAdapter = new UserMessagingAdapter(ChatsFragment.this.getContext(), perfilSocialList);
                                     recyclerView.setAdapter(userMessagingAdapter);
@@ -113,10 +110,7 @@ public class ChatsFragment extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    PerfilSocial perfil = new PerfilSocial(documentSnapshot.get("nombre").toString(),
-                                            documentSnapshot.get("primerApellido").toString(),
-                                            documentSnapshot.get("segundoApellido").toString(),
-                                            documentSnapshot.get("cuentaUsuarioId").toString());
+                                    PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
                                     perfilSocialList.add(perfil);
                                     userMessagingAdapter.notifyDataSetChanged();
                                 }

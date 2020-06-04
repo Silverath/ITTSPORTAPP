@@ -19,13 +19,18 @@ public class PerfilSocial implements Serializable {
     private String cuentaUsuarioId;
     @PropertyName("nombreImagen")
     private String nombreImagen;
-
+    @PropertyName("escuelaId")
+    private String escuelaId;
     @PropertyName("urlImagen")
     private String urlImagen;
+    @PropertyName("estado")
+    private Estado status;
+    @PropertyName("rol")
+    private Rol rol;
 
     private String id;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String nombreImagen, String imagenUrl, String cuentaUsuarioId) {
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String nombreImagen, String imagenUrl, String cuentaUsuarioId, Estado status, Rol rol, String escuelaId) {
 
         if (nombreImagen.trim().equals("")) {
             nombreImagen = "No Name";
@@ -36,14 +41,20 @@ public class PerfilSocial implements Serializable {
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
         this.cuentaUsuarioId = cuentaUsuarioId;
+        this.status = status;
+        this.rol = rol;
+        this.escuelaId = escuelaId;
     }
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId) {
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId, Estado status, Rol rol, String escuelaId) {
 
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
         this.cuentaUsuarioId = cuentaUsuarioId;
+        this.status = status;
+        this.rol = rol;
+        this.escuelaId = escuelaId;
     }
 
     public PerfilSocial() {
@@ -107,6 +118,15 @@ public class PerfilSocial implements Serializable {
         this.urlImagen = urlImagen;
     }
 
+    @PropertyName("escuelaId")
+    public String getEscuelaId() {
+        return escuelaId;
+    }
+
+    public void setEscuelaId(String escuelaId) {
+        this.escuelaId = escuelaId;
+    }
+
     public String getId() {
         return id;
     }
@@ -115,4 +135,21 @@ public class PerfilSocial implements Serializable {
         this.id = id;
     }
 
+    @PropertyName("estado")
+    public Estado getStatus() {
+        return status;
+    }
+
+    public void setStatus(Estado status) {
+        this.status = status;
+    }
+
+    @PropertyName("rol")
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
 }

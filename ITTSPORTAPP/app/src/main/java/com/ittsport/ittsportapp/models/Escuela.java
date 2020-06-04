@@ -3,6 +3,8 @@ package com.ittsport.ittsportapp.models;
 import com.google.firebase.firestore.PropertyName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Escuela implements Serializable {
 
@@ -23,7 +25,7 @@ public class Escuela implements Serializable {
 
     private String id;
 
-    public Escuela(String nombre, String nombreLogo, String urlLogo, String direccion, String provincia, String municipio, Estado status){
+    public Escuela(String nombre, String nombreLogo, String urlLogo, String direccion, String provincia, String municipio, Estado status) {
 
         this.nombre = nombre;
         this.nombreLogo = nombreLogo;
@@ -34,7 +36,8 @@ public class Escuela implements Serializable {
         this.status = status;
     }
 
-    public Escuela(){}
+    public Escuela() {
+    }
 
     @PropertyName("nombre")
     public String getNombre() {

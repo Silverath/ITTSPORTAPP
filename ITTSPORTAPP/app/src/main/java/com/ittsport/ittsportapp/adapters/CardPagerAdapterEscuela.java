@@ -46,6 +46,13 @@ public class CardPagerAdapterEscuela extends PagerAdapter implements CardAdapter
         mData.add(item);
     }
 
+    public void addAllCardItems(List<Escuela> list){
+        mViews.add(null);
+        for(Escuela escuela : list){
+            mData.add(escuela);
+        }
+    }
+
     public float getBaseElevation() {
         return mBaseElevation;
     }

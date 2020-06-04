@@ -28,7 +28,9 @@ import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.adapters.ChatMessagingAdapter;
 import com.ittsport.ittsportapp.fragments.ChatsFragment;
 import com.ittsport.ittsportapp.models.Chat;
+import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.models.Rol;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.ArrayList;
@@ -94,7 +96,7 @@ public class ChatMessagingActivity extends Activity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot i = task.getResult();
-                PerfilSocial perfil = new PerfilSocial((String) i.get("nombre"), (String) i.get("primerApellido"), (String) i.get("segundoApellido"), (String) i.get("usuarioId"));
+                PerfilSocial perfil = i.toObject(PerfilSocial.class);
                 perfilSocial.add(perfil);
             }
         });
