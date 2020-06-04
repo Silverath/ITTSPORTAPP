@@ -12,4 +12,10 @@
     <item android:id="@+id/cerrar_sesion"
         android:icon="@drawable/ittsport"
         android:title="Cerrar sesión" />
+    <item android:id="@+id/crear_escuela"
+        android:icon="@drawable/ittsport"
+        android:title="Solicitar escuela"/>
+    <item android:id="@+id/aceptar_escuelas"
+        android:icon="@color/colorPrimaryDark"
+        android:title="Escuelas a aceptar"/>
 </menu>
