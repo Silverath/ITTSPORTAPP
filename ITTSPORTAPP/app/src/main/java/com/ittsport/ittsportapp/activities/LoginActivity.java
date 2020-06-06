@@ -76,19 +76,13 @@ public class LoginActivity extends AppCompatActivity {
         });
         VariablesGlobales sharedPreferences = new VariablesGlobales(this);
         if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() != null && sharedPreferences.getEscuelaSeleccionada() != null){
-            loadingDialog.dismissDialog();
             goTo(3);
         }
         else if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() == null && sharedPreferences.getEscuelaSeleccionada() != null){
-            loadingDialog.dismissDialog();
             goTo(2);
         }
         else if(firebaseAuth.getCurrentUser() != null && sharedPreferences.getPerfilLogueadoId() == null && sharedPreferences.getEscuelaSeleccionada() == null){
-            loadingDialog.dismissDialog();
             goTo(1);
-        }
-        else{
-            loadingDialog.dismissDialog();
         }
     }
 

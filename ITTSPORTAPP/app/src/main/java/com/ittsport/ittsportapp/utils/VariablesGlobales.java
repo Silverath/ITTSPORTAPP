@@ -29,7 +29,7 @@ public class VariablesGlobales extends Application {
     }
 
     public void setEscuelaSeleccionada(String escuelaSeleccionada) {
-        preferences.edit().putString("escuela_seleccionada_id", escuelaSeleccionada).commit();
+        preferences.edit().putString("escuela_seleccionada_id", escuelaSeleccionada).apply();
     }
 
     public String getEscuelaParaInscribirse() {
@@ -37,6 +37,6 @@ public class VariablesGlobales extends Application {
     }
 
     public void setEscuelaParaInscribirse(String escuelaParaInscribirse) {
-        preferences.edit().putString("escuela_para_inscribirse_id", escuelaSeleccionada).commit();
+        preferences.edit().putString("escuela_para_inscribirse_id", escuelaParaInscribirse).apply();
     }
 }

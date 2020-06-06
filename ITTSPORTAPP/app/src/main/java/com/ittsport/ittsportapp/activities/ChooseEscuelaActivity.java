@@ -28,12 +28,13 @@ import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChooseEscuelaActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
     RecyclerView mRecyclerview;
-    ArrayList<Escuela> escuelas;
+    List<Escuela> escuelas;
     ChooseEscuelaAdapter chooseEscuelaAdapter;
     private int LAUNCH_INSCRIPCION_ALUMNO = 2;
     Context context;
@@ -53,7 +54,8 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
     }
 
     private void loadDataFromFirebase() {
-        ArrayList<Escuela> escuelasNoInscrito = new ArrayList<>();
+        List<Escuela> todasLasEscuelas = new ArrayList<>();
+        List<Escuela> escuelasNoInscrito = new ArrayList<>();
         Task<QuerySnapshot> allEscuelas = db.collection("escuelas").get();
         allEscuelas.continueWithTask(new Continuation<QuerySnapshot, Task<QuerySnapshot>>() {
             @Override
@@ -61,7 +63,7 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
                 for(DocumentSnapshot documentSnapshot : task.getResult()){
                     Escuela escuela = documentSnapshot.toObject(Escuela.class);
                     escuela.setId(documentSnapshot.getId());
-                    escuelasNoInscrito.add(escuela);
+                    todasLasEscuelas.add(escuela);
                 }
                 return db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get();
             }
@@ -71,13 +73,18 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
                 for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
                     perfil.setId(documentSnapshot.getId());
-                    for(Escuela e : escuelasNoInscrito){
-                        if(e.getId() == perfil.getEscuelaId() && escuelasNoInscrito.contains(e)){
-                            escuelasNoInscrito.remove(e);
+                    for(Escuela e : todasLasEscuelas){
+                        if(!e.getId().equals(perfil.getEscuelaId()) && !escuelasNoInscrito.contains(e)){
+                            escuelasNoInscrito.add(e);
                         }
                     }
                 }
-                escuelas = escuelasNoInscrito;
+                if(escuelasNoInscrito.isEmpty()){
+                    escuelas = todasLasEscuelas;
+                }
+                else{
+                    escuelas = escuelasNoInscrito;
+                }
                 chooseEscuelaAdapter = new ChooseEscuelaAdapter(ChooseEscuelaActivity.this, escuelas, context);
                 mRecyclerview.setAdapter(chooseEscuelaAdapter);
             }

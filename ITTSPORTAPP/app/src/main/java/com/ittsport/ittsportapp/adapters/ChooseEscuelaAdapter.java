@@ -15,15 +15,16 @@ import com.ittsport.ittsportapp.models.Escuela;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHolder> implements Filterable {
 
     ChooseEscuelaActivity chooseEscuelaActivity;
-    ArrayList<Escuela> escuelas;
-    ArrayList<Escuela> escuelasFull;
+    List<Escuela> escuelas;
+    List<Escuela> escuelasFull;
     private Context mContext;
 
-    public ChooseEscuelaAdapter(ChooseEscuelaActivity chooseEscuelaActivity, ArrayList<Escuela> escuelas, Context context) {
+    public ChooseEscuelaAdapter(ChooseEscuelaActivity chooseEscuelaActivity, List<Escuela> escuelas, Context context) {
         this.chooseEscuelaActivity = chooseEscuelaActivity;
         this.escuelas = escuelas;
         this.mContext = context;
@@ -72,7 +73,7 @@ public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHold
     private Filter filtro = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<Escuela> filteredList = new ArrayList<>();
+            List<Escuela> filteredList = new ArrayList<>();
             if(constraint == null || constraint.length() == 0){
                 filteredList.addAll(escuelasFull);
             }
@@ -94,7 +95,7 @@ public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHold
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             escuelas.clear();
-            escuelas.addAll((ArrayList)results.values);
+            escuelas.addAll((List)results.values);
             notifyDataSetChanged();
         }
     };
