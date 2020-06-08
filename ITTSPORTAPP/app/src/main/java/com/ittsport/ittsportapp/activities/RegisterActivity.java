@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         loadingDialog = new LoadingDialog(this);
-        arrowBack = (ImageView) findViewById(R.id.arrow_back);
+        arrowBack = (ImageView) findViewById(R.id.arrow_back_register);
         correoElectronico = (EditText) findViewById(R.id.et_correo_electronico);
         password = (EditText) findViewById(R.id.et_contraseña);
         confirmPassword = (EditText) findViewById(R.id.et_repetir_contraseña);

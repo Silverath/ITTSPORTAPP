@@ -5,8 +5,7 @@
     <item
         android:id="@+id/escuelas_list_cerrar_sesion"
         android:title="Search"
-        android:icon="@drawable/ic_turn_onoff"
+        android:icon="@drawable/ic_turn_off"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:itemIconSize="56dp"/>
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>
