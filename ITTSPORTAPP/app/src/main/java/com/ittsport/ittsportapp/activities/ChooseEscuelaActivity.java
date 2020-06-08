@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -42,8 +44,8 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
     ChooseEscuelaAdapter chooseEscuelaAdapter;
     private int LAUNCH_INSCRIPCION_ALUMNO = 2;
     Context context;
-    ImageView back;
     FirebaseAuth firebaseAuth;
+    private MaterialToolbar appBarLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,9 +53,10 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_escuela);
         escuelas = new ArrayList<>();
         context = this;
+        appBarLayout = (MaterialToolbar) findViewById(R.id.topAppBar_choose_escuela);
         this.firebaseAuth = FirebaseAuth.getInstance();
 
-        back.setOnClickListener(new View.OnClickListener() {
+        appBarLayout.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

@@ -55,6 +55,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private Context context;
     private LoadingDialog loadingDialog;
+    private ImageView back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,12 +66,20 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("profile images");
+        back = (ImageView) findViewById(R.id.arrow_back_inscripcion_alumno);
         nombre = findViewById(R.id.et_nueva_inscripcion_perfil_social_nombre);
         primerApellido = findViewById(R.id.et_nueva_inscripcion_perfil_social_primer_apellido);
         segundoApellido = findViewById(R.id.et_nueva_inscripcion_perfil_social_segundo_apellido);
         createProfile = findViewById(R.id.btn_nueva_inscripcion_crear_perfil_social);
         btnNuevaImagenPerfil = findViewById(R.id.btn_nueva_inscripcion_nueva_foto_perfil);
         ivNuevaImagenPerfil = findViewById(R.id.iv_nueva_inscripcion_foto_perfil);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         createProfile.setOnClickListener(new View.OnClickListener() {
             @Override
