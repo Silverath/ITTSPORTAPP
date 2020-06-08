@@ -20,6 +20,7 @@ import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.fragments.ChatsFragment;
 import com.ittsport.ittsportapp.fragments.UsersFragment;
 import com.ittsport.ittsportapp.models.Mensaje;
+import com.ittsport.ittsportapp.utils.LoadingDialog;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class MessageActivityShow extends AppCompatActivity {
 
     ArrayList<Mensaje> mensajes;
 
-    private ProgressBar progressBar;
+    LoadingDialog loadingDialog = new LoadingDialog(this);
 
 
     @Override
@@ -41,10 +42,7 @@ public class MessageActivityShow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_show);
 
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar_chat_activity);
-        progressBar.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        loadingDialog.startLoadingDialog();
 
         mensajes = new ArrayList<Mensaje>();
 
@@ -60,6 +58,7 @@ public class MessageActivityShow extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(viewPager);
 
+        loadingDialog.dismissDialog();
 
     }
 
