@@ -167,7 +167,9 @@ public class ListEscuelaActivity extends AppCompatActivity {
             solicitarEscuela.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Context context = ListEscuelaActivity.this;
+                    Intent goToNewEscuelaActivity = new Intent(context, NewEscuelaActivity.class);
+                    startActivity(goToNewEscuelaActivity);
                 }
             });
         //TODO
