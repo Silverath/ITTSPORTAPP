@@ -23,6 +23,7 @@ import com.google.firebase.storage.UploadTask;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
+import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class NewEscuelaActivity extends AppCompatActivity {
     private ImageView ivLogoEscuela;
     private Uri uriLogoEscuela;
     private StorageReference storageReference;
+    LoadingDialog loadingDialog = new LoadingDialog(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class NewEscuelaActivity extends AppCompatActivity {
                         municipio.getText().toString().equals("") || provincia.getText().toString().equals("")) {
                     Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
                 } else {
+                    loadingDialog.startLoadingDialog();
                     final Escuela nueva;
                     if(uriLogoEscuela != null){
                         nueva = new Escuela(nombre.getText().toString(), nombre.getText().toString()
@@ -84,28 +87,45 @@ public class NewEscuelaActivity extends AppCompatActivity {
                     nuevaEscuela.put("municipio", nueva.getMunicipio());
                     nuevaEscuela.put("status", nueva.getStatus());
 
-                    db.collection("escuelas").document().set(nuevaEscuela)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    if(uriLogoEscuela != null){
-                                        uploadFile(nuevaEscuela.get("nombre").toString(), nueva);
-                                    } else {
-                                        Toast.makeText(getBaseContext(), "Escuela creada, le notificaremos con la respuesta"
-                                                , Toast.LENGTH_SHORT).show();
-                                        Intent returnIntent = new Intent();
-                                        returnIntent.putExtra("nuevaEscuela", nueva);
-                                        setResult(Activity.RESULT_OK, returnIntent);
-                                        finish();
-                                    }
+                    StorageReference fileReference = storageReference.child((nombre + "." + getFileExtension(uriLogoEscuela)));
+                    fileReference.putFile(uriLogoEscuela)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            uriLogoEscuela = uri;
+                                            nuevaEscuela.put("urlLogo", uriLogoEscuela.toString());
+                                            db.collection("escuelas").document().set(nuevaEscuela)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            loadingDialog.dismissDialog();
+                                                            Toast.makeText(getBaseContext(), "Escuela creada, le notificaremos con la respuesta"
+                                                                    , Toast.LENGTH_SHORT).show();
+                                                            Intent returnIntent = new Intent();
+                                                            returnIntent.putExtra("nuevaEscuela", nueva);
+                                                            setResult(Activity.RESULT_OK, returnIntent);
+                                                            finish();
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@Nonnull Exception e) {
+                                                    loadingDialog.dismissDialog();
+                                                    Toast.makeText(getBaseContext(), "Ha habido un problema guardando el logo.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            ;
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@Nonnull Exception e) {
+                                            loadingDialog.dismissDialog();
+                                            Toast.makeText(getBaseContext(), "Ha habido un problema al crear la escuela", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@Nonnull Exception e) {
-                            Toast.makeText(getBaseContext(), "Ha habido un problema al crear la escuela", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            });
                 }
             }
         });
@@ -139,29 +159,6 @@ public class NewEscuelaActivity extends AppCompatActivity {
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-
-    private void uploadFile(String nombre, final Escuela nuevaEscuela) {
-        if (uriLogoEscuela != null) {
-            StorageReference fileReference = storageReference.child((nombre + "." + getFileExtension(uriLogoEscuela)));
-            fileReference.putFile(uriLogoEscuela)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getBaseContext(), "Escuela creada, le notificaremos con la respuesta", Toast.LENGTH_SHORT).show();
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("nuevaEscuela", nuevaEscuela);
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@Nonnull Exception e) {
-                            Toast.makeText(getBaseContext(), "Ha habido un problema guardando el logo.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
     }
 
 }
