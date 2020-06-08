@@ -1,8 +1,7 @@
 package com.ittsport.ittsportapp.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHolder> implements Filterable {
 
@@ -31,9 +32,9 @@ public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHold
         this.escuelasFull = new ArrayList<>(escuelas);
     }
 
-    @NonNull
+    @Nonnull
     @Override
-    public ChooseEscuelaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ChooseEscuelaHolder onCreateViewHolder(@Nonnull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(chooseEscuelaActivity.getBaseContext());
         View view = layoutInflater.inflate(R.layout.activity_choose_escuela_item, parent, false);
 
@@ -41,7 +42,7 @@ public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChooseEscuelaHolder holder, int position) {
+    public void onBindViewHolder(@Nonnull ChooseEscuelaHolder holder, int position) {
         Escuela current = escuelas.get(position);
         String nombre = current.getNombre();
         holder.nombre.setText(nombre);

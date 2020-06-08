@@ -1,11 +1,11 @@
 package com.ittsport.ittsportapp.models;
 
-import android.support.annotation.NonNull;
 
 import com.google.firebase.firestore.PropertyName;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+
+import javax.annotation.Nonnull;
 
 public class PerfilSocial implements Serializable {
 
@@ -60,7 +60,7 @@ public class PerfilSocial implements Serializable {
 
     }
 
-    @NonNull
+    @Nonnull
     @PropertyName("nombre")
     public String getNombre() {
         return nombre;
@@ -70,7 +70,7 @@ public class PerfilSocial implements Serializable {
         this.nombre = nombre;
     }
 
-    @NonNull
+    @Nonnull
     @PropertyName("primerApellido")
     public String getPrimerApellido() {
         return primerApellido;
@@ -80,7 +80,7 @@ public class PerfilSocial implements Serializable {
         this.primerApellido = primerApellido;
     }
 
-    @NonNull
+    @Nonnull
     @PropertyName("segundoApellido")
     public String getSegundoApellido() {
         return segundoApellido;

@@ -1,10 +1,9 @@
 package com.ittsport.ittsportapp.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,6 +18,8 @@ import com.ittsport.ittsportapp.adapters.ListGrupoAdapter;
 import com.ittsport.ittsportapp.models.Grupo;
 
 import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
 
 public class ListGrupoActivity extends AppCompatActivity {
 
@@ -40,7 +41,7 @@ public class ListGrupoActivity extends AppCompatActivity {
     private void loadDataFromFirebase() {
         db.collection("grupos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@Nonnull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(DocumentSnapshot querySnapshot:task.getResult()){
                         Grupo group = new Grupo(querySnapshot.getString("nombre"), querySnapshot.getString("horario"), querySnapshot.getId());
@@ -53,7 +54,7 @@ public class ListGrupoActivity extends AppCompatActivity {
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onFailure(@Nonnull Exception e) {
                 Toast.makeText(ListGrupoActivity.this, "Could not show the entire list", Toast.LENGTH_LONG).show();
                 Log.w("Fallos:", e.getMessage());
             }

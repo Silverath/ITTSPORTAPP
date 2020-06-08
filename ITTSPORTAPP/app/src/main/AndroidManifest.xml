@@ -17,7 +17,8 @@
             android:label="@string/title_activity_new_escuela"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.ChatMessagingActivity" />
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,18 +27,22 @@
         </activity>
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.ChooseEscuelaActivity" />
-        <activity android:name=".activities.InscripcionAlumnoActivity" />
+        <activity android:name=".activities.InscripcionAlumnoActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.ListEscuelaActivity" />
-        <activity android:name=".activities.ListGrupoActivity" />
+        <activity android:name=".activities.ListGrupoActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.MessageActivityShow" />
         <activity android:name=".activities.ListSocialProfileActivity" />
-        <activity android:name=".activities.NewSocialProfileActivity" />
+        <activity android:name=".activities.NewSocialProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities.RegisterActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
             android:name="preloaded_fonts"

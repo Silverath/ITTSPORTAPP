@@ -1,22 +1,20 @@
 package com.ittsport.ittsportapp.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.ittsport.ittsportapp.R;
-import com.ittsport.ittsportapp.activities.ChatMessagingActivity;
 import com.ittsport.ittsportapp.models.Chat;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class ChatMessagingAdapter extends RecyclerView.Adapter<ChatMessagingAdapter.ViewHolder> {
 
@@ -35,9 +33,9 @@ public class ChatMessagingAdapter extends RecyclerView.Adapter<ChatMessagingAdap
         loggedId = sharedPreferences.getPerfilLogueadoId();
     }
 
-    @NonNull
+    @Nonnull
     @Override
-    public ChatMessagingAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ChatMessagingAdapter.ViewHolder onCreateViewHolder(@Nonnull ViewGroup parent, int viewType) {
         if(viewType == MSG_TYPE_RIGHT) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right, parent, false);
             return new ChatMessagingAdapter.ViewHolder(view);
@@ -48,7 +46,7 @@ public class ChatMessagingAdapter extends RecyclerView.Adapter<ChatMessagingAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatMessagingAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@Nonnull ChatMessagingAdapter.ViewHolder holder, int position) {
         Chat chat = mChat.get(position);
 
         holder.show_message.setText(chat.getMessage());

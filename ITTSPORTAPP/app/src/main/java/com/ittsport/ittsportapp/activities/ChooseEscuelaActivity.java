@@ -4,20 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,6 +32,8 @@ import com.ittsport.ittsportapp.utils.VariablesGlobales;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public class ChooseEscuelaActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
@@ -38,6 +42,7 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
     ChooseEscuelaAdapter chooseEscuelaAdapter;
     private int LAUNCH_INSCRIPCION_ALUMNO = 2;
     Context context;
+    ImageView back;
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -48,6 +53,12 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
         context = this;
         this.firebaseAuth = FirebaseAuth.getInstance();
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         setUpRecyclerView();
         setUpFireBase();
         loadDataFromFirebase();
@@ -55,11 +66,12 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
 
     private void loadDataFromFirebase() {
         List<Escuela> todasLasEscuelas = new ArrayList<>();
+        List<Escuela> escuelasInscrito = new ArrayList<>();
         List<Escuela> escuelasNoInscrito = new ArrayList<>();
         Task<QuerySnapshot> allEscuelas = db.collection("escuelas").get();
         allEscuelas.continueWithTask(new Continuation<QuerySnapshot, Task<QuerySnapshot>>() {
             @Override
-            public Task<QuerySnapshot> then(@NonNull Task<QuerySnapshot> task) throws Exception {
+            public Task<QuerySnapshot> then(@Nonnull Task<QuerySnapshot> task) throws Exception {
                 for(DocumentSnapshot documentSnapshot : task.getResult()){
                     Escuela escuela = documentSnapshot.toObject(Escuela.class);
                     escuela.setId(documentSnapshot.getId());
@@ -74,7 +86,10 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
                     PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
                     perfil.setId(documentSnapshot.getId());
                     for(Escuela e : todasLasEscuelas){
-                        if(!e.getId().equals(perfil.getEscuelaId()) && !escuelasNoInscrito.contains(e)){
+                        if(e.getId().equals(perfil.getEscuelaId())){
+                            escuelasInscrito.add(e);
+                        }
+                        if(!e.getId().equals(perfil.getEscuelaId()) && !escuelasInscrito.contains(e) && !escuelasNoInscrito.contains(e)){
                             escuelasNoInscrito.add(e);
                         }
                     }
@@ -83,6 +98,9 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
                     escuelas = todasLasEscuelas;
                 }
                 else{
+                    List<Escuela> aux = escuelasNoInscrito;
+                    aux.retainAll(escuelasInscrito);
+                    escuelasNoInscrito.removeAll(aux);
                     escuelas = escuelasNoInscrito;
                 }
                 chooseEscuelaAdapter = new ChooseEscuelaAdapter(ChooseEscuelaActivity.this, escuelas, context);

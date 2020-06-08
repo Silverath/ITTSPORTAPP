@@ -1,9 +1,9 @@
 package com.ittsport.ittsportapp.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -15,9 +15,7 @@ import com.ittsport.ittsportapp.adapters.AppRejectEscuelaAdapter;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AppRejectEscuelaActivity extends AppCompatActivity {
 

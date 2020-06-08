@@ -5,11 +5,8 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -26,11 +23,12 @@ import com.google.firebase.storage.UploadTask;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
-import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 public class NewEscuelaActivity extends AppCompatActivity {
 
@@ -104,7 +102,7 @@ public class NewEscuelaActivity extends AppCompatActivity {
                             })
                             .addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onFailure(@Nonnull Exception e) {
                             Toast.makeText(getBaseContext(), "Ha habido un problema al crear la escuela", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -159,7 +157,7 @@ public class NewEscuelaActivity extends AppCompatActivity {
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onFailure(@Nonnull Exception e) {
                             Toast.makeText(getBaseContext(), "Ha habido un problema guardando el logo.", Toast.LENGTH_SHORT).show();
                         }
                     });

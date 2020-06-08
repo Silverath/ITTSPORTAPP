@@ -3,9 +3,8 @@ package com.ittsport.ittsportapp.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,24 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.activities.AppRejectEscuelaActivity;
-import com.ittsport.ittsportapp.activities.HomeActivity;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
 
-import org.w3c.dom.Text;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscuelaAdapter.ViewHolder> {
 
@@ -64,15 +57,15 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
         }
     }
 
-    @NonNull
+    @Nonnull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@Nonnull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.escuela_to_accept, parent, false);
         return new AppRejectEscuelaAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AppRejectEscuelaAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@Nonnull AppRejectEscuelaAdapter.ViewHolder holder, int position) {
         final Escuela escuela = escuelas.get(position);
         //holder.escuela_logo = blablabla TODO
         holder.nombre_escuela.setText(escuela.getNombre());
@@ -94,7 +87,7 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
                                         .whereEqualTo("municipio", escuela.getMunicipio())
                                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    public void onComplete(@Nonnull Task<QuerySnapshot> task) {
                                         for(QueryDocumentSnapshot q: task.getResult()){
                                             String id = q.getId();
                                             FirebaseFirestore.getInstance().collection("escuelas")
@@ -135,7 +128,7 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
                                         .whereEqualTo("municipio", escuela.getMunicipio())
                                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    public void onComplete(@Nonnull Task<QuerySnapshot> task) {
                                         for(QueryDocumentSnapshot q: task.getResult()){
                                             String id = q.getId();
                                             FirebaseFirestore.getInstance().collection("escuelas")

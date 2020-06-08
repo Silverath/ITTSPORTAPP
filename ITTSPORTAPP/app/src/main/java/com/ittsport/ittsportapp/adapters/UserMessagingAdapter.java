@@ -2,8 +2,7 @@ package com.ittsport.ittsportapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +21,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.activities.ChatMessagingActivity;
 import com.ittsport.ittsportapp.models.Chat;
-import com.ittsport.ittsportapp.models.CuentaUsuario;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdapter.ViewHolder> {
@@ -45,16 +41,16 @@ public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdap
         this.mContext = mContext;
     }
 
-    @NonNull
+    @Nonnull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@Nonnull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.usuario_item, parent, false);
 
         return new UserMessagingAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final @NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(final @Nonnull ViewHolder holder, int position) {
         final PerfilSocial usuario = mUsers.get(position);
         holder.perfil.setText(usuario.getNombre() + " " + usuario.getPrimerApellido() + " " + usuario.getSegundoApellido());
         holder.profile_image.setImageResource(R.mipmap.ic_launcher_round);
@@ -81,7 +77,7 @@ public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdap
                         .whereEqualTo("cuentaUsuarioId", usuario.getCuentaUsuarioId())
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@Nonnull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot document: task.getResult()){
                                 VariablesGlobales.perfilParaChatear = document.getId();

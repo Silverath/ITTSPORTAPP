@@ -1,7 +1,9 @@
 package com.ittsport.ittsportapp.models;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import com.google.firebase.database.annotations.Nullable;
+
+import javax.annotation.Nonnull;
 
 public class Grupo {
 
@@ -18,7 +20,7 @@ public class Grupo {
         this.id = id;
     }
 
-    @NonNull
+    @Nonnull
     public String getId() {
         return id;
     }
@@ -27,7 +29,7 @@ public class Grupo {
         this.id = id;
     }
 
-    @NonNull
+    @Nonnull
     public String getNombre() {
         return nombre;
     }
@@ -36,7 +38,7 @@ public class Grupo {
         this.nombre = nombre;
     }
 
-    @NonNull
+    @Nonnull
     public String getHorario() {
         return horario;
     }

@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -23,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -37,7 +36,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.ContentValues.TAG;
+import javax.annotation.Nonnull;
 
 public class NewSocialProfileActivity extends AppCompatActivity {
 
@@ -117,7 +116,7 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {
                                                         @Override
-                                                        public void onFailure(@NonNull Exception e) {
+                                                        public void onFailure(@Nonnull Exception e) {
                                                             Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
@@ -127,7 +126,7 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
-                                    public void onFailure(@NonNull Exception e) {
+                                    public void onFailure(@Nonnull Exception e) {
                                         Toast.makeText(getBaseContext(), "Ha habido un problema al guardar la foto", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -158,7 +157,7 @@ public class NewSocialProfileActivity extends AppCompatActivity {
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
-                                    public void onFailure(@NonNull Exception e) {
+                                    public void onFailure(@Nonnull Exception e) {
                                         Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
                                     }
                                 });

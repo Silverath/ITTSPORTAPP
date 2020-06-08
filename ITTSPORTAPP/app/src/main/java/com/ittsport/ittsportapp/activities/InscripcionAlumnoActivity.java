@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -20,6 +18,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -28,11 +27,14 @@ import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.models.Rol;
+import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,12 +54,14 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private Context context;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscripcion_alumno);
         context = this;
+        loadingDialog = new LoadingDialog(this);
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("profile images");
@@ -74,6 +78,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                 if (nombre.getText().toString().equals("") || primerApellido.getText().toString().equals("") || segundoApellido.getText().toString().equals("")) {
                     Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
                 } else {
+                    loadingDialog.startLoadingDialog();
                     if (uriImagenPerfil != null) {
                         VariablesGlobales sharedPreferences = new VariablesGlobales(context);
                         String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
@@ -104,7 +109,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
-                                                            Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
+                                                            loadingDialog.dismissDialog();
                                                             Intent returnIntent = new Intent();
                                                             setResult(Activity.RESULT_OK, returnIntent);
                                                             finish();
@@ -113,7 +118,8 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {
                                                         @Override
-                                                        public void onFailure(@NonNull Exception e) {
+                                                        public void onFailure(@Nonnull Exception e) {
+                                                            loadingDialog.dismissDialog();
                                                             Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
@@ -123,7 +129,8 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
-                                    public void onFailure(@NonNull Exception e) {
+                                    public void onFailure(@Nonnull Exception e) {
+                                        loadingDialog.dismissDialog();
                                         Toast.makeText(getBaseContext(), "Ha habido un problema al guardar la foto", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -146,7 +153,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
-                                        Toast.makeText(getBaseContext(), "Perfil social creado", Toast.LENGTH_SHORT).show();
+                                        loadingDialog.dismissDialog();
                                         Intent returnIntent = new Intent();
                                         setResult(Activity.RESULT_OK, returnIntent);
                                         finish();
@@ -154,7 +161,8 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
-                                    public void onFailure(@NonNull Exception e) {
+                                    public void onFailure(@Nonnull Exception e) {
+                                        loadingDialog.dismissDialog();
                                         Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -212,7 +220,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onFailure(@Nonnull Exception e) {
                             Toast.makeText(getBaseContext(), "Ha habido un problema", Toast.LENGTH_SHORT).show();
                         }
                     });

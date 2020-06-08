@@ -1,24 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.HomeActivity">
+    android:layout_height="match_parent">
 
+    <!-- Note: A RecyclerView can also be used -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_home"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar_choose_escuela"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:theme="@style/ToolbarTheme"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:menu="@menu/menu_choose_escuela"
+            app:navigationIcon="@drawable/arrow_back_white"/>
 
     </com.google.android.material.appbar.AppBarLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

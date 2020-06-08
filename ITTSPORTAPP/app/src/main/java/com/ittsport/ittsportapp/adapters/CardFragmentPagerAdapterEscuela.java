@@ -1,10 +1,9 @@
 package com.ittsport.ittsportapp.adapters;
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v7.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.cardview.widget.CardView;
 import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -14,11 +13,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.fragments.CardFragmentEscuela;
-import com.ittsport.ittsportapp.fragments.CardFragmentSocialProfile;
 import com.ittsport.ittsportapp.utils.CardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class CardFragmentPagerAdapterEscuela extends FragmentStatePagerAdapter implements CardAdapter {
 
@@ -38,7 +38,7 @@ public class CardFragmentPagerAdapterEscuela extends FragmentStatePagerAdapter i
         if (firebaseAuth.getCurrentUser() != null) {
             db.collection("escuelas").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                public void onComplete(@Nonnull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         for (DocumentSnapshot document : task.getResult()) {
                             addCardFragment(new CardFragmentEscuela());
@@ -66,7 +66,7 @@ public class CardFragmentPagerAdapterEscuela extends FragmentStatePagerAdapter i
     }
 
     @Override
-    public int getItemPosition(@NonNull Object object) {
+    public int getItemPosition(@Nonnull Object object) {
         return super.getItemPosition(object);
     }
 

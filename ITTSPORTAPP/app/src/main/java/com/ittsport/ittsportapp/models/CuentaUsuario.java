@@ -1,6 +1,7 @@
 package com.ittsport.ittsportapp.models;
 
-import android.support.annotation.NonNull;
+
+import javax.annotation.Nonnull;
 
 public class CuentaUsuario {
 
@@ -21,7 +22,7 @@ public class CuentaUsuario {
         this.password = password;
     }
 
-    @NonNull
+    @Nonnull
 
     public String getEmail() {
         return email;
@@ -31,7 +32,7 @@ public class CuentaUsuario {
         this.email = email;
     }
 
-    @NonNull
+    @Nonnull
     public String getPassword() {
         return password;
     }
@@ -44,7 +45,7 @@ public class CuentaUsuario {
 
     public void setRol(Rol rol) { this.rol = rol; }
 
-    @NonNull
+    @Nonnull
     public String getCustomToken() {
         return customToken;
     }

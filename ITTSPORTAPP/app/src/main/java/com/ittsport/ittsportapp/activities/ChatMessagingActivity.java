@@ -2,12 +2,11 @@ package com.ittsport.ittsportapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,18 +27,13 @@ import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.adapters.ChatMessagingAdapter;
 import com.ittsport.ittsportapp.fragments.ChatsFragment;
 import com.ittsport.ittsportapp.models.Chat;
-import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
-import com.ittsport.ittsportapp.models.Rol;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -94,7 +88,7 @@ public class ChatMessagingActivity extends Activity {
         DocumentReference docRef = db.collection("perfilesSociales").document(perfilId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onComplete(@Nonnull Task<DocumentSnapshot> task) {
                 DocumentSnapshot i = task.getResult();
                 PerfilSocial perfil = i.toObject(PerfilSocial.class);
                 perfilSocial.add(perfil);

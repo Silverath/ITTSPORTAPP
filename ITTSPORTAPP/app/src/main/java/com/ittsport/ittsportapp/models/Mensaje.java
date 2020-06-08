@@ -1,10 +1,11 @@
 package com.ittsport.ittsportapp.models;
 
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class Mensaje {
 
@@ -22,7 +23,7 @@ public class Mensaje {
         receiversIds = new ArrayList<String>();
     }
 
-    @NonNull
+    @Nonnull
     public String getAsunto() {
         return asunto;
     }
@@ -31,7 +32,7 @@ public class Mensaje {
         this.asunto = asunto;
     }
 
-    @NonNull
+    @Nonnull
     public String getCuerpo() {
         return cuerpo;
     }
@@ -40,7 +41,7 @@ public class Mensaje {
         this.cuerpo = cuerpo;
     }
 
-    @NonNull
+    @Nonnull
     public Date getFecha() {
         return fecha;
     }
@@ -49,7 +50,7 @@ public class Mensaje {
         this.fecha = fecha;
     }
 
-    @NonNull
+    @Nonnull
     public String getSenderId() {
         return senderId;
     }
@@ -58,7 +59,7 @@ public class Mensaje {
         this.senderId = senderId;
     }
 
-    @NonNull
+    @Nonnull
     public List<String> getReceiversIds() {
         return receiversIds;
     }

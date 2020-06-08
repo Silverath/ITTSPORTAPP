@@ -1,14 +1,13 @@
 package com.ittsport.ittsportapp.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.google.firebase.database.annotations.Nullable;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.utils.CardAdapter;
 

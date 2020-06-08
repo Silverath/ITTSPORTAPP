@@ -1,11 +1,9 @@
 package com.ittsport.ittsportapp.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v7.widget.CardView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.cardview.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +11,19 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.errorprone.annotations.Var;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.activities.HomeActivity;
-import com.ittsport.ittsportapp.activities.ListSocialProfileActivity;
-import com.ittsport.ittsportapp.activities.LoginActivity;
-import com.ittsport.ittsportapp.activities.MainActivity;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.CardAdapter;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class CardPagerAdapterSocialProfile extends PagerAdapter implements CardAdapter {
 
@@ -88,7 +82,7 @@ public class CardPagerAdapterSocialProfile extends PagerAdapter implements CardA
                 CollectionReference colRef = db.collection("perfilesSociales");
                 colRef.document(perfilSocial.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onComplete(@Nonnull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
                             VariablesGlobales shared = new VariablesGlobales(context);
                             VariablesGlobales.perfilLogueado = task.getResult().getId();

@@ -2,16 +2,13 @@ package com.ittsport.ittsportapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,15 +16,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.FirebaseUser;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
+import com.google.firebase.database.annotations.Nullable;
+import javax.annotation.Nonnull;
 
 import static android.content.ContentValues.TAG;
 
@@ -90,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.signInWithEmailAndPassword(email, password).
                 addOnCompleteListener(new OnCompleteListener<AuthResult>(){
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@Nonnull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             loadingDialog.dismissDialog();
                             goTo(1);
