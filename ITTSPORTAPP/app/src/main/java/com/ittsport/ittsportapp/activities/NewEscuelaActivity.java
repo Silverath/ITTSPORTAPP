@@ -23,6 +23,8 @@ import com.google.firebase.storage.UploadTask;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
+import com.ittsport.ittsportapp.utils.AcceptDialog;
+import com.ittsport.ittsportapp.utils.ErrorDialog;
 import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +47,8 @@ public class NewEscuelaActivity extends AppCompatActivity {
     private Uri uriLogoEscuela;
     private StorageReference storageReference;
     LoadingDialog loadingDialog = new LoadingDialog(this);
+    AcceptDialog acceptDialog = new AcceptDialog(this);
+    ErrorDialog errorDialog = new ErrorDialog(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public class NewEscuelaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (nombre.getText().toString().equals("") || direccion.getText().toString().equals("") ||
-                        municipio.getText().toString().equals("") || provincia.getText().toString().equals("")) {
+                        municipio.getText().toString().equals("") || provincia.getText().toString().equals("") || uriLogoEscuela == null) {
                     Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
                 } else {
                     loadingDialog.startLoadingDialog();
@@ -101,12 +105,11 @@ public class NewEscuelaActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             loadingDialog.dismissDialog();
-                                                            Toast.makeText(getBaseContext(), "Escuela creada, le notificaremos con la respuesta"
-                                                                    , Toast.LENGTH_SHORT).show();
-                                                            Intent returnIntent = new Intent();
-                                                            returnIntent.putExtra("nuevaEscuela", nueva);
-                                                            setResult(Activity.RESULT_OK, returnIntent);
-                                                            finish();
+                                                            acceptDialog.startAcceptDialog("Escuela creada, le notificaremos con la respuesta");
+//                                                            Intent returnIntent = new Intent();
+//                                                            returnIntent.putExtra("nuevaEscuela", nueva);
+//                                                            setResult(Activity.RESULT_OK, returnIntent);
+//                                                            finish();
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
