@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.HomeActivity" />
-        <activity android:name=".activities.ChooseEscuelaActivity" />
+        <activity android:name=".activities.ChooseEscuelaActivity">
+        </activity>
         <activity android:name=".activities.InscripcionAlumnoActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.ListEscuelaActivity" />

@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         app:menu="@menu/menu_choose_escuela"
+        app:title=""
         app:navigationIcon="@drawable/arrow_back_white"/>
 
     </com.google.android.material.appbar.AppBarLayout>
