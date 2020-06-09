@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
@@ -54,6 +55,8 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
         escuelas = new ArrayList<>();
         context = this;
         appBarLayout = (MaterialToolbar) findViewById(R.id.topAppBar_choose_escuela);
+        setSupportActionBar(appBarLayout);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         this.firebaseAuth = FirebaseAuth.getInstance();
 
         appBarLayout.setNavigationOnClickListener(new View.OnClickListener() {
@@ -62,6 +65,8 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+
         setUpRecyclerView();
         setUpFireBase();
         loadDataFromFirebase();
@@ -119,8 +124,12 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
 
     private void setUpRecyclerView() {
         mRecyclerview = (RecyclerView) findViewById(R.id.rv_escuelas_choose_list);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerview.getContext(),
+                llm.getOrientation());
+        mRecyclerview.addItemDecoration(dividerItemDecoration);
         mRecyclerview.setHasFixedSize(true);
-        mRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerview.setLayoutManager(llm);
     }
 
     @Override
