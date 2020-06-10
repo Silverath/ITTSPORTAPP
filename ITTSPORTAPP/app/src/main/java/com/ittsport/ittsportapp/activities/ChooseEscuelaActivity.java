@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.adapters.ChooseEscuelaAdapter;
 import com.ittsport.ittsportapp.models.Escuela;
+import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
@@ -76,47 +77,19 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
         List<Escuela> todasLasEscuelas = new ArrayList<>();
         List<Escuela> escuelasInscrito = new ArrayList<>();
         List<Escuela> escuelasNoInscrito = new ArrayList<>();
-        Task<QuerySnapshot> allEscuelas = db.collection("escuelas").get();
-        allEscuelas.continueWithTask(new Continuation<QuerySnapshot, Task<QuerySnapshot>>() {
-            @Override
-            public Task<QuerySnapshot> then(@Nonnull Task<QuerySnapshot> task) throws Exception {
-                for(DocumentSnapshot documentSnapshot : task.getResult()){
-                    Escuela escuela = documentSnapshot.toObject(Escuela.class);
-                    escuela.setId(documentSnapshot.getId());
-                    todasLasEscuelas.add(escuela);
-                }
-                return db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        Task<QuerySnapshot> allEscuelas = db.collection("escuelas").whereEqualTo("status", Estado.ACEPTADO).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
-                    perfil.setId(documentSnapshot.getId());
-                    for(Escuela e : todasLasEscuelas){
-                        if(e.getId().equals(perfil.getEscuelaId())){
-                            escuelasInscrito.add(e);
-                        }
-                        if(!e.getId().equals(perfil.getEscuelaId()) && !escuelasInscrito.contains(e) && !escuelasNoInscrito.contains(e)){
-                            escuelasNoInscrito.add(e);
-                        }
-                    }
-                }
-                if(escuelasNoInscrito.isEmpty()){
-                    escuelas = todasLasEscuelas;
-                }
-                else{
-                    List<Escuela> aux = escuelasNoInscrito;
-                    aux.retainAll(escuelasInscrito);
-                    escuelasNoInscrito.removeAll(aux);
-                    escuelas = escuelasNoInscrito;
+                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    Escuela escuela = documentSnapshot.toObject(Escuela.class);
+                    escuela.setId(documentSnapshot.getId());
+                    escuelas.add(escuela);
                 }
                 chooseEscuelaAdapter = new ChooseEscuelaAdapter(ChooseEscuelaActivity.this, escuelas, context);
                 mRecyclerview.setAdapter(chooseEscuelaAdapter);
             }
         });
     }
-
     private void setUpFireBase() {
 
         db = FirebaseFirestore.getInstance();

@@ -113,7 +113,7 @@ public class ListEscuelaActivity extends AppCompatActivity {
 
         mCardAdapter = new CardPagerAdapterEscuela(this);
         //TODO
-        Task<QuerySnapshot> perfiles = db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("status", Estado.ACEPTADO).get();
+        Task<QuerySnapshot> perfiles = db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("estado", Estado.ACEPTADO).get();
         perfiles.continueWithTask(new Continuation<QuerySnapshot, Task<List<DocumentSnapshot>>>() {
             @Override
             public Task<List<DocumentSnapshot>> then(@Nonnull Task<QuerySnapshot> task) throws Exception {

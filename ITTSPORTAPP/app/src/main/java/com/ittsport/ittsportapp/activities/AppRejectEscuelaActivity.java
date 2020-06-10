@@ -53,7 +53,7 @@ public class AppRejectEscuelaActivity extends AppCompatActivity {
                     escuela.setDireccion(q.get("direccion").toString());
                     escuela.setMunicipio(q.get("municipio").toString());
                     escuela.setProvincia(q.get("provincia").toString());
-                    escuela.setStatus(Estado.valueOf(q.get("status").toString()));
+                    escuela.setStatus((q.get("status").toString()));
                     escuelasToAppReject.add(escuela);
                 }
                 appRejectEscuelaAdapter = new AppRejectEscuelaAdapter(AppRejectEscuelaActivity.this, escuelasToAppReject);

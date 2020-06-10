@@ -76,11 +76,11 @@ public class NewEscuelaActivity extends AppCompatActivity {
                     if(uriLogoEscuela != null){
                         nueva = new Escuela(nombre.getText().toString(), nombre.getText().toString()
                                 , uriLogoEscuela.toString(), direccion.getText().toString(), provincia.getText().toString()
-                                , municipio.getText().toString(), Estado.PENDIENTE);
+                                , municipio.getText().toString(), Estado.PENDIENTE.toString());
                     } else {
                         nueva = new Escuela(nombre.getText().toString(), null
                                 , null, direccion.getText().toString(), provincia.getText().toString()
-                                , municipio.getText().toString(), Estado.PENDIENTE);
+                                , municipio.getText().toString(), Estado.PENDIENTE.toString());
                     }
                     final Map<String, Object> nuevaEscuela = new HashMap<>();
                     nuevaEscuela.put("nombre", nueva.getNombre());

@@ -74,10 +74,10 @@ public class CardPagerAdapterEscuela extends PagerAdapter implements CardAdapter
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
         View view = LayoutInflater.from(container.getContext())
-                .inflate(R.layout.activity_escuelas_list, container, false);
+                .inflate(R.layout.activity_escuelas_list_item, container, false);
         container.addView(view);
         bind(mData.get(position), view);
-        final CardView cardView = (CardView) view.findViewById(R.id.cardView);
+        final CardView cardView = (CardView) view.findViewById(R.id.cv_escuelas_item);
 
         if (mBaseElevation == 0) {
             mBaseElevation = cardView.getCardElevation();
@@ -118,7 +118,7 @@ public class CardPagerAdapterEscuela extends PagerAdapter implements CardAdapter
     private void bind(Escuela item, View view) {
         CircleImageView logo = (CircleImageView) view.findViewById(R.id.iv_escuelas_list_item_logo);
         TextView name = (TextView) view.findViewById(R.id.tv_list_escuelas__item_nombre);
-        name.setText(item.getNombre());
+        name.setText(item.getNombre().toString());
         //TODO
         //logo.setImageURI(item.getUrlLogo());
     }
