@@ -19,9 +19,11 @@ import com.ittsport.ittsportapp.activities.ListSocialProfileActivity;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.utils.CardAdapter;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -32,12 +34,14 @@ public class CardPagerAdapterEscuela extends PagerAdapter implements CardAdapter
     private List<CardView> mViews;
     private List<Escuela> mData;
     private float mBaseElevation;
+    private Map<String, Integer> perfilesVerificados;
     private Context context;
 
-    public CardPagerAdapterEscuela(Context contextActivity) {
+    public CardPagerAdapterEscuela(Context contextActivity, Map<String, Integer> perfilesVerificados) {
         mData = new ArrayList<>();
         mViews = new ArrayList<>();
         context = contextActivity;
+        this.perfilesVerificados = perfilesVerificados;
     }
 
     public void addCardItem(Escuela item) {
@@ -118,8 +122,10 @@ public class CardPagerAdapterEscuela extends PagerAdapter implements CardAdapter
     private void bind(Escuela item, View view) {
         CircleImageView logo = (CircleImageView) view.findViewById(R.id.iv_escuelas_list_item_logo);
         TextView name = (TextView) view.findViewById(R.id.tv_list_escuelas__item_nombre);
+        TextView verificados = (TextView) view.findViewById(R.id.tv_perfiles_sociales_numero_verificados);
         name.setText(item.getNombre().toString());
-        //TODO
-        //logo.setImageURI(item.getUrlLogo());
+        Picasso.with(context).load(item.getUrlLogo())
+                .fit().centerCrop().into(logo);
+        verificados.setText(perfilesVerificados.get(item.getId()).toString());
     }
 }

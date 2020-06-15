@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/escuelas_list_crear_escuela"
+        android:icon="@drawable/ic_turn_off"
+        android:title="Crear escuela" />
+
+    <item
+        android:id="@+id/escuelas_list_inscribirse"
+        android:title="Inscribirme en una escuela"
+        android:icon="@drawable/ic_turn_off" />
 
     <item
         android:id="@+id/escuelas_list_cerrar_sesion"
-        android:title="Cerrar sesión"
         android:icon="@drawable/ic_turn_off"
-        app:showAsAction="ifRoom|collapseActionView" />
+        android:title="Cerrar sesión" />
+
 </menu>
