@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.icu.util.Freezable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -21,6 +24,7 @@ import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.activities.AppRejectEscuelaActivity;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
+import com.ittsport.ittsportapp.models.Rol;
 
 import java.util.List;
 
@@ -102,9 +106,21 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
                                                     break;
                                                 }
                                             }
-                                            Toast.makeText(mContext, "Escuela aceptada con éxito.", Toast.LENGTH_SHORT).show();
+                                            FirebaseFirestore.getInstance().collection("perfilesSociales")
+                                                    .whereEqualTo("escuelaId", id)
+                                                    .whereEqualTo("rol", Rol.DIRECTOR)
+                                                    .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                    for(QueryDocumentSnapshot w: queryDocumentSnapshots){
+                                                        FirebaseFirestore.getInstance().collection("perfilesSociales")
+                                                                .document(w.getId())
+                                                                .update("status", Estado.ACEPTADO);
+                                                    }
+                                                }
+                                            });
                                         }
-
+                                        Toast.makeText(mContext, "Escuela aceptada con éxito.", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
