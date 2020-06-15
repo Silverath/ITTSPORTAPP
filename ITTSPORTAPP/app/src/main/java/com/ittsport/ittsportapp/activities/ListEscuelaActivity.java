@@ -32,7 +32,9 @@ import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.ShadowTransformer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -45,8 +47,6 @@ public class ListEscuelaActivity extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
     private boolean mShowingFragments = false;
-    private Button solicitarEscuela;
-    private Button inscribirseEscuela;
     private ViewPager mViewPager;
     private TabLayout tabLayout;
     private CardPagerAdapterEscuela mCardAdapter;
@@ -56,6 +56,7 @@ public class ListEscuelaActivity extends AppCompatActivity {
     private List<Escuela> escuelas;
     private int LAUNCH_SECOND_ACTIVITY = 1;
     private MaterialToolbar appBarLayout;
+    private Map<String, Integer> perfilesVerificados;
 
     /**
      * Change value in dp to pixels
@@ -76,11 +77,10 @@ public class ListEscuelaActivity extends AppCompatActivity {
         this.firebaseAuth = FirebaseAuth.getInstance();
         escuelas = new ArrayList<>();
         appBarLayout = (MaterialToolbar) findViewById(R.id.topAppBar_escuelas_list);
-        solicitarEscuela = (Button) findViewById(R.id.btn_crear_escuela);
-        inscribirseEscuela = (Button) findViewById(R.id.btn_inscribirse_en_escuela);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         mViewPager = (ViewPager) findViewById(R.id.vp_escuelas_list);
         tabLayout = (TabLayout) findViewById(R.id.tl_escuelas_list);
+        perfilesVerificados = new HashMap<>();
 
         appBarLayout.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,15 +95,22 @@ public class ListEscuelaActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.escuelas_list_cerrar_sesion:
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        if(user == null){
+                        if (user == null) {
                             Toast.makeText(ListEscuelaActivity.this, "no ai nadie xd", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
+                        } else {
                             FirebaseAuth.getInstance().signOut();
                             Context context = ListEscuelaActivity.this;
                             Intent goToLogin = new Intent(context, LoginActivity.class);
                             startActivity(goToLogin);
                         }
+                        return true;
+                    case R.id.escuelas_list_inscribirse:
+                        goToNextActivity();
+                        return true;
+                    case R.id.escuelas_list_crear_escuela:
+                        Context context = ListEscuelaActivity.this;
+                        Intent goToNewEscuelaActivity = new Intent(context, NewEscuelaActivity.class);
+                        startActivity(goToNewEscuelaActivity);
                         return true;
                     default:
                         return true;
@@ -111,22 +118,27 @@ public class ListEscuelaActivity extends AppCompatActivity {
             }
         });
 
-        mCardAdapter = new CardPagerAdapterEscuela(this);
-        //TODO
         Task<QuerySnapshot> perfiles = db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("estado", Estado.ACEPTADO).get();
         perfiles.continueWithTask(new Continuation<QuerySnapshot, Task<List<DocumentSnapshot>>>() {
             @Override
             public Task<List<DocumentSnapshot>> then(@Nonnull Task<QuerySnapshot> task) throws Exception {
                 List<Task<DocumentSnapshot>> allTasks = new ArrayList<>();
                 List<String> idEscuelas = new ArrayList<>();
+                Integer perfiles = 0;
                 for (DocumentSnapshot documentSnapshot : task.getResult()) {
                     PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
                     String id = documentSnapshot.getId();
                     perfil.setId(documentSnapshot.getId());
                     if (!idEscuelas.contains(perfil.getEscuelaId())) {
+                        perfiles++;
+                        perfilesVerificados.put(perfil.getEscuelaId(), perfiles);
                         idEscuelas.add(perfil.getEscuelaId());
                         Task<DocumentSnapshot> query = db.collection("escuelas").document(perfil.getEscuelaId()).get();
                         allTasks.add(query);
+                    }
+                    else{
+                        perfiles++;
+                        perfilesVerificados.put(perfil.getEscuelaId(), perfiles);
                     }
                 }
                 return Tasks.<DocumentSnapshot>whenAllSuccess(allTasks);
@@ -134,8 +146,10 @@ public class ListEscuelaActivity extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<List<DocumentSnapshot>>() {
             @Override
             public void onSuccess(List<DocumentSnapshot> documentSnapshots) {
+                mCardAdapter = new CardPagerAdapterEscuela(context, perfilesVerificados);
                 for (DocumentSnapshot doc : documentSnapshots) {
                     Escuela escuela = doc.toObject(Escuela.class);
+                    escuela.setId(doc.getId());
                     if (!escuelas.contains(escuela)) {
                         escuelas.add(escuela);
                         mCardAdapter.addCardItem(escuela);
@@ -148,7 +162,6 @@ public class ListEscuelaActivity extends AppCompatActivity {
                 mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
                 mFragmentCardShadowTransformer = new ShadowTransformer(mViewPager, mFragmentCardAdapter);
                 tabLayout.setupWithViewPager(mViewPager, true);
-
                 mViewPager.setAdapter(mCardAdapter);
                 mViewPager.setPageTransformer(false, mCardShadowTransformer);
                 mViewPager.setOffscreenPageLimit(3);
@@ -159,42 +172,6 @@ public class ListEscuelaActivity extends AppCompatActivity {
                 Log.d("", e.toString());
             }
         });
-
-        //TODO
-        /*if (cerrarSesion != null)
-            cerrarSesion.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if(user == null){
-                        Toast.makeText(ListEscuelaActivity.this, "no ai nadie xd", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        FirebaseAuth.getInstance().signOut();
-                        Context context = ListEscuelaActivity.this;
-                        Intent goToLogin = new Intent(context, LoginActivity.class);
-                        startActivity(goToLogin);
-                    }
-                }
-            });*/
-        //TODO
-        if (solicitarEscuela != null)
-            solicitarEscuela.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context = ListEscuelaActivity.this;
-                    Intent goToNewEscuelaActivity = new Intent(context, NewEscuelaActivity.class);
-                    startActivity(goToNewEscuelaActivity);
-                }
-            });
-        //TODO
-        if (inscribirseEscuela != null)
-            inscribirseEscuela.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    goToNextActivity();
-                }
-            });
     }
 
     @Override
