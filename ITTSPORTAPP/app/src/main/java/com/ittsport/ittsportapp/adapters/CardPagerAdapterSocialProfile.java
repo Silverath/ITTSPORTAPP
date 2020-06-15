@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.cardview.widget.CardView;
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.ittsport.ittsportapp.activities.HomeActivity;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.CardAdapter;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,8 +113,13 @@ public class CardPagerAdapterSocialProfile extends PagerAdapter implements CardA
         TextView name = (TextView) view.findViewById(R.id.tv_list_perfil_nombre_adapter);
         TextView first = (TextView) view.findViewById(R.id.tv_list_perfil_primerApellido_adapter);
         TextView second = (TextView) view.findViewById(R.id.tv_list_perfil_segundoApellido_adapter);
+        CircleImageView photo = (CircleImageView) view.findViewById(R.id.image_social_profile_choose);
         name.setText(item.getNombre());
         first.setText(item.getPrimerApellido());
         second.setText(item.getSegundoApellido());
+        if(item.getUrlImagen() != null){
+            Picasso.with(context).load(item.getUrlImagen())
+                    .fit().centerCrop().into(photo);
+        }
     }
 }

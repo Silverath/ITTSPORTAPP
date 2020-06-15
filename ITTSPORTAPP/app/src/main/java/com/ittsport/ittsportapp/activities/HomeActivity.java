@@ -95,6 +95,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(HomeActivity.this, "no ai nadie xd", Toast.LENGTH_LONG).show();
         }
         else{
+            VariablesGlobales shared = new VariablesGlobales(this);
+            shared.setEscuelaSeleccionada(null);
+            shared.setPerfilLogueadoId(null);
             FirebaseAuth.getInstance().signOut();
             Context context = HomeActivity.this;
             Intent goToLogin = new Intent(context, LoginActivity.class);

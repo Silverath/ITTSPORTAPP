@@ -13,6 +13,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.fragments.CardFragmentSocialProfile;
+import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.utils.CardAdapter;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class CardFragmentPagerAdapterSocialProfile extends FragmentStatePagerAda
         fragments = new ArrayList<>();
         this.baseElevation = baseElevation;
         if (firebaseAuth.getCurrentUser() != null) {
-            db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("estado", Estado.ACEPTADO).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@Nonnull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
