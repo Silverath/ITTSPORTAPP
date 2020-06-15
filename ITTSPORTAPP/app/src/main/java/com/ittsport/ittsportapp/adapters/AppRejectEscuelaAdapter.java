@@ -96,7 +96,7 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
                                             String id = q.getId();
                                             FirebaseFirestore.getInstance().collection("escuelas")
                                                     .document(id)
-                                                    .update("status", Estado.ACEPTADO);
+                                                    .update("estado", Estado.ACEPTADO);
                                             for(Escuela e: AppRejectEscuelaActivity.escuelasToAppReject){
                                                 if(e.getDireccion().equals(q.get("direccion").toString()) &&
                                                         e.getMunicipio().equals(q.get("municipio").toString()) &&
@@ -115,7 +115,7 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
                                                     for(QueryDocumentSnapshot w: queryDocumentSnapshots){
                                                         FirebaseFirestore.getInstance().collection("perfilesSociales")
                                                                 .document(w.getId())
-                                                                .update("status", Estado.ACEPTADO);
+                                                                .update("estado", Estado.ACEPTADO);
                                                     }
                                                 }
                                             });
@@ -149,7 +149,7 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
                                             String id = q.getId();
                                             FirebaseFirestore.getInstance().collection("escuelas")
                                                     .document(id)
-                                                    .update("status", Estado.RECHAZADO);
+                                                    .delete();
                                             for(Escuela e: AppRejectEscuelaActivity.escuelasToAppReject){
                                                 if(e.getDireccion().equals(q.get("direccion").toString()) &&
                                                         e.getMunicipio().equals(q.get("municipio").toString()) &&
@@ -159,6 +159,19 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
                                                     break;
                                                 }
                                             }
+                                            FirebaseFirestore.getInstance().collection("perfilesSociales")
+                                                    .whereEqualTo("escuelaId", id)
+                                                    .whereEqualTo("rol", Rol.DIRECTOR)
+                                                    .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                    for(QueryDocumentSnapshot w: queryDocumentSnapshots){
+                                                        FirebaseFirestore.getInstance().collection("perfilesSociales")
+                                                                .document(w.getId())
+                                                                .delete();
+                                                    }
+                                                }
+                                            });
                                         }
                                         Toast.makeText(mContext, "Escuela rechazada con éxito.", Toast.LENGTH_SHORT).show();
                                     }

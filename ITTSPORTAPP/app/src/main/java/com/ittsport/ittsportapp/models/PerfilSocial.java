@@ -24,13 +24,13 @@ public class PerfilSocial implements Serializable {
     @PropertyName("urlImagen")
     private String urlImagen;
     @PropertyName("estado")
-    private Estado status;
+    private Estado estado;
     @PropertyName("rol")
     private Rol rol;
 
     private String id;
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String nombreImagen, String cuentaUsuarioId, Estado status, Rol rol, String escuelaId) {
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String nombreImagen, String cuentaUsuarioId, Estado estado, Rol rol, String escuelaId) {
 
         if (nombreImagen.trim().equals("")) {
             nombreImagen = "No Name";
@@ -40,18 +40,18 @@ public class PerfilSocial implements Serializable {
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
         this.cuentaUsuarioId = cuentaUsuarioId;
-        this.status = status;
+        this.estado = estado;
         this.rol = rol;
         this.escuelaId = escuelaId;
     }
 
-    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId, Estado status, Rol rol, String escuelaId) {
+    public PerfilSocial(String nombre, String primerApellido, String segundoApellido, String cuentaUsuarioId, Estado estado, Rol rol, String escuelaId) {
 
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
         this.cuentaUsuarioId = cuentaUsuarioId;
-        this.status = status;
+        this.estado = estado;
         this.rol = rol;
         this.escuelaId = escuelaId;
     }
@@ -135,12 +135,12 @@ public class PerfilSocial implements Serializable {
     }
 
     @PropertyName("estado")
-    public Estado getStatus() {
-        return status;
+    public Estado getEstado() {
+        return estado;
     }
 
-    public void setStatus(Estado status) {
-        this.status = status;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     @PropertyName("rol")

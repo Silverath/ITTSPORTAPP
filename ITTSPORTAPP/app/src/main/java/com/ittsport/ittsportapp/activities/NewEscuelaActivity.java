@@ -1,6 +1,5 @@
 package com.ittsport.ittsportapp.activities;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,7 +17,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -110,7 +108,7 @@ public class NewEscuelaActivity extends AppCompatActivity {
                     nuevaEscuela.put("direccion", nueva.getDireccion());
                     nuevaEscuela.put("provincia", nueva.getProvincia());
                     nuevaEscuela.put("municipio", nueva.getMunicipio());
-                    nuevaEscuela.put("status", nueva.getStatus());
+                    nuevaEscuela.put("estado", nueva.getEstado());
 
                     StorageReference fileReference = storageReference.child((nombre + "." + getFileExtension(uriLogoEscuela)));
                     fileReference.putFile(uriLogoEscuela)

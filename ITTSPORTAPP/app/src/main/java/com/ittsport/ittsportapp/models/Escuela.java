@@ -20,12 +20,12 @@ public class Escuela implements Serializable {
     private String provincia;
     @PropertyName("municipio")
     private String municipio;
-    @PropertyName("status")
-    private String status;
+    @PropertyName("estado")
+    private String estado;
 
     private String id;
 
-    public Escuela(String nombre, String nombreLogo, String urlLogo, String direccion, String provincia, String municipio, String status) {
+    public Escuela(String nombre, String nombreLogo, String urlLogo, String direccion, String provincia, String municipio, String estado) {
 
         this.nombre = nombre;
         this.nombreLogo = nombreLogo;
@@ -33,7 +33,7 @@ public class Escuela implements Serializable {
         this.direccion = direccion;
         this.provincia = provincia;
         this.municipio = municipio;
-        this.status = status;
+        this.estado = estado;
     }
 
     public Escuela() {
@@ -93,13 +93,13 @@ public class Escuela implements Serializable {
         this.municipio = municipio;
     }
 
-    @PropertyName("status")
-    public String getStatus() {
-        return status;
+    @PropertyName("estado")
+    public String getEstado() {
+        return estado;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getId() {

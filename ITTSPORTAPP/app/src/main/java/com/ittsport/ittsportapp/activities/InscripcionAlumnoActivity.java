@@ -100,7 +100,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                         nuevoPerfil.put("segundoApellido", nuevo.getSegundoApellido());
                         nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
                         nuevoPerfil.put("nombreImagen", nuevo.getNombreImagen());
-                        nuevoPerfil.put("estado", nuevo.getStatus());
+                        nuevoPerfil.put("estado", nuevo.getEstado());
                         nuevoPerfil.put("rol", nuevo.getRol());
                         nuevoPerfil.put("escuelaId", nuevo.getEscuelaId());
 
@@ -153,7 +153,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                         nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
                         nuevoPerfil.put("segundoApellido", nuevo.getSegundoApellido());
                         nuevoPerfil.put("cuentaUsuarioId", nuevo.getCuentaUsuarioId());
-                        nuevoPerfil.put("estado", nuevo.getStatus());
+                        nuevoPerfil.put("estado", nuevo.getEstado());
                         nuevoPerfil.put("rol", nuevo.getRol());
                         nuevoPerfil.put("escuelaId", nuevo.getEscuelaId());
                         db.collection("perfilesSociales").document()

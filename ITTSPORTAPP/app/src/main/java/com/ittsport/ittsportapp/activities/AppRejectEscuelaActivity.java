@@ -44,7 +44,7 @@ public class AppRejectEscuelaActivity extends AppCompatActivity {
     private void escuelasPendientes(){
         CollectionReference collRef = db.collection("escuelas");
 
-        collRef.whereEqualTo("status", Estado.PENDIENTE).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        collRef.whereEqualTo("estado", Estado.PENDIENTE).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(QueryDocumentSnapshot q: queryDocumentSnapshots){
@@ -53,7 +53,7 @@ public class AppRejectEscuelaActivity extends AppCompatActivity {
                     escuela.setDireccion(q.get("direccion").toString());
                     escuela.setMunicipio(q.get("municipio").toString());
                     escuela.setProvincia(q.get("provincia").toString());
-                    escuela.setStatus((q.get("status").toString()));
+                    escuela.setEstado((q.get("estado").toString()));
                     escuelasToAppReject.add(escuela);
                 }
                 appRejectEscuelaAdapter = new AppRejectEscuelaAdapter(AppRejectEscuelaActivity.this, escuelasToAppReject);

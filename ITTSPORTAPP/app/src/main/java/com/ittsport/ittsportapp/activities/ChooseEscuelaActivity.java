@@ -77,7 +77,7 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
         List<Escuela> todasLasEscuelas = new ArrayList<>();
         List<Escuela> escuelasInscrito = new ArrayList<>();
         List<Escuela> escuelasNoInscrito = new ArrayList<>();
-        Task<QuerySnapshot> allEscuelas = db.collection("escuelas").whereEqualTo("status", Estado.ACEPTADO).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        Task<QuerySnapshot> allEscuelas = db.collection("escuelas").whereEqualTo("estado", Estado.ACEPTADO).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
