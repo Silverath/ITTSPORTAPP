@@ -19,10 +19,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.adapters.CardFragmentPagerAdapterSocialProfile;
 import com.ittsport.ittsportapp.adapters.CardPagerAdapterSocialProfile;
 import com.ittsport.ittsportapp.utils.ShadowTransformer;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import javax.annotation.Nonnull;
 
@@ -51,7 +53,8 @@ public class ListSocialProfileActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
         mCardAdapter = new CardPagerAdapterSocialProfile(this);
-        db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        VariablesGlobales sharedPreferences = new VariablesGlobales(this);
+        db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("estado", Estado.ACEPTADO).whereEqualTo("escuelaId", sharedPreferences.getEscuelaSeleccionada()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@Nonnull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
