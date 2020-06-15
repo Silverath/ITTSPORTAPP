@@ -1,5 +1,6 @@
 package com.ittsport.ittsportapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import androidx.viewpager.widget.PagerAdapter;
@@ -11,10 +12,13 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.activities.ChooseEscuelaActivity;
+import com.ittsport.ittsportapp.activities.InscripcionAlumnoActivity;
 import com.ittsport.ittsportapp.activities.ListSocialProfileActivity;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.utils.CardAdapter;
@@ -123,6 +127,17 @@ public class CardPagerAdapterEscuela extends PagerAdapter implements CardAdapter
         CircleImageView logo = (CircleImageView) view.findViewById(R.id.iv_escuelas_list_item_logo);
         TextView name = (TextView) view.findViewById(R.id.tv_list_escuelas__item_nombre);
         TextView verificados = (TextView) view.findViewById(R.id.tv_perfiles_sociales_numero_verificados);
+        MaterialButton addPerfil = (MaterialButton) view.findViewById(R.id.btn_list_escuelas_añadir_perfil);
+        addPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VariablesGlobales sharedPreferences = new VariablesGlobales(context);
+                sharedPreferences.setEscuelaParaInscribirse(item.getId());
+                int LAUNCH_THIRD_ACTIVITY = 2;
+                Intent startNewSocialProfileActivityClass = new Intent(context, InscripcionAlumnoActivity.class);
+                ((Activity) context).startActivityForResult(startNewSocialProfileActivityClass, LAUNCH_THIRD_ACTIVITY);
+            }
+        });
         name.setText(item.getNombre().toString());
         Picasso.with(context).load(item.getUrlLogo())
                 .fit().centerCrop().into(logo);

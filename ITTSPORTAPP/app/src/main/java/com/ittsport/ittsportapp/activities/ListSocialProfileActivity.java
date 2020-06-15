@@ -37,7 +37,6 @@ public class ListSocialProfileActivity extends AppCompatActivity {
     private CardFragmentPagerAdapterSocialProfile mFragmentCardAdapter;
     private ShadowTransformer mFragmentCardShadowTransformer;
     private TabLayout tabLayout;
-    private ProgressBar progressBar;
     private int LAUNCH_CREATE_SOCIAL_PROFILE_ACTIVITY = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +45,10 @@ public class ListSocialProfileActivity extends AppCompatActivity {
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_choose_social_profile);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar_list_profile);
-        progressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         mViewPager = (ViewPager) findViewById(R.id.vpPager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        FloatingActionButton newSocialProfile = (FloatingActionButton) findViewById(R.id.btn_nuevo_social_profile);
 
         mCardAdapter = new CardPagerAdapterSocialProfile(this);
         db.collection("perfilesSociales").whereEqualTo("cuentaUsuarioId", firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -74,21 +70,10 @@ public class ListSocialProfileActivity extends AppCompatActivity {
                     mViewPager.setAdapter(mCardAdapter);
                     mViewPager.setPageTransformer(false, mCardShadowTransformer);
                     mViewPager.setOffscreenPageLimit(3);
-                    progressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }
             }
         });
-
-
-        newSocialProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToNextActivity();
-            }
-        });
-
-        //Toast.makeText(ListSocialProfileActivity.this, "Click", Toast.LENGTH_LONG);
     }
 
     /**

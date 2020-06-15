@@ -30,6 +30,7 @@ import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.ShadowTransformer;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,6 +99,9 @@ public class ListEscuelaActivity extends AppCompatActivity {
                         if (user == null) {
                             Toast.makeText(ListEscuelaActivity.this, "no ai nadie xd", Toast.LENGTH_SHORT).show();
                         } else {
+                            VariablesGlobales shared = new VariablesGlobales(context);
+                            shared.setEscuelaSeleccionada(null);
+                            shared.setPerfilLogueadoId(null);
                             FirebaseAuth.getInstance().signOut();
                             Context context = ListEscuelaActivity.this;
                             Intent goToLogin = new Intent(context, LoginActivity.class);
@@ -148,12 +152,14 @@ public class ListEscuelaActivity extends AppCompatActivity {
             public void onSuccess(List<DocumentSnapshot> documentSnapshots) {
                 mCardAdapter = new CardPagerAdapterEscuela(context, perfilesVerificados);
                 for (DocumentSnapshot doc : documentSnapshots) {
-                    Escuela escuela = doc.toObject(Escuela.class);
-                    escuela.setId(doc.getId());
-                    if (!escuelas.contains(escuela)) {
-                        escuelas.add(escuela);
-                        mCardAdapter.addCardItem(escuela);
-                        mCardAdapter.notifyDataSetChanged();
+                    if(doc.exists()){
+                        Escuela escuela = doc.toObject(Escuela.class);
+                        escuela.setId(doc.getId());
+                        if (!escuelas.contains(escuela)) {
+                            escuelas.add(escuela);
+                            mCardAdapter.addCardItem(escuela);
+                            mCardAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
                 mFragmentCardAdapter = new CardFragmentPagerAdapterEscuela(getSupportFragmentManager(),
@@ -184,5 +190,10 @@ public class ListEscuelaActivity extends AppCompatActivity {
         Context context = ListEscuelaActivity.this;
         Intent startNewSocialProfileActivityClass = new Intent(context, ChooseEscuelaActivity.class);
         startActivityForResult(startNewSocialProfileActivityClass, LAUNCH_SECOND_ACTIVITY);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        mCardAdapter.notifyDataSetChanged();
     }
 }
