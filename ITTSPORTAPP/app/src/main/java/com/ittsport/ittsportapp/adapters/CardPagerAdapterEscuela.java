@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nonnull;
 
@@ -38,10 +39,10 @@ public class CardPagerAdapterEscuela extends PagerAdapter implements CardAdapter
     private List<CardView> mViews;
     private List<Escuela> mData;
     private float mBaseElevation;
-    private Map<String, Integer> perfilesVerificados;
+    private Map<String, AtomicInteger> perfilesVerificados;
     private Context context;
 
-    public CardPagerAdapterEscuela(Context contextActivity, Map<String, Integer> perfilesVerificados) {
+    public CardPagerAdapterEscuela(Context contextActivity, Map<String, AtomicInteger> perfilesVerificados) {
         mData = new ArrayList<>();
         mViews = new ArrayList<>();
         context = contextActivity;

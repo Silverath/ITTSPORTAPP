@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.Nonnull;
 
@@ -57,7 +59,7 @@ public class ListEscuelaActivity extends AppCompatActivity {
     private List<Escuela> escuelas;
     private int LAUNCH_SECOND_ACTIVITY = 1;
     private MaterialToolbar appBarLayout;
-    private Map<String, Integer> perfilesVerificados;
+    private Map<String, AtomicInteger> perfilesVerificados;
 
     /**
      * Change value in dp to pixels
@@ -128,21 +130,19 @@ public class ListEscuelaActivity extends AppCompatActivity {
             public Task<List<DocumentSnapshot>> then(@Nonnull Task<QuerySnapshot> task) throws Exception {
                 List<Task<DocumentSnapshot>> allTasks = new ArrayList<>();
                 List<String> idEscuelas = new ArrayList<>();
-                Integer perfiles = 0;
                 for (DocumentSnapshot documentSnapshot : task.getResult()) {
                     PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
                     String id = documentSnapshot.getId();
                     perfil.setId(documentSnapshot.getId());
                     if (!idEscuelas.contains(perfil.getEscuelaId())) {
-                        perfiles++;
-                        perfilesVerificados.put(perfil.getEscuelaId(), perfiles);
+                        perfilesVerificados.putIfAbsent(perfil.getEscuelaId(), new AtomicInteger(0));
+                        perfilesVerificados.get(perfil.getEscuelaId()).incrementAndGet();
                         idEscuelas.add(perfil.getEscuelaId());
                         Task<DocumentSnapshot> query = db.collection("escuelas").document(perfil.getEscuelaId()).get();
                         allTasks.add(query);
                     }
                     else{
-                        perfiles++;
-                        perfilesVerificados.put(perfil.getEscuelaId(), perfiles);
+                        perfilesVerificados.get(perfil.getEscuelaId()).incrementAndGet();
                     }
                 }
                 return Tasks.<DocumentSnapshot>whenAllSuccess(allTasks);

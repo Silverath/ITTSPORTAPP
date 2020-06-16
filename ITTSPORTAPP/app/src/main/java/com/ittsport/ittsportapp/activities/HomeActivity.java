@@ -3,79 +3,112 @@ package com.ittsport.ittsportapp.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.models.Escuela;
+import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
+import com.squareup.picasso.Picasso;
 
-import javax.annotation.Nonnull;
+import androidx.appcompat.app.AppCompatActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class HomeActivity extends AppCompatActivity {
 
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle toggle;
     FirebaseAuth firebaseAuth;
+    MaterialCardView chats;
+    MaterialCardView cambiarPerfil;
+    MaterialCardView cambiarEscuela;
+    MaterialCardView cerrarSesion;
+    CircleImageView fotoEscuela;
+    CircleImageView fotoAlumno;
+    MaterialTextView nombreEscuela;
+    MaterialTextView nombreAlumno;
+    private FirebaseFirestore db;
+    Context context;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_alumno);
+        context = this;
         firebaseAuth = FirebaseAuth.getInstance();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_home);
-        setSupportActionBar(toolbar);
-        setNavigationViewListener();
+        chats = (MaterialCardView) findViewById(R.id.cv_home_alumno_chats);
+        cambiarPerfil = (MaterialCardView) findViewById(R.id.cv_home_alumno_cambiar_perfil);
+        cambiarEscuela = (MaterialCardView) findViewById(R.id.cv_home_alumno_cambiar_escuela);
+        cerrarSesion = (MaterialCardView) findViewById(R.id.cv_home_alumno_cerrar_sesion);
+        fotoEscuela = (CircleImageView) findViewById(R.id.iv_home_alumno_escuela_photo);
+        fotoAlumno = (CircleImageView) findViewById(R.id.iv_home_alumno_perfil_photo);
+        nombreAlumno = (MaterialTextView) findViewById(R.id.tv_home_alumno_nombre);
+        nombreEscuela = (MaterialTextView) findViewById(R.id.tv_home_alumno_nombre_escuela);
+        db = FirebaseFirestore.getInstance();
+        setImagesAndNames();
+        setOnClickListenners();
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
     }
 
-    private void setNavigationViewListener() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    private void setImagesAndNames() {
+        VariablesGlobales sharedPreferences = new VariablesGlobales(this);
+        db.collection("escuelas").document(sharedPreferences.getEscuelaSeleccionada()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Escuela escuela = documentSnapshot.toObject(Escuela.class);
+                Picasso.with(context).load(escuela.getUrlLogo())
+                        .fit().centerCrop().into(fotoEscuela);
+                nombreEscuela.setText(escuela.getNombre());
+            }
+        });
+        db.collection("perfilesSociales").document(sharedPreferences.getPerfilLogueadoId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
+                nombreAlumno.setText(perfil.getNombre() + " " + perfil.getPrimerApellido() + " " + perfil.getSegundoApellido());
+                if(perfil.getUrlImagen() != null){
+                    Picasso.with(context).load(perfil.getUrlImagen())
+                            .fit().centerCrop().into(fotoAlumno);
+                }
+                else{
+                    fotoAlumno.setImageDrawable(getDrawable(R.drawable.no_profile_icon));
+                }
+            }
+        });
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@Nonnull MenuItem item) {
-        // Handle navigation view item clicks here.
-        switch(item.getItemId()){
-            case R.id.vista_mensajes:
+    private void setOnClickListenners() {
+        chats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 vistaMensajeria();
-                return true;
-            case R.id.cerrar_sesion:
-                cerrarSesion();
-                return true;
-            case R.id.cambiar_perfil:
+            }
+        });
+        cambiarEscuela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                elegirEscuela();
+            }
+        });
+        cambiarPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 elegirPerfil();
-                return true;
-            case R.id.crear_escuela:
-                solicitarEscuela();
-                return true;
-            case R.id.aceptar_escuelas:
-                escuelasAAceptar();
-                return true;
-            default:
-        }
-        //close navigation drawer
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+            }
+        });
+        cerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cerrarSesion();
+            }
+        });
     }
 
     @Override
@@ -83,18 +116,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //doNothing
     }
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        toggle.syncState();
-    }
-
-    private void cerrarSesion(){
+    private void cerrarSesion() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if(user == null){
+        if (user == null) {
             Toast.makeText(HomeActivity.this, "no ai nadie xd", Toast.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             VariablesGlobales shared = new VariablesGlobales(this);
             shared.setEscuelaSeleccionada(null);
             shared.setPerfilLogueadoId(null);
@@ -105,7 +131,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void elegirPerfil(){
+    private void elegirPerfil() {
         VariablesGlobales sharedPreferences = new VariablesGlobales(this);
         sharedPreferences.setPerfilLogueadoId(null);
         Context context = HomeActivity.this;
@@ -113,14 +139,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         startActivity(goToElegirPerfil);
     }
 
-    private void vistaMensajeria(){
+    private void elegirEscuela() {
+        VariablesGlobales sharedPreferences = new VariablesGlobales(this);
+        sharedPreferences.setPerfilLogueadoId(null);
+        sharedPreferences.setEscuelaSeleccionada(null);
+        Context context = HomeActivity.this;
+        Intent goToElegirEscuela = new Intent(context, ListEscuelaActivity.class);
+        startActivity(goToElegirEscuela);
+    }
+
+    private void vistaMensajeria() {
         Context context = HomeActivity.this;
         Class destinationActivity = MessageActivityShow.class;
         Intent startMessageActivityIntent = new Intent(context, destinationActivity);
         startActivity(startMessageActivityIntent);
     }
 
-    private void solicitarEscuela(){
+    private void solicitarEscuela() {
         Context context = HomeActivity.this;
         Class destinationActivity = NewEscuelaActivity.class;
         Intent startNewEscuelaActivityIntent = new Intent(context, destinationActivity);
