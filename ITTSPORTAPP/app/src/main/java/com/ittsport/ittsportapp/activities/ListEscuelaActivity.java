@@ -29,6 +29,7 @@ import com.ittsport.ittsportapp.adapters.CardPagerAdapterEscuela;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.ShadowTransformer;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
@@ -84,6 +85,8 @@ public class ListEscuelaActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.vp_escuelas_list);
         tabLayout = (TabLayout) findViewById(R.id.tl_escuelas_list);
         perfilesVerificados = new HashMap<>();
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+        loadingDialog.startLoadingDialog();
 
         appBarLayout.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +174,7 @@ public class ListEscuelaActivity extends AppCompatActivity {
                 mViewPager.setAdapter(mCardAdapter);
                 mViewPager.setPageTransformer(false, mCardShadowTransformer);
                 mViewPager.setOffscreenPageLimit(3);
+                loadingDialog.dismissDialog();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

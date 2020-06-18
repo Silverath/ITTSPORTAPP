@@ -25,6 +25,8 @@ import com.ittsport.ittsportapp.activities.AppRejectEscuelaActivity;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.Rol;
+import com.ittsport.ittsportapp.utils.AcceptDialog;
+import com.ittsport.ittsportapp.utils.ErrorDialog;
 
 import java.util.List;
 
@@ -76,6 +78,7 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
         holder.direccion_escuela.setText(escuela.getDireccion());
         holder.provincia_escuela.setText(escuela.getProvincia());
         holder.municipio_escuela.setText(escuela.getMunicipio());
+        AcceptDialog acceptDialog = new AcceptDialog((AppRejectEscuelaActivity) mContext);
 
         holder.btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +123,7 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
                                                 }
                                             });
                                         }
-                                        Toast.makeText(mContext, "Escuela aceptada con éxito.", Toast.LENGTH_SHORT).show();
+                                        acceptDialog.startAcceptDialog("Escuela aceptada con éxito");
                                     }
                                 });
                             }
@@ -173,7 +176,7 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
                                                 }
                                             });
                                         }
-                                        Toast.makeText(mContext, "Escuela rechazada con éxito.", Toast.LENGTH_SHORT).show();
+                                        acceptDialog.startAcceptDialog("Escuela rechazada con éxito.");
                                     }
                                 });
                             }

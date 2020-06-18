@@ -29,6 +29,8 @@ import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.models.Rol;
+import com.ittsport.ittsportapp.utils.AcceptDialog;
+import com.ittsport.ittsportapp.utils.ErrorDialog;
 import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 import com.squareup.picasso.Picasso;
@@ -77,6 +79,8 @@ public class EditPerfilSocialActivity extends AppCompatActivity {
         btnImagenPerfil = findViewById(R.id.btn_editar_foto_perfil);
         ivImagenPerfil = findViewById(R.id.iv_editar_perfil_foto);
         setFields();
+        AcceptDialog acceptDialog = new AcceptDialog(this);
+        ErrorDialog errorDialog = new ErrorDialog(this);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,17 +133,14 @@ public class EditPerfilSocialActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onSuccess(Void aVoid) {
                                                                 loadingDialog.dismissDialog();
-                                                                Intent returnIntent = new Intent();
-                                                                setResult(Activity.RESULT_OK, returnIntent);
-                                                                finish();
-
+                                                                acceptDialog.startAcceptDialog("Perfil social cambiado con éxito.");
                                                             }
                                                         })
                                                         .addOnFailureListener(new OnFailureListener() {
                                                             @Override
                                                             public void onFailure(@Nonnull Exception e) {
                                                                 loadingDialog.dismissDialog();
-                                                                Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
+                                                                errorDialog.startErrorDialog("Ha habido un problema al crear el perfil.");
                                                             }
                                                         });
                                             }
@@ -150,7 +151,7 @@ public class EditPerfilSocialActivity extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@Nonnull Exception e) {
                                         loadingDialog.dismissDialog();
-                                        Toast.makeText(getBaseContext(), "Ha habido un problema al guardar la foto", Toast.LENGTH_SHORT).show();
+                                        errorDialog.startErrorDialog("Ha habido un problema al guardar la foto.");
                                     }
                                 });
                     } else {
@@ -173,16 +174,14 @@ public class EditPerfilSocialActivity extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
                                         loadingDialog.dismissDialog();
-                                        Intent returnIntent = new Intent();
-                                        setResult(Activity.RESULT_OK, returnIntent);
-                                        finish();
+                                        acceptDialog.startAcceptDialog("Perfil social cambiado con éxito.");
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@Nonnull Exception e) {
                                         loadingDialog.dismissDialog();
-                                        Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
+                                        errorDialog.startErrorDialog("Ha habido un problema al crear el perfil.");
                                     }
                                 });
                     }

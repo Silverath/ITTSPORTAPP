@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ittsport.ittsportapp.R;
+import com.ittsport.ittsportapp.utils.AcceptDialog;
+import com.ittsport.ittsportapp.utils.ErrorDialog;
 import com.ittsport.ittsportapp.utils.LoadingDialog;
 
 import javax.annotation.Nonnull;
@@ -35,6 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseFirestore db;
     ImageView arrowBack;
     LoadingDialog loadingDialog;
+    AcceptDialog acceptDialog = new AcceptDialog(this);
+    ErrorDialog errorDialog = new ErrorDialog(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +97,8 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth.createUserWithEmailAndPassword(email, passwordString).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Toast.makeText(RegisterActivity.this, "Se ha registrado correctamente", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismissDialog();
+                acceptDialog.startAcceptDialog("Se ha registrado correctamente.");
                 onBackPressed();
                 }
         }).addOnFailureListener(new OnFailureListener() {
@@ -113,6 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Ya hay una cuenta registrada con este Email", Toast.LENGTH_SHORT).show();
                 } catch(Exception ex) {
                     loadingDialog.dismissDialog();
+                    errorDialog.startErrorDialog("Ha habido un error inesperado.");
                     Log.e(TAG, e.getMessage());
                 }
             }

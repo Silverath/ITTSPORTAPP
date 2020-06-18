@@ -35,8 +35,6 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.MessageActivityShow" />
         <activity android:name=".activities.ListSocialProfileActivity" />
-        <activity android:name=".activities.NewSocialProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.EditPerfilSocialActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.HomeDirectorActivity"

@@ -110,7 +110,7 @@ public class ChatMessagingActivity extends Activity {
                 if(!msg.equals("")){
                     sendMessage(loggedId, perfilId, msg);
                 } else {
-                    Toast.makeText(ChatMessagingActivity.this, "No puedes enviar un mensaje vacío cruck", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatMessagingActivity.this, "No puedes enviar un mensaje vacío.", Toast.LENGTH_SHORT).show();
                 }
                 et_message.setText("");
             }

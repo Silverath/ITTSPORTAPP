@@ -27,6 +27,8 @@ import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.models.Rol;
+import com.ittsport.ittsportapp.utils.AcceptDialog;
+import com.ittsport.ittsportapp.utils.ErrorDialog;
 import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 import com.squareup.picasso.Picasso;
@@ -73,6 +75,8 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
         createProfile = findViewById(R.id.btn_nueva_inscripcion_crear_perfil_social);
         btnNuevaImagenPerfil = findViewById(R.id.btn_nueva_inscripcion_nueva_foto_perfil);
         ivNuevaImagenPerfil = findViewById(R.id.iv_nueva_inscripcion_foto_perfil);
+        AcceptDialog acceptDialog = new AcceptDialog(this);
+        ErrorDialog errorDialog = new ErrorDialog(this);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,17 +123,14 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             loadingDialog.dismissDialog();
-                                                            Intent returnIntent = new Intent();
-                                                            setResult(Activity.RESULT_OK, returnIntent);
-                                                            finish();
-
+                                                            acceptDialog.startAcceptDialog("Alumno inscrito, espere a ser aceptado por su director.");
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {
                                                         @Override
                                                         public void onFailure(@Nonnull Exception e) {
                                                             loadingDialog.dismissDialog();
-                                                            Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
+                                                            errorDialog.startErrorDialog("Ha habido un problema al inscribir al alumno.");
                                                         }
                                                     });
                                             }
@@ -140,7 +141,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@Nonnull Exception e) {
                                         loadingDialog.dismissDialog();
-                                        Toast.makeText(getBaseContext(), "Ha habido un problema al guardar la foto", Toast.LENGTH_SHORT).show();
+                                        errorDialog.startErrorDialog("Ha habido un problema al guardar la foto.");
                                     }
                                 });
                     } else {

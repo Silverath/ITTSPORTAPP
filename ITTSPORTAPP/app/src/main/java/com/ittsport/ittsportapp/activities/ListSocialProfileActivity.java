@@ -23,6 +23,7 @@ import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.adapters.CardFragmentPagerAdapterSocialProfile;
 import com.ittsport.ittsportapp.adapters.CardPagerAdapterSocialProfile;
+import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.ShadowTransformer;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
@@ -47,10 +48,10 @@ public class ListSocialProfileActivity extends AppCompatActivity {
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_choose_social_profile);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         mViewPager = (ViewPager) findViewById(R.id.vpPager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+        loadingDialog.startLoadingDialog();
 
         mCardAdapter = new CardPagerAdapterSocialProfile(this);
         VariablesGlobales sharedPreferences = new VariablesGlobales(this);
@@ -73,7 +74,7 @@ public class ListSocialProfileActivity extends AppCompatActivity {
                     mViewPager.setAdapter(mCardAdapter);
                     mViewPager.setPageTransformer(false, mCardShadowTransformer);
                     mViewPager.setOffscreenPageLimit(3);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    loadingDialog.dismissDialog();
                 }
             }
         });
@@ -98,13 +99,6 @@ public class ListSocialProfileActivity extends AppCompatActivity {
                 mCardAdapter.notifyDataSetChanged();
             }
         }
-    }
-
-    public void goToNextActivity(){
-        int LAUNCH_SECOND_ACTIVITY = 1;
-        Context context = ListSocialProfileActivity.this;
-        Intent startNewSocialProfileActivityClass = new Intent(context, NewSocialProfileActivity.class);
-        startActivityForResult(startNewSocialProfileActivityClass, LAUNCH_SECOND_ACTIVITY);
     }
 
     @Override

@@ -31,6 +31,7 @@ import com.ittsport.ittsportapp.adapters.ChooseEscuelaAdapter;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
         setSupportActionBar(appBarLayout);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         this.firebaseAuth = FirebaseAuth.getInstance();
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+        loadingDialog.startLoadingDialog();
 
         appBarLayout.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +74,7 @@ public class ChooseEscuelaActivity extends AppCompatActivity {
         setUpRecyclerView();
         setUpFireBase();
         loadDataFromFirebase();
+        loadingDialog.dismissDialog();
     }
 
     private void loadDataFromFirebase() {
