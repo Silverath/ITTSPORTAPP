@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
-import com.google.firebase.database.annotations.Nullable;
+
 import javax.annotation.Nonnull;
 
 import static android.content.ContentValues.TAG;
@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
     public void goTo(Integer nextStep){
         if(nextStep == 3){
             Context context = LoginActivity.this;
-            Intent startHomeActivityClass = new Intent(context, HomeActivity.class);
+            Intent startHomeActivityClass = new Intent(context, HomeAlumnoActivity.class);
             startActivity(startHomeActivityClass);
         }
         else if(nextStep == 2){

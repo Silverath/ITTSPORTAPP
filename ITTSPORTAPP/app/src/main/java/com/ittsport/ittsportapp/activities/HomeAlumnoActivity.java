@@ -1,5 +1,6 @@
 package com.ittsport.ittsportapp.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,19 +24,21 @@ import com.squareup.picasso.Picasso;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeAlumnoActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     MaterialCardView chats;
     MaterialCardView cambiarPerfil;
     MaterialCardView cambiarEscuela;
     MaterialCardView cerrarSesion;
+    MaterialCardView editarPerfil;
     CircleImageView fotoEscuela;
     CircleImageView fotoAlumno;
     MaterialTextView nombreEscuela;
     MaterialTextView nombreAlumno;
     private FirebaseFirestore db;
     Context context;
+    private int LAUNCH_EDITAR_PERFIL = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class HomeActivity extends AppCompatActivity {
         fotoAlumno = (CircleImageView) findViewById(R.id.iv_home_alumno_perfil_photo);
         nombreAlumno = (MaterialTextView) findViewById(R.id.tv_home_alumno_nombre);
         nombreEscuela = (MaterialTextView) findViewById(R.id.tv_home_alumno_nombre_escuela);
+        editarPerfil = (MaterialCardView) findViewById(R.id.cv_home_alumno_editar_perfil);
         db = FirebaseFirestore.getInstance();
         setImagesAndNames();
         setOnClickListenners();
@@ -109,6 +113,12 @@ public class HomeActivity extends AppCompatActivity {
                 cerrarSesion();
             }
         });
+        editarPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editarPerfil();
+            }
+        });
     }
 
     @Override
@@ -116,25 +126,44 @@ public class HomeActivity extends AppCompatActivity {
         //doNothing
     }
 
+
+
     private void cerrarSesion() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user == null) {
-            Toast.makeText(HomeActivity.this, "no ai nadie xd", Toast.LENGTH_LONG).show();
+            Toast.makeText(HomeAlumnoActivity.this, "no ai nadie xd", Toast.LENGTH_LONG).show();
         } else {
             VariablesGlobales shared = new VariablesGlobales(this);
             shared.setEscuelaSeleccionada(null);
             shared.setPerfilLogueadoId(null);
             FirebaseAuth.getInstance().signOut();
-            Context context = HomeActivity.this;
+            Context context = HomeAlumnoActivity.this;
             Intent goToLogin = new Intent(context, LoginActivity.class);
             startActivity(goToLogin);
+        }
+    }
+
+    private void editarPerfil(){
+        int LAUNCH_EDIT_PERFIL_ACTIVITY = 1;
+        Context context = HomeAlumnoActivity.this;
+        Intent goToEditarPerfil = new Intent(context, EditPerfilSocialActivity.class);
+        startActivityForResult(goToEditarPerfil, LAUNCH_EDIT_PERFIL_ACTIVITY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LAUNCH_EDITAR_PERFIL) {
+            if(resultCode == Activity.RESULT_OK){
+                setImagesAndNames();
+            }
         }
     }
 
     private void elegirPerfil() {
         VariablesGlobales sharedPreferences = new VariablesGlobales(this);
         sharedPreferences.setPerfilLogueadoId(null);
-        Context context = HomeActivity.this;
+        Context context = HomeAlumnoActivity.this;
         Intent goToElegirPerfil = new Intent(context, ListSocialProfileActivity.class);
         startActivity(goToElegirPerfil);
     }
@@ -143,20 +172,20 @@ public class HomeActivity extends AppCompatActivity {
         VariablesGlobales sharedPreferences = new VariablesGlobales(this);
         sharedPreferences.setPerfilLogueadoId(null);
         sharedPreferences.setEscuelaSeleccionada(null);
-        Context context = HomeActivity.this;
+        Context context = HomeAlumnoActivity.this;
         Intent goToElegirEscuela = new Intent(context, ListEscuelaActivity.class);
         startActivity(goToElegirEscuela);
     }
 
     private void vistaMensajeria() {
-        Context context = HomeActivity.this;
+        Context context = HomeAlumnoActivity.this;
         Class destinationActivity = MessageActivityShow.class;
         Intent startMessageActivityIntent = new Intent(context, destinationActivity);
         startActivity(startMessageActivityIntent);
     }
 
     private void solicitarEscuela() {
-        Context context = HomeActivity.this;
+        Context context = HomeAlumnoActivity.this;
         Class destinationActivity = NewEscuelaActivity.class;
         Intent startNewEscuelaActivityIntent = new Intent(context, destinationActivity);
         startActivity(startNewEscuelaActivityIntent);
@@ -164,7 +193,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void escuelasAAceptar() {
-        Context context = HomeActivity.this;
+        Context context = HomeAlumnoActivity.this;
         Class destinationActivity = AppRejectEscuelaActivity.class;
         Intent startAppRejectEscuelaActivityIntent = new Intent(context, destinationActivity);
         startActivity(startAppRejectEscuelaActivityIntent);

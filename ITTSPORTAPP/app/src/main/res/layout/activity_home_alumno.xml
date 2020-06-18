@@ -17,7 +17,8 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_home_alumno_header">
+            app:layout_constraintTop_toBottomOf="@id/ll_home_alumno_header"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_home_alumno_chats"
@@ -47,6 +48,41 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:text="Chats"
+                        android:layout_marginTop="12dp"
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_home_alumno_editar_perfil"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:src="@drawable/ic_account_edit"
+                        android:layout_marginTop="12dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Editar Perfil"
                         android:layout_marginTop="12dp"
                         android:textAlignment="center"
                         android:textSize="16sp" />

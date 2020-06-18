@@ -17,7 +17,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ittsport.ittsportapp.R;
-import com.ittsport.ittsportapp.activities.HomeActivity;
+import com.ittsport.ittsportapp.activities.HomeAlumnoActivity;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.CardAdapter;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
@@ -90,7 +90,7 @@ public class CardPagerAdapterSocialProfile extends PagerAdapter implements CardA
                             VariablesGlobales shared = new VariablesGlobales(context);
                             VariablesGlobales.perfilLogueado = task.getResult().getId();
                             shared.setPerfilLogueadoId(task.getResult().getId());
-                            Intent startHomeActivityClass = new Intent(context, HomeActivity.class);
+                            Intent startHomeActivityClass = new Intent(context, HomeAlumnoActivity.class);
                             context.startActivity(startHomeActivityClass);
                         }
                     }

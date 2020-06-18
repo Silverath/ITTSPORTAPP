@@ -196,4 +196,10 @@ public class ListEscuelaActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         mCardAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mCardAdapter.notifyDataSetChanged();
+    }
 }

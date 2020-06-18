@@ -16,7 +16,7 @@
             android:id="@+id/arrow_back_register"
             android:layout_height="50dp"
             android:layout_width="50dp"
-            android:src="@drawable/arrow_back"
+            android:src="@drawable/arrow_back_primary_color"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
