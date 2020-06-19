@@ -162,18 +162,15 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        String nombreCompleto = nuevo.getNombre() + nuevo.getPrimerApellido() + nuevo.getSegundoApellido();
                                         loadingDialog.dismissDialog();
-                                        Intent returnIntent = new Intent();
-                                        setResult(Activity.RESULT_OK, returnIntent);
-                                        finish();
+                                        acceptDialog.startAcceptDialog("Alumno inscrito, espere a ser aceptado por su director.");
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@Nonnull Exception e) {
                                         loadingDialog.dismissDialog();
-                                        Toast.makeText(getBaseContext(), "Ha habido un problema al crear el perfil", Toast.LENGTH_SHORT).show();
+                                        errorDialog.startErrorDialog("Ha habido un problema al inscribir al alumno.");
                                     }
                                 });
                     }

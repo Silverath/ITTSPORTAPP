@@ -23,6 +23,7 @@ import com.ittsport.ittsportapp.activities.ChatMessagingActivity;
 import com.ittsport.ittsportapp.models.Chat;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -53,7 +54,11 @@ public class UserMessagingAdapter extends RecyclerView.Adapter<UserMessagingAdap
     public void onBindViewHolder(final @Nonnull ViewHolder holder, int position) {
         final PerfilSocial usuario = mUsers.get(position);
         holder.perfil.setText(usuario.getNombre() + " " + usuario.getPrimerApellido() + " " + usuario.getSegundoApellido());
-        holder.profile_image.setImageResource(R.mipmap.ic_launcher_round);
+        if (usuario.getUrlImagen() == null){
+            holder.profile_image.setImageDrawable(mContext.getDrawable(R.drawable.no_profile_icon));
+        } else {
+            Picasso.with(mContext).load(usuario.getUrlImagen()).fit().centerCrop().into(holder.profile_image);
+        }
 
         CollectionReference collRef = FirebaseFirestore.getInstance().collection("perfilesSociales");
         collRef.whereEqualTo("nombre", usuario.getNombre()).whereEqualTo("primerApellido", usuario.getPrimerApellido())

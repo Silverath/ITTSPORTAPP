@@ -12,13 +12,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.errorprone.annotations.Var;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.adapters.UserMessagingAdapter;
 import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.models.Rol;
+import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
+import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,20 +77,25 @@ public class UsersFragment extends Fragment {
     //Tiene que devolver una lista de users para pasarla en el metodo de arriba.
     private void readUsers(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("perfilesSociales").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        VariablesGlobales sharedPreferences = new VariablesGlobales(getContext());
+        db.collection("perfilesSociales").document(sharedPreferences.getPerfilLogueadoId())
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                for(DocumentSnapshot i: queryDocumentSnapshots) {
-                    PerfilSocial perfilSocial = i.toObject(PerfilSocial.class);
-                    String id = i.getId();
-                    mUsers.add(perfilSocial);
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String rolLogueado = documentSnapshot.get("rol").toString();
+                if(rolLogueado.equals(Rol.ALUMNO.toString())){
+                    getEntrenadores();
+                    getDirector();
+                } else if (rolLogueado.equals(Rol.ENTRENADOR.toString())){
+                    getAlumnos();
+                    getDirector();
+                } else if (rolLogueado.equals(Rol.DIRECTOR.toString())){
+                    getEntrenadores();
+                    getAlumnos();
                 }
-                userMessagingAdapter = new UserMessagingAdapter(UsersFragment.this.getContext(), mUsers);
-                recyclerView.setAdapter(userMessagingAdapter);
-
             }
         });
+
 
     }
 
@@ -106,6 +115,69 @@ public class UsersFragment extends Fragment {
                 recyclerView.setAdapter(userMessagingAdapter);
             }
         }
+    }
+
+    private void getAlumnos(){
+        VariablesGlobales sharedPreferences = new VariablesGlobales(getContext());
+        FirebaseFirestore.getInstance().collection("perfilesSociales")
+                .whereEqualTo("escuelaId", sharedPreferences.getEscuelaSeleccionada())
+                .whereEqualTo("rol", Rol.ALUMNO.toString())
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                for(DocumentSnapshot i: queryDocumentSnapshots) {
+                    PerfilSocial perfilSocial = i.toObject(PerfilSocial.class);
+                    String id = i.getId();
+                    mUsers.add(perfilSocial);
+                }
+                userMessagingAdapter = new UserMessagingAdapter(UsersFragment.this.getContext(), mUsers);
+                recyclerView.setAdapter(userMessagingAdapter);
+
+            }
+        });
+    }
+
+    private void getEntrenadores(){
+        VariablesGlobales sharedPreferences = new VariablesGlobales(getContext());
+        FirebaseFirestore.getInstance().collection("perfilesSociales")
+                .whereEqualTo("escuelaId", sharedPreferences.getEscuelaSeleccionada())
+                .whereEqualTo("rol", Rol.ENTRENADOR.toString())
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                for(DocumentSnapshot i: queryDocumentSnapshots) {
+                    PerfilSocial perfilSocial = i.toObject(PerfilSocial.class);
+                    String id = i.getId();
+                    mUsers.add(perfilSocial);
+                }
+                userMessagingAdapter = new UserMessagingAdapter(UsersFragment.this.getContext(), mUsers);
+                recyclerView.setAdapter(userMessagingAdapter);
+
+            }
+        });
+    }
+
+    private void getDirector(){
+        VariablesGlobales sharedPreferences = new VariablesGlobales(getContext());
+        FirebaseFirestore.getInstance().collection("perfilesSociales")
+                .whereEqualTo("escuelaId", sharedPreferences.getEscuelaSeleccionada())
+                .whereEqualTo("rol", Rol.DIRECTOR.toString())
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                for(DocumentSnapshot i: queryDocumentSnapshots) {
+                    PerfilSocial perfilSocial = i.toObject(PerfilSocial.class);
+                    String id = i.getId();
+                    mUsers.add(perfilSocial);
+                }
+                userMessagingAdapter = new UserMessagingAdapter(UsersFragment.this.getContext(), mUsers);
+                recyclerView.setAdapter(userMessagingAdapter);
+
+            }
+        });
     }
 
 }
