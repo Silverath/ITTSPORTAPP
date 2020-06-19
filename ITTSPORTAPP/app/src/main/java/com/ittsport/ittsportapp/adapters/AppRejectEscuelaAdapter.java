@@ -27,6 +27,7 @@ import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.Rol;
 import com.ittsport.ittsportapp.utils.AcceptDialog;
 import com.ittsport.ittsportapp.utils.ErrorDialog;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -73,7 +74,11 @@ public class AppRejectEscuelaAdapter extends RecyclerView.Adapter<AppRejectEscue
     @Override
     public void onBindViewHolder(@Nonnull AppRejectEscuelaAdapter.ViewHolder holder, int position) {
         final Escuela escuela = escuelas.get(position);
-        //holder.escuela_logo = blablabla TODO
+        if(escuela.getUrlLogo() == null){
+            holder.escuela_logo.setImageDrawable(mContext.getDrawable(R.drawable.no_profile_icon));
+        } else {
+            Picasso.with(mContext).load(escuela.getUrlLogo()).fit().centerCrop().into(holder.escuela_logo);
+        }
         holder.nombre_escuela.setText(escuela.getNombre());
         holder.direccion_escuela.setText(escuela.getDireccion());
         holder.provincia_escuela.setText(escuela.getProvincia());
