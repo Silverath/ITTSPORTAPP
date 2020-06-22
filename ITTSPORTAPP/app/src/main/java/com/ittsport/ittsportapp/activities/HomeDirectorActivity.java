@@ -30,6 +30,7 @@ public class HomeDirectorActivity extends AppCompatActivity {
     MaterialCardView cambiarPerfil;
     MaterialCardView cambiarEscuela;
     MaterialCardView cerrarSesion;
+    MaterialCardView perfilesAAceptar;
     CircleImageView fotoEscuela;
     CircleImageView fotoDirector;
     MaterialTextView nombreEscuela;
@@ -44,6 +45,7 @@ public class HomeDirectorActivity extends AppCompatActivity {
         context = this;
         firebaseAuth = FirebaseAuth.getInstance();
         chats = (MaterialCardView) findViewById(R.id.cv_home_alumno_chats);
+        perfilesAAceptar = (MaterialCardView) findViewById(R.id.home_director_perfiles_a_aceptar);
         cambiarPerfil = (MaterialCardView) findViewById(R.id.cv_home_alumno_cambiar_perfil);
         cambiarEscuela = (MaterialCardView) findViewById(R.id.cv_home_alumno_cambiar_escuela);
         cerrarSesion = (MaterialCardView) findViewById(R.id.cv_home_alumno_cerrar_sesion);
@@ -88,6 +90,12 @@ public class HomeDirectorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 vistaMensajeria();
+            }
+        });
+        perfilesAAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                perfilesAAceptar();
             }
         });
         cambiarEscuela.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +160,13 @@ public class HomeDirectorActivity extends AppCompatActivity {
         Class destinationActivity = MessageActivityShow.class;
         Intent startMessageActivityIntent = new Intent(context, destinationActivity);
         startActivity(startMessageActivityIntent);
+    }
+
+    private void perfilesAAceptar(){
+        Context context = HomeDirectorActivity.this;
+        Class destinationActivity = AppRejectPerfilSocialActivity.class;
+        Intent startPerfilesAAceptarActivityIntent = new Intent(context, destinationActivity);
+        startActivity(startPerfilesAAceptarActivityIntent);
     }
 
     private void solicitarEscuela() {

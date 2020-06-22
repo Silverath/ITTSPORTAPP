@@ -10,7 +10,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:id="@+id/iv_escuela_logo"
+        android:id="@+id/iv_perfil_imagen"
         android:src="@mipmap/ic_launcher_round"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,9 +19,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_escuela_nombre"
+        android:id="@+id/ll_perfil_nombre"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/iv_escuela_logo"
+        app:layout_constraintTop_toBottomOf="@id/iv_perfil_imagen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
@@ -30,28 +30,26 @@
         >
 
         <TextView
-            android:id="@+id/label_nombre_escuela"
+            android:id="@+id/label_nombre_perfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre: "
             />
 
-
-
         <TextView
-            android:id="@+id/tv_nombre_escuela"
+            android:id="@+id/tv_nombre_perfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="JAJAJ"
+            android:text="Random name"
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_escuela_direccion"
+        android:id="@+id/ll_perfil_primer_apellido"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/ll_escuela_nombre"
+        app:layout_constraintTop_toBottomOf="@id/ll_perfil_nombre"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="5dp"
@@ -60,28 +58,26 @@
         >
 
         <TextView
-            android:id="@+id/label_direccion_escuela"
+            android:id="@+id/label_primer_apellido_perfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Direccion: "
+            android:text="Primer apellido: "
             />
 
-
-
         <TextView
-            android:id="@+id/tv_direccion_escuela"
+            android:id="@+id/tv_primer_apellido_perfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="C/ La mas larga, 2"
+            android:text="Montanius"
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_escuela_provincia"
+        android:id="@+id/ll_perfil_segundo_apellido"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/ll_escuela_direccion"
+        app:layout_constraintTop_toBottomOf="@id/ll_perfil_primer_apellido"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="5dp"
@@ -90,49 +86,17 @@
         >
 
         <TextView
-            android:id="@+id/label_provincia_escuela"
+            android:id="@+id/label_segundo_apellido_perfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Provincia: "
+            android:text="Segundo apellido: "
             />
 
-
-
         <TextView
-            android:id="@+id/tv_provincia_escuela"
+            android:id="@+id/tv_segundo_apellido_perfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="La que diga el usuario"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ll_escuela_municipio"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/ll_escuela_provincia"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
-        >
-
-        <TextView
-            android:id="@+id/label_municipio_escuela"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Municipio: "
-            />
-
-
-
-        <TextView
-            android:id="@+id/tv_municipio_escuela"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="El que tu digas"
+            android:text="Zambrano xd"
             />
     </LinearLayout>
 
@@ -140,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/ll_escuela_municipio"
+        app:layout_constraintTop_toBottomOf="@+id/ll_perfil_segundo_apellido"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
