@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -28,8 +29,8 @@ import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText correo_electronico;
-    EditText passwordLogin;
+    TextInputLayout correo_electronico;
+    TextInputLayout passwordLogin;
     Button buttonLogin;
     TextView go_to_register;
     FirebaseAuth firebaseAuth;
@@ -40,8 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         loadingDialog = new LoadingDialog(this);
-        correo_electronico = (EditText) findViewById(R.id.correo_electronico);
-        passwordLogin = (EditText)findViewById(R.id.contraseña);
+        correo_electronico = (TextInputLayout) findViewById(R.id.til_login_correo_electronico);
+        passwordLogin = (TextInputLayout)findViewById(R.id.til_login_contraseña);
         buttonLogin = (Button) findViewById(R.id.boton_iniciar_sesion);
         go_to_register = (TextView) findViewById(R.id.go_to_register);
 
@@ -59,8 +60,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
             loadingDialog.startLoadingDialog();
-            String email = correo_electronico.getText().toString();
-            String password = passwordLogin.getText().toString();
+            String email = correo_electronico.getEditText().getText().toString();
+            String password = passwordLogin.getEditText().getText().toString();
             if(validate(email, password)){
                 login(email, password);
             }
@@ -98,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                             catch(FirebaseAuthInvalidCredentialsException e) {
                                 Toast.makeText(LoginActivity.this, "Email o contraseña no válidos", Toast.LENGTH_SHORT).show();
                             } catch(FirebaseAuthInvalidUserException e) {
-                                Toast.makeText(LoginActivity.this, "No existe cuenta con este Email", Toast.LENGTH_SHORT).show();
+                                correo_electronico.setError("No existe cuenta con este Email");
                             }catch(Exception e) {
                                 Log.e(TAG, e.getMessage());
                             }
@@ -109,9 +110,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean validate(String email, String password){
         boolean res = true;
-        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+        if(TextUtils.isEmpty(email)){
             loadingDialog.dismissDialog();
-            Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
+            correo_electronico.setError("Falta el correo electrónico");
+            res = false;
+        }
+        else if(TextUtils.isEmpty(password)){
+            loadingDialog.dismissDialog();
+            passwordLogin.setError("Falta la contraseña");
             res = false;
         }
 
