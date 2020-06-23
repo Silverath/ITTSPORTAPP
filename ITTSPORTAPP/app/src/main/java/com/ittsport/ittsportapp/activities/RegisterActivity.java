@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -27,9 +28,9 @@ import static android.content.ContentValues.TAG;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText correoElectronico;
-    EditText password;
-    EditText confirmPassword;
+    TextInputLayout correoElectronico;
+    TextInputLayout password;
+    TextInputLayout confirmPassword;
     Button buttonRegister;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
@@ -42,9 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         loadingDialog = new LoadingDialog(this);
         arrowBack = (ImageView) findViewById(R.id.arrow_back_register);
-        correoElectronico = (EditText) findViewById(R.id.et_correo_electronico);
-        password = (EditText) findViewById(R.id.et_contraseña);
-        confirmPassword = (EditText) findViewById(R.id.et_repetir_contraseña);
+        correoElectronico = (TextInputLayout) findViewById(R.id.til_register_correo_electronico);
+        password = (TextInputLayout) findViewById(R.id.til_register_contraseña);
+        confirmPassword = (TextInputLayout) findViewById(R.id.til_register_contraseña_confirm);
         buttonRegister = (Button) findViewById(R.id.btn_registro);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -53,9 +54,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loadingDialog.startLoadingDialog();
-                String email = correoElectronico.getText().toString();
-                String passwordString = password.getText().toString();
-                String confirmPass = confirmPassword.getText().toString();
+                String email = correoElectronico.getEditText().getText().toString();
+                String passwordString = password.getEditText().getText().toString();
+                String confirmPass = confirmPassword.getEditText().getText().toString();
 
                 if(validate(email, passwordString, confirmPass)){
                     register(email, passwordString);
@@ -74,20 +75,31 @@ public class RegisterActivity extends AppCompatActivity {
     }
     public boolean validate(String email, String passwordString, String confirmPass){
         boolean res = true;
-        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(passwordString) || TextUtils.isEmpty(confirmPass)){
+        if(TextUtils.isEmpty(email)){
             loadingDialog.dismissDialog();
-            Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
+            correoElectronico.setError("Falta el correo electrónico");
+            res = false;
+        }
+        else if(TextUtils.isEmpty(passwordString)){
+            loadingDialog.dismissDialog();
+            password.setError("Falta la contraseña");
+            res = false;
+        }
+
+        else if(TextUtils.isEmpty(confirmPass)){
+            loadingDialog.dismissDialog();
+            confirmPassword.setError("Debe de confirmar la contraseña");
             res = false;
         }
 
         if(!passwordString.equals(confirmPass)) {
             loadingDialog.dismissDialog();
-            Toast.makeText(getBaseContext(), "La contraseña debe coincidir", Toast.LENGTH_SHORT).show();
+            this.confirmPassword.setError("La contraseña debe coincidir");
             res = false;
         }
 
         return res;
-    };
+    }
 
     public void register(final String email, final String passwordString){
         firebaseAuth.createUserWithEmailAndPassword(email, passwordString).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -104,13 +116,13 @@ public class RegisterActivity extends AppCompatActivity {
                     throw e;
                 } catch(FirebaseAuthWeakPasswordException ex) {
                     loadingDialog.dismissDialog();
-                    Toast.makeText(RegisterActivity.this, "Debe insertar su contraseña de 5 caracteres como mínimo", Toast.LENGTH_SHORT).show();
+                    password.setError("Debe insertar su contraseña de 5 caracteres como mínimo");
                 } catch(FirebaseAuthInvalidCredentialsException ex) {
                     loadingDialog.dismissDialog();
-                    Toast.makeText(RegisterActivity.this, "Email no válido", Toast.LENGTH_SHORT).show();
+                    correoElectronico.setError("Email no válido");
                 } catch(FirebaseAuthUserCollisionException ex) {
                     loadingDialog.dismissDialog();
-                    Toast.makeText(RegisterActivity.this, "Ya hay una cuenta registrada con este Email", Toast.LENGTH_SHORT).show();
+                    correoElectronico.setError("Ya hay una cuenta registrada con este Email");
                 } catch(Exception ex) {
                     loadingDialog.dismissDialog();
                     Log.e(TAG, e.getMessage());
