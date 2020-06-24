@@ -17,6 +17,8 @@ import com.ittsport.ittsportapp.adapters.AppRejectPerfilSocialAdapter;
 import com.ittsport.ittsportapp.models.Escuela;
 import com.ittsport.ittsportapp.models.Estado;
 import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.models.Rol;
+import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ public class AppRejectPerfilSocialActivity extends AppCompatActivity {
     }
 
     private void perfilesPendientes(){
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+        loadingDialog.startLoadingDialog();
         CollectionReference collRef = db.collection("perfilesSociales");
         VariablesGlobales sharedPreferences = new VariablesGlobales(this);
 
@@ -60,10 +64,16 @@ public class AppRejectPerfilSocialActivity extends AppCompatActivity {
                     perfilSocial.setNombre(q.get("nombre").toString());
                     perfilSocial.setPrimerApellido(q.get("primerApellido").toString());
                     perfilSocial.setSegundoApellido(q.get("segundoApellido").toString());
+                    perfilSocial.setUrlImagen(q.get("urlImagen").toString());
+                    perfilSocial.setCuentaUsuarioId(q.get("cuentaUsuarioId").toString());
+                    perfilSocial.setEscuelaId(q.get("escuelaId").toString());
+                    perfilSocial.setEstado(Estado.valueOf(q.get("estado").toString()));
+                    perfilSocial.setRol(Rol.valueOf(q.get("rol").toString()));
                     perfilesSocialesToAppReject.add(perfilSocial);
                 }
                 appRejectPerfilSocialAdapter = new AppRejectPerfilSocialAdapter(AppRejectPerfilSocialActivity.this, perfilesSocialesToAppReject);
                 mRecyclerView.setAdapter(appRejectPerfilSocialAdapter);
+                loadingDialog.dismissDialog();
             }
         });
     }

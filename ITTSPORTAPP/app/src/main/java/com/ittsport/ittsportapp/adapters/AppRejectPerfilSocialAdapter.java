@@ -40,6 +40,7 @@ public class AppRejectPerfilSocialAdapter extends RecyclerView.Adapter<AppReject
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView perfil_imagen;
+        public TextView perfil_rol;
         public TextView perfil_nombre;
         public TextView perfil_primer_apellido;
         public TextView perfil_segundo_apellido;
@@ -49,6 +50,7 @@ public class AppRejectPerfilSocialAdapter extends RecyclerView.Adapter<AppReject
         public ViewHolder(View itemView){
             super(itemView);
             perfil_imagen = itemView.findViewById(R.id.iv_perfil_imagen);
+            perfil_rol = itemView.findViewById(R.id.tv_rol_perfil);
             perfil_nombre = itemView.findViewById(R.id.tv_nombre_perfil);
             perfil_primer_apellido = itemView.findViewById(R.id.tv_primer_apellido_perfil);
             perfil_segundo_apellido = itemView.findViewById(R.id.tv_segundo_apellido_perfil);
@@ -72,6 +74,8 @@ public class AppRejectPerfilSocialAdapter extends RecyclerView.Adapter<AppReject
         } else {
             Picasso.with(mContext).load(perfilSocial.getUrlImagen()).fit().centerCrop().into(holder.perfil_imagen);
         }
+        String kaka = perfilSocial.getRol().toString();
+        holder.perfil_rol.setText(perfilSocial.getRol().toString());
         holder.perfil_nombre.setText(perfilSocial.getNombre());
         holder.perfil_primer_apellido.setText(perfilSocial.getPrimerApellido());
         holder.perfil_segundo_apellido.setText(perfilSocial.getSegundoApellido());

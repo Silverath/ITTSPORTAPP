@@ -19,12 +19,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_perfil_nombre"
+        android:id="@+id/ll_perfil_rol"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/iv_perfil_imagen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        >
+
+        <TextView
+            android:id="@+id/label_rol_perfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rol: "
+            />
+
+        <TextView
+            android:id="@+id/tv_rol_perfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Random name"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_perfil_nombre"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/ll_perfil_rol"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="36dp"
         android:layout_marginEnd="36dp"
         >
