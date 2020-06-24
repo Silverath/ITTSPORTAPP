@@ -12,6 +12,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,6 +44,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class InscripcionAlumnoActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+    private RadioButton rb_rol_alumno;
+    private RadioButton rb_rol_entrenador;
     private EditText nombre;
     private EditText primerApellido;
     private EditText segundoApellido;
@@ -69,6 +72,8 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("profile images");
         back = (ImageView) findViewById(R.id.arrow_back_inscripcion_alumno);
+        rb_rol_alumno = (RadioButton) findViewById(R.id.rb_rol_alumno);
+        rb_rol_entrenador = (RadioButton) findViewById(R.id.rb_rol_entrenador);
         nombre = findViewById(R.id.et_nueva_inscripcion_perfil_social_nombre);
         primerApellido = findViewById(R.id.et_nueva_inscripcion_perfil_social_primer_apellido);
         segundoApellido = findViewById(R.id.et_nueva_inscripcion_perfil_social_segundo_apellido);
@@ -88,8 +93,16 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
         createProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nombre.getText().toString().equals("") || primerApellido.getText().toString().equals("") || segundoApellido.getText().toString().equals("")) {
+                String rol = "";
+                if(rb_rol_alumno.isChecked()){
+                    rol = Rol.ALUMNO.toString();
+                } else if(rb_rol_entrenador.isChecked()){
+                    rol = Rol.ENTRENADOR.toString();
+                }
+                if (nombre.getText().toString().equals("") || primerApellido.getText().toString().equals("") || segundoApellido.getText().toString().equals("") || rol.equals("")) {
                     Toast.makeText(getBaseContext(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
+                } else if (rol.equals(Rol.ENTRENADOR.toString()) && uriImagenPerfil == null){
+                    Toast.makeText(getBaseContext(), "El entrenador tiene que tener foto de perfil", Toast.LENGTH_SHORT).show();
                 } else {
                     loadingDialog.startLoadingDialog();
                     if (uriImagenPerfil != null) {
@@ -97,7 +110,7 @@ public class InscripcionAlumnoActivity extends AppCompatActivity {
                         String cuentaUsuarioId = firebaseAuth.getCurrentUser().getUid();
                         String nombreCompleto = nombre.getText().toString() + primerApellido.getText().toString() + segundoApellido.getText().toString();
                         String escuelaId = sharedPreferences.getEscuelaParaInscribirse();
-                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, cuentaUsuarioId, Estado.PENDIENTE, Rol.ALUMNO, escuelaId);
+                        final PerfilSocial nuevo = new PerfilSocial(nombre.getText().toString(), primerApellido.getText().toString(), segundoApellido.getText().toString(), nombreCompleto, cuentaUsuarioId, Estado.PENDIENTE, Rol.valueOf(rol), escuelaId);
                         Map<String, Object> nuevoPerfil = new HashMap<>();
                         nuevoPerfil.put("nombre", nuevo.getNombre());
                         nuevoPerfil.put("primerApellido", nuevo.getPrimerApellido());
