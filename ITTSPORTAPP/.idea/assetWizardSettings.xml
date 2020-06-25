@@ -182,8 +182,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_card_account_mail" />
-                            <entry key="sourceFile" value="C:\Users\Pablo\Downloads\card-account-mail.svg" />
+                            <entry key="outputName" value="ic_arrow_right" />
+                            <entry key="sourceFile" value="C:\Users\Pablo\Downloads\arrow-right.svg" />
                           </map>
                         </option>
                       </PersistentState>

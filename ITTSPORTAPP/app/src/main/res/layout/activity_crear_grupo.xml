@@ -45,60 +45,38 @@
             android:inputType="textLongMessage" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_crear_grupo_seleccionar_entrenador"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_crear_grupo_seleccionar_entrenador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Seleccionar entrenador"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_crear_grupo_nombre_completo_entrenador"
-        android:layout_marginTop="16dp"/>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_crear_grupo_foto_entrenador"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:text="Seleccione el entrenador:"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="4dp"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/til_crear_grupo_horario"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"/>
+        />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_crear_grupo_nombre_completo_entrenador"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_crear_grupo_entrenadores"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="20sp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/iv_crear_grupo_foto_entrenador"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-    
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_crear_grupo_cambiar_entrenador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        android:text="Cambiar entrenador"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_crear_grupo_nombre_completo_entrenador"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Crear grupo"
-        android:textSize="20sp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_crear_grupo_seleccionar_entrenador"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@id/tv_crear_grupo_seleccionar_entrenador"
+        app:layout_constraintVertical_bias="0.01999998" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_crear_grupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

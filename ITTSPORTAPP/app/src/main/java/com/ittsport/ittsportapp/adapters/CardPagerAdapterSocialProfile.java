@@ -18,7 +18,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.activities.HomeAlumnoActivity;
+import com.ittsport.ittsportapp.activities.HomeDirectorActivity;
 import com.ittsport.ittsportapp.models.PerfilSocial;
+import com.ittsport.ittsportapp.models.Rol;
 import com.ittsport.ittsportapp.utils.CardAdapter;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 import com.squareup.picasso.Picasso;
@@ -87,11 +89,23 @@ public class CardPagerAdapterSocialProfile extends PagerAdapter implements CardA
                     @Override
                     public void onComplete(@Nonnull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            VariablesGlobales shared = new VariablesGlobales(context);
-                            VariablesGlobales.perfilLogueado = task.getResult().getId();
-                            shared.setPerfilLogueadoId(task.getResult().getId());
-                            Intent startHomeActivityClass = new Intent(context, HomeAlumnoActivity.class);
-                            context.startActivity(startHomeActivityClass);
+                            if(task.getResult().exists()){
+                                PerfilSocial perfil = task.getResult().toObject(PerfilSocial.class);
+                                VariablesGlobales shared = new VariablesGlobales(context);
+                                VariablesGlobales.perfilLogueado = task.getResult().getId();
+                                shared.setPerfilLogueadoId(task.getResult().getId());
+                                if(perfil.getRol().equals(Rol.ALUMNO)){
+                                    Intent startHomeActivityClass = new Intent(context, HomeAlumnoActivity.class);
+                                    context.startActivity(startHomeActivityClass);
+                                }
+                                if(perfil.getRol().equals(Rol.DIRECTOR)){
+                                    Intent startHomeActivityClass = new Intent(context, HomeDirectorActivity.class);
+                                    context.startActivity(startHomeActivityClass);
+                                }
+                                if(perfil.getRol().equals(Rol.ENTRENADOR)){
+                                    
+                                }
+                            }
                         }
                     }
                 });

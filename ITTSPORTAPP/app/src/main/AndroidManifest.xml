@@ -42,6 +42,9 @@
             android:name=".activities.EditPerfilSocialActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activities.CrearGrupoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.HomeDirectorActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

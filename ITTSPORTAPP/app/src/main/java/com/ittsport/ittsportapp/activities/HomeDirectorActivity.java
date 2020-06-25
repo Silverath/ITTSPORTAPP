@@ -31,12 +31,13 @@ public class HomeDirectorActivity extends AppCompatActivity {
     MaterialCardView cambiarEscuela;
     MaterialCardView cerrarSesion;
     MaterialCardView perfilesAAceptar;
+    MaterialCardView crearGrupo;
     CircleImageView fotoEscuela;
     CircleImageView fotoDirector;
     MaterialTextView nombreEscuela;
     MaterialTextView nombreDirector;
-    private FirebaseFirestore db;
     Context context;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,14 +45,15 @@ public class HomeDirectorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_director);
         context = this;
         firebaseAuth = FirebaseAuth.getInstance();
-        chats = (MaterialCardView) findViewById(R.id.cv_home_alumno_chats);
+        chats = (MaterialCardView) findViewById(R.id.home_director_chats);
         perfilesAAceptar = (MaterialCardView) findViewById(R.id.home_director_perfiles_a_aceptar);
-        cambiarPerfil = (MaterialCardView) findViewById(R.id.cv_home_alumno_cambiar_perfil);
-        cambiarEscuela = (MaterialCardView) findViewById(R.id.cv_home_alumno_cambiar_escuela);
-        cerrarSesion = (MaterialCardView) findViewById(R.id.cv_home_alumno_cerrar_sesion);
-        fotoEscuela = (CircleImageView) findViewById(R.id.iv_home_alumno_escuela_photo);
-        fotoDirector = (CircleImageView) findViewById(R.id.iv_home_alumno_perfil_photo);
-        nombreDirector = (MaterialTextView) findViewById(R.id.tv_home_alumno_nombre);
+        cambiarPerfil = (MaterialCardView) findViewById(R.id.home_director_cambiar_perfil);
+        cambiarEscuela = (MaterialCardView) findViewById(R.id.home_director_cambiar_escuela);
+        crearGrupo = (MaterialCardView) findViewById(R.id.home_director_crear_grupo);
+        cerrarSesion = (MaterialCardView) findViewById(R.id.home_director_cerrar_sesion);
+        fotoEscuela = (CircleImageView) findViewById(R.id.iv_home_director_escuela_photo);
+        fotoDirector = (CircleImageView) findViewById(R.id.iv_home_director_perfil_photo);
+        nombreDirector = (MaterialTextView) findViewById(R.id.tv_home_director_nombre);
         nombreEscuela = (MaterialTextView) findViewById(R.id.tv_home_director_nombre_escuela);
         db = FirebaseFirestore.getInstance();
         setImagesAndNames();
@@ -74,11 +76,10 @@ public class HomeDirectorActivity extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 PerfilSocial perfil = documentSnapshot.toObject(PerfilSocial.class);
                 nombreDirector.setText(perfil.getNombre() + " " + perfil.getPrimerApellido() + " " + perfil.getSegundoApellido());
-                if(perfil.getUrlImagen() != null){
+                if (perfil.getUrlImagen() != null) {
                     Picasso.with(context).load(perfil.getUrlImagen())
                             .fit().centerCrop().into(fotoDirector);
-                }
-                else{
+                } else {
                     fotoDirector.setImageDrawable(getDrawable(R.drawable.no_profile_icon));
                 }
             }
@@ -114,6 +115,12 @@ public class HomeDirectorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cerrarSesion();
+            }
+        });
+        crearGrupo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crearGrupo();
             }
         });
     }
@@ -162,7 +169,7 @@ public class HomeDirectorActivity extends AppCompatActivity {
         startActivity(startMessageActivityIntent);
     }
 
-    private void perfilesAAceptar(){
+    private void perfilesAAceptar() {
         Context context = HomeDirectorActivity.this;
         Class destinationActivity = AppRejectPerfilSocialActivity.class;
         Intent startPerfilesAAceptarActivityIntent = new Intent(context, destinationActivity);
@@ -182,5 +189,12 @@ public class HomeDirectorActivity extends AppCompatActivity {
         Class destinationActivity = AppRejectEscuelaActivity.class;
         Intent startAppRejectEscuelaActivityIntent = new Intent(context, destinationActivity);
         startActivity(startAppRejectEscuelaActivityIntent);
+    }
+
+    private void crearGrupo(){
+        Context context = HomeDirectorActivity.this;
+        Class destinationActivity = CrearGrupoActivity.class;
+        Intent startCrearGrupoActivityIntent = new Intent(context, destinationActivity);
+        startActivity(startCrearGrupoActivityIntent);
     }
 }
