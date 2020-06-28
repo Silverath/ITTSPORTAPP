@@ -19,14 +19,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ittsport.ittsportapp.R;
 import com.ittsport.ittsportapp.adapters.ChooseEntrenadorAdapter;
 import com.ittsport.ittsportapp.models.Estado;
+import com.ittsport.ittsportapp.models.Grupo;
 import com.ittsport.ittsportapp.models.PerfilSocial;
 import com.ittsport.ittsportapp.models.Rol;
+import com.ittsport.ittsportapp.utils.AcceptDialog;
 import com.ittsport.ittsportapp.utils.LoadingDialog;
 import com.ittsport.ittsportapp.utils.VariablesGlobales;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +46,7 @@ public class CrearGrupoActivity extends AppCompatActivity {
     RecyclerView rvEntrenadores;
     FloatingActionButton crearGrupo;
     LoadingDialog loadingDialog;
+    AcceptDialog acceptDialog;
     List<PerfilSocial> entrenadores;
     FirebaseFirestore db;
     ChooseEntrenadorAdapter chooseEntrenadorAdapter;
@@ -52,6 +57,7 @@ public class CrearGrupoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_grupo);
         loadingDialog = new LoadingDialog(this);
+        acceptDialog = new AcceptDialog(this);
         context = this;
         db = FirebaseFirestore.getInstance();
         loadingDialog.startLoadingDialog();
@@ -79,7 +85,18 @@ public class CrearGrupoActivity extends AppCompatActivity {
                     Toast.makeText(context, "Debe de seleccionar el entrenador", Toast.LENGTH_SHORT).show();
                 }
                 else{
-
+                    loadingDialog.startLoadingDialog();
+                    Grupo grupo = new Grupo(nombreGrupo.getEditText().getText().toString(), horarioGrupo.getEditText().getText().toString(), chooseEntrenadorAdapter.getLastSelected().getId());
+                    final Map<String, Object> nuevoGrupo = new HashMap<>();
+                    nuevoGrupo.put("nombre", grupo.getNombre());
+                    nuevoGrupo.put("horario", grupo.getHorario());
+                    nuevoGrupo.put("entrenadorId", grupo.getEntrenadorId());
+                    db.collection("grupos").document().set(nuevoGrupo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            acceptDialog.startAcceptDialog("Grupo creado.");
+                        }
+                    });
                 }
             }
         });
@@ -105,6 +122,7 @@ public class CrearGrupoActivity extends AppCompatActivity {
                             for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                                 if(documentSnapshot.exists()){
                                     PerfilSocial perfilSocial = documentSnapshot.toObject(PerfilSocial.class);
+                                    perfilSocial.setId(documentSnapshot.getId());
                                     entrenadores.add(perfilSocial);
                                 }
                             }

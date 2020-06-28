@@ -2,34 +2,27 @@ package com.ittsport.ittsportapp.models;
 
 
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.PropertyName;
 
 import javax.annotation.Nonnull;
 
 public class Grupo {
 
+    @PropertyName("nombre")
     private String nombre;
+    @PropertyName("horario")
     private String horario;
-    private int entrenadorId;
-    private String id;
+    @PropertyName("entrenadorId")
+    private String entrenadorId;
 
-    public Grupo(String nombre, String horario, String id){
+    public Grupo(String nombre, String horario, String entrenadorId){
         this.entrenadorId = entrenadorId;
         this.horario = horario;
-
         this.nombre = nombre;
-        this.id = id;
     }
 
     @Nonnull
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Nonnull
+    @PropertyName("nombre")
     public String getNombre() {
         return nombre;
     }
@@ -38,6 +31,7 @@ public class Grupo {
         this.nombre = nombre;
     }
 
+    @PropertyName("horario")
     @Nonnull
     public String getHorario() {
         return horario;
@@ -48,11 +42,12 @@ public class Grupo {
     }
 
     @Nullable
-    public int getEntrenadorId() {
+    @PropertyName("entrenadorId")
+    public String getEntrenadorId() {
         return entrenadorId;
     }
 
-    public void setEntrenadorId(int entrenadorId) {
+    public void setEntrenadorId(String entrenadorId) {
         this.entrenadorId = entrenadorId;
     }
 }
