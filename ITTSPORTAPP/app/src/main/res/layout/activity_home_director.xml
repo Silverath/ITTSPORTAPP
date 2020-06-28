@@ -21,6 +21,41 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/home_director_crear_grupo"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:src="@drawable/ic_account_multiple_plus"
+                        android:layout_marginTop="12dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Crear grupo"
+                        android:layout_marginTop="12dp"
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/home_director_chats"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -279,7 +314,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_home_alumno_perfil_photo"
+                    android:id="@+id/iv_home_director_perfil_photo"
                     android:layout_width="62dp"
                     android:layout_height="62dp"
                     android:layout_marginTop="16dp"

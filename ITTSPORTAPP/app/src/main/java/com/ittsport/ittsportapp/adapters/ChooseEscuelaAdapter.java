@@ -58,7 +58,6 @@ public class ChooseEscuelaAdapter extends RecyclerView.Adapter<ChooseEscuelaHold
         });
         Picasso.with(mContext).load(current.getUrlLogo())
                 .fit().centerCrop().into(holder.logo);
-
     }
 
     @Override
